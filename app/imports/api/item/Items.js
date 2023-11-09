@@ -15,7 +15,7 @@ class ItemsCollection {
       title: String,
       image: { type: String, optional: true },
       description: { type: String, optional: true },
-      quantity: { type: Number, default: 1, min: 1 },
+      quantity: { type: Number, defaultValue: 1, min: 1 },
       condition: {
         type: String,
         allowedValues: ['poor', 'acceptable', 'good', 'excellent'],
