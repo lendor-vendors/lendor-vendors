@@ -16,7 +16,7 @@ class ItemsCollection {
       image: { type: String, optional: true },
       description: { type: String, optional: true },
       quantity: { type: SimpleSchema.Integer, defaultValue: 1, min: 1 },
-      condition: { type: String, allowedValues: ['poor', 'acceptable', 'good', 'excellent'] },
+      condition: { type: String, allowedValues: ['Poor', 'Acceptable', 'Good', 'Excellent'] },
       owner: String,
     });
     // Attach the schema to the collection, so all attempts to insert a document are checked against schema.

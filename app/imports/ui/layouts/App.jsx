@@ -8,7 +8,6 @@ import Footer from '../components/Footer';
 import Landing from '../pages/Landing';
 import ListStuff from '../pages/ListStuff';
 import ListStuffAdmin from '../pages/ListStuffAdmin';
-import AddStuff from '../pages/AddStuff';
 import EditStuff from '../pages/EditStuff';
 import NotFound from '../pages/NotFound';
 import SignUp from '../pages/SignUp';
@@ -17,6 +16,7 @@ import NavBar from '../components/NavBar';
 import SignIn from '../pages/SignIn';
 import NotAuthorized from '../pages/NotAuthorized';
 import LoadingSpinner from '../components/LoadingSpinner';
+import AddItem from '../pages/AddItem';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => {
@@ -37,7 +37,7 @@ const App = () => {
           <Route path="/signout" element={<SignOut />} />
           <Route path="/home" element={<ProtectedRoute><Landing /></ProtectedRoute>} />
           <Route path="/list" element={<ProtectedRoute><ListStuff /></ProtectedRoute>} />
-          <Route path="/add" element={<ProtectedRoute><AddStuff /></ProtectedRoute>} />
+          <Route path="/add" element={<ProtectedRoute><AddItem /></ProtectedRoute>} />
           <Route path="/edit/:_id" element={<ProtectedRoute><EditStuff /></ProtectedRoute>} />
           <Route path="/admin" element={<AdminProtectedRoute ready={ready}><ListStuffAdmin /></AdminProtectedRoute>} />
           <Route path="/notauthorized" element={<NotAuthorized />} />
