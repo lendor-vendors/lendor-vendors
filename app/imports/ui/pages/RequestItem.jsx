@@ -7,19 +7,9 @@ import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import SimpleSchema from 'simpl-schema';
 import { useParams } from 'react-router';
 import { useTracker } from 'meteor/react-meteor-data';
-import PropTypes from 'prop-types';
 import { Items } from '../../api/item/Items';
 import { Requests } from '../../api/request/Requests';
 import LoadingSpinner from '../components/LoadingSpinner';
-import StuffItem from '../components/StuffItem';
-import { Stuffs } from '../../api/stuff/Stuff';
-
-// Create a schema to specify the structure of the data to appear in the form.
-const formSchema = new SimpleSchema({
-  quantity: Number,
-});
-
-const bridge = new SimpleSchema2Bridge(formSchema);
 
 const RequestItem = () => {
   // Get the documentID from the URL field. See imports/ui/layouts/App.jsx for the route containing :_id.
@@ -47,12 +37,15 @@ const RequestItem = () => {
           swal('Error', error.message, 'error');
         } else {
           swal('Success', 'Item requested successfully', 'success');
-          // TODO: Redirect back to item card view after submitting
         }
       },
     );
   };
-
+  // Create a schema to specify the structure of the data to appear in the form.
+  const formSchema = new SimpleSchema({
+    quantity: { type: Number, min: 1, max: () => item.quantity },
+  });
+  const bridge = new SimpleSchema2Bridge(formSchema);
   // Render the form. Use Uniforms: https://github.com/vazco/uniforms
   return ready ? (
     <Container className="py-3">
@@ -62,7 +55,12 @@ const RequestItem = () => {
           <AutoForm schema={bridge} onSubmit={data => submit(data)}>
             <Card>
               <Card.Body>
-                <NumField name="quantity" decimal={null} />
+                <NumField
+                  name="quantity"
+                  decimal={null}
+                  min={1}
+                  max={item.quantity}
+                />
                 <SubmitField value="Submit" />
                 <ErrorsField />
               </Card.Body>
