@@ -21,10 +21,18 @@
     },
     {
       "name": "Henri Casanova",
+      "image": "https://avatars0.githubusercontent.com/u/7494478?s=460&v=4",
       "rating": 8.7,
       "email": "admin@foo.com",
       "password": "changeme",
       "role": "admin"
+    },
+    {
+      "name": "Kim Binsted",
+      "image": "https://www.ics.hawaii.edu/wp-content/uploads/2013/08/kim_binsted-square-300x300.jpg",
+      "rating": 7.5,
+      "email": "kim@foo.com",
+      "password": "changeme"
     }
   ],
   "defaultItems": [

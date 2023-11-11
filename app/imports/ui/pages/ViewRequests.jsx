@@ -19,26 +19,50 @@ const ViewRequests = () => {
     const rdy = itemSubscription.ready() && requestsSubscription.ready();
     // Get the document
     const foundItem = Items.collection.findOne({ _id: _id });
-    const foundRequests = Requests.collection.find({ item: _id });
+    const foundRequests = Requests.collection.find({ item: _id }).fetch();
     return {
       item: foundItem,
       requests: foundRequests,
       ready: rdy,
     };
   }, [_id]);
-
-  return ready ? (
-    <Container className="py-3">
-      <Row className="justify-content-center">
-        <Col xs={5}>
-          <h3>Requests for your {item.title}</h3>
-          <ListGroup>
-            {requests.map((request) => <ListGroup.Item><p>From: {request.owner}, quantity: {request.quantity}</p></ListGroup.Item>)}
-          </ListGroup>
-        </Col>
-      </Row>
-    </Container>
-  ) : <LoadingSpinner />;
+  if (ready) {
+    if (item.owner !== Meteor.user().username) {
+      return (
+        <Container className="py-3 text-center">
+          <h1>This is not your item.</h1>
+        </Container>
+      );
+    }
+    let numRequests = 0;
+    const requestsList = (
+      <ListGroup>
+        {requests.map((request) => {
+          numRequests++;
+          return (
+            <ListGroup.Item key={request._id}>
+              <Row className="align-items-center">
+                <Col>
+                  <Row><p className="text-start">From: {request.owner}</p></Row>
+                  <Row><p className="text-start">Quantity: {request.quantity}</p></Row>
+                </Col>
+                <Col><p className="text-end">Accept Deny</p></Col>
+              </Row>
+            </ListGroup.Item>
+          );
+        })}
+      </ListGroup>
+    );
+    return (
+      <Container className="py-3">
+        <Row className="justify-content-center text-center"><h3>{numRequests} {numRequests === 1 ? 'request' : 'requests'} for your {item.title}</h3></Row>
+        <ListGroup className="justify-content-center">
+          {requestsList}
+        </ListGroup>
+      </Container>
+    );
+  }
+  return <LoadingSpinner />;
 };
 
 export default ViewRequests;

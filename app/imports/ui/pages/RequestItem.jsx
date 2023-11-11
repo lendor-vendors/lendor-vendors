@@ -47,29 +47,36 @@ const RequestItem = () => {
   });
   const bridge = new SimpleSchema2Bridge(formSchema);
   // Render the form. Use Uniforms: https://github.com/vazco/uniforms
-  return ready ? (
-    <Container className="py-3">
-      <Row className="justify-content-center">
-        <Col xs={5}>
-          <Col className="text-center"><h2>Request {item.title}</h2></Col>
-          <AutoForm schema={bridge} onSubmit={data => submit(data)}>
-            <Card>
-              <Card.Body>
-                <NumField
-                  name="quantity"
-                  decimal={null}
-                  min={1}
-                  max={item.quantity}
-                />
-                <SubmitField value="Submit" />
-                <ErrorsField />
-              </Card.Body>
-            </Card>
-          </AutoForm>
-        </Col>
-      </Row>
-    </Container>
-  ) : <LoadingSpinner />;
+  if (ready) {
+    return item.owner === Meteor.user().username ? (
+      <Container className="py-3 text-center">
+        <h1>You own this item.</h1>
+      </Container>
+    ) : (
+      <Container className="py-3">
+        <Row className="justify-content-center">
+          <Col xs={5}>
+            <Col className="text-center"><h2>Request {item.title}</h2></Col>
+            <AutoForm schema={bridge} onSubmit={data => submit(data)}>
+              <Card>
+                <Card.Body>
+                  <NumField
+                    name="quantity"
+                    decimal={null}
+                    min={1}
+                    max={item.quantity}
+                  />
+                  <SubmitField value="Submit" />
+                  <ErrorsField />
+                </Card.Body>
+              </Card>
+            </AutoForm>
+          </Col>
+        </Row>
+      </Container>
+    );
+  }
+  return <LoadingSpinner />;
 };
 
 export default RequestItem;
