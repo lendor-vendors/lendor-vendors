@@ -22,7 +22,7 @@
     {
       "name": "Henri Casanova",
       "rating": 8.7,
-      "email": "john@foo.com",
+      "email": "admin@foo.com",
       "password": "changeme",
       "role": "admin"
     }

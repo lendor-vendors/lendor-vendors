@@ -13,6 +13,7 @@ class RequestsCollection {
     // Define the structure of each document in the collection.
     this.schema = new SimpleSchema({
       item: String,
+      quantity: { type: SimpleSchema.Integer, min: 1 },
       owner: String,
     });
     // Attach the schema to the collection, so all attempts to insert a document are checked against schema.
