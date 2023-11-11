@@ -33,7 +33,7 @@
       "image": "imageurl",
       "description": "Bought the BIO 350 course reader book, ended up not even using it once.",
       "quantity": 1,
-      "condition": "excellent",
+      "condition": "Excellent",
       "owner": "john@foo.com"
     },
     {
@@ -41,7 +41,7 @@
       "image": "imageurl",
       "description": "If anyone needs an iClicker for a class and do not want to buy one, here is mine.",
       "quantity": 1,
-      "condition": "good",
+      "condition": "Good",
       "owner": "admin@foo.com"
     },
     {
@@ -49,7 +49,7 @@
       "image": "imageurl",
       "description": "I have some extra binders I no longer have any use for if someone could help take them off my hands.",
       "quantity": 3,
-      "condition": "good",
+      "condition": "Acceptable",
       "owner": "john@foo.com"
     }
   ]
