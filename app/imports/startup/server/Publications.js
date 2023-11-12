@@ -28,7 +28,18 @@ Meteor.publish(Profiles.userPublicationName, () => Profiles.collection.find());
 
 Meteor.publish(Items.userPublicationName, () => Items.collection.find());
 
-Meteor.publish(Requests.userPublicationName, () => Requests.collection.find());
+Meteor.publish(Requests.userPublicationName, function () {
+  if (this.userId) {
+    const username = Meteor.users.findOne(this.userId).username;
+    const userItems = Items.collection.find({ owner: username }).fetch();
+    const idList = userItems.map(item => item._id);
+    // find requests whose item is equal to an _id in items
+    return Requests.collection.find({ item: { $in: idList } });
+  }
+  return this.ready();
+});
+
+Meteor.publish(Requests.adminPublicationName, () => Requests.collection.find());
 
 // alanning:roles publication
 // Recommended code to publish roles for each user.
