@@ -18,7 +18,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import AddItem from '../pages/AddItem';
 import RequestItem from '../pages/RequestItem';
 import ViewRequests from '../pages/ViewRequests';
-import ListItem from '../pages/ListItem';
+import YourItems from '../pages/YourItems';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => {
@@ -38,7 +38,7 @@ const App = () => {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signout" element={<SignOut />} />
           <Route path="/home" element={<ProtectedRoute><Landing /></ProtectedRoute>} />
-          <Route path="/list" element={<ProtectedRoute><ListItem /></ProtectedRoute>} />
+          <Route path="/list" element={<ProtectedRoute><YourItems /></ProtectedRoute>} />
           <Route path="/add" element={<ProtectedRoute><AddItem /></ProtectedRoute>} />
           <Route path="/edit/:_id" element={<ProtectedRoute><EditStuff /></ProtectedRoute>} />
           <Route path="/admin" element={<AdminProtectedRoute ready={ready}><ListStuffAdmin /></AdminProtectedRoute>} />

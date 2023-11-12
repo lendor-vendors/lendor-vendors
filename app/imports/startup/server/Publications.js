@@ -25,7 +25,7 @@ Meteor.publish(Stuffs.adminPublicationName, function () {
 });
 
 Meteor.publish(Profiles.userPublicationName, () => Profiles.collection.find());
-// For ListItem
+// For YourItems
 Meteor.publish(Items.userPublicationName, function () {
   if (this.userId) {
     const username = Meteor.users.findOne(this.userId).username;
