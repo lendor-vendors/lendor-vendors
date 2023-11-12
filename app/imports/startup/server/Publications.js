@@ -25,8 +25,16 @@ Meteor.publish(Stuffs.adminPublicationName, function () {
 });
 
 Meteor.publish(Profiles.userPublicationName, () => Profiles.collection.find());
-
-Meteor.publish(Items.userPublicationName, () => Items.collection.find());
+// For ListItem
+Meteor.publish(Items.userPublicationName, function () {
+  if (this.userId) {
+    const username = Meteor.users.findOne(this.userId).username;
+    return Items.collection.find({ owner: username });
+  }
+  return this.ready();
+});
+// For gallery
+Meteor.publish(Items.adminPublicationName, () => Items.collection.find());
 
 Meteor.publish(Requests.userPublicationName, function () {
   if (this.userId) {

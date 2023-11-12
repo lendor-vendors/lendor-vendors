@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Card, Image } from 'react-bootstrap';
+import { Button, Card, Image } from 'react-bootstrap';
 
 /** Renders a single row in the List item table. See pages/ListItem.jsx. */
 const Item = ({ item }) => (
@@ -11,7 +11,8 @@ const Item = ({ item }) => (
     </Card.Header>
     <Card.Body>
       <Card.Text>{item.description}</Card.Text>
-      <Card.Link href={`/request/${item._id}`}>Edit</Card.Link>
+      <Card.Link href="/notauthorized">Edit</Card.Link>
+      <Button href={`/view_requests/${item._id}`}>View Requests</Button>
     </Card.Body>
   </Card>
 );
