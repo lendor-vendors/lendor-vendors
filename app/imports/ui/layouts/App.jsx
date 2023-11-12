@@ -19,6 +19,7 @@ import AddItem from '../pages/AddItem';
 import RequestItem from '../pages/RequestItem';
 import ViewRequests from '../pages/ViewRequests';
 import ListItem from '../pages/ListItem';
+import YourRequests from '../pages/YourRequests';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => {
@@ -45,6 +46,7 @@ const App = () => {
           <Route path="/notauthorized" element={<NotAuthorized />} />
           <Route path="/request/:_id" element={<ProtectedRoute><RequestItem /></ProtectedRoute>} />
           <Route path="/view_requests/:_id" element={<ProtectedRoute><ViewRequests /></ProtectedRoute>} />
+          <Route path="/your_requests" element={<ProtectedRoute><YourRequests /></ProtectedRoute>} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer />

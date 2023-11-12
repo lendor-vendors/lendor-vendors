@@ -3,38 +3,31 @@ import { Col, Container, ListGroup, Row } from 'react-bootstrap';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import { useParams } from 'react-router';
-import { Navigate } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { Items } from '../../api/item/Items';
 import { Requests } from '../../api/request/Requests';
 import NotFound from './NotFound';
 
 /* Renders the EditStuff page for editing a single document. */
-const ViewRequests = () => {
-// Get the documentID from the URL field. See imports/ui/layouts/App.jsx for the route containing :_id.
-  const { _id } = useParams();
-  const { item, requests, ready } = useTracker(() => {
+const YourRequests = () => {
+  const { requests, ready } = useTracker(() => {
+    const owner = Meteor.user().username;
     // Get access to Stuff documents.
     const itemSubscription = Meteor.subscribe(Items.userPublicationName);
     const requestsSubscription = Meteor.subscribe(Requests.userPublicationName);
     // Determine if the subscription is ready
     const rdy = itemSubscription.ready() && requestsSubscription.ready();
     // Get the document
-    const foundItem = Items.collection.findOne({ _id: _id });
-    const foundRequests = Requests.collection.find({ item: _id }).fetch();
+    const foundRequests = Requests.collection.find({ owner: owner }).fetch();
+    const foundItemIds = foundRequests.map(request => request.item);
+    const foundItems = Items.collection.find({ _id: { $in: foundItemIds } });
     return {
-      item: foundItem,
+      items: foundItems,
       requests: foundRequests,
       ready: rdy,
     };
-  }, [_id]);
+  }, []);
   if (ready) {
-    if (!item) {
-      return <NotFound />;
-    }
-    if (item.owner !== Meteor.user().username) {
-      return <Navigate to="/notauthorized" />;
-    }
     let numRequests = 0;
     const requestsList = (
       <ListGroup>
@@ -66,4 +59,4 @@ const ViewRequests = () => {
   return <LoadingSpinner />;
 };
 
-export default ViewRequests;
+export default YourRequests;
