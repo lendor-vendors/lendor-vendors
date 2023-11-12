@@ -6,7 +6,6 @@ import { Roles } from 'meteor/alanning:roles';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Landing from '../pages/Landing';
-import ListStuff from '../pages/ListStuff';
 import ListStuffAdmin from '../pages/ListStuffAdmin';
 import EditStuff from '../pages/EditStuff';
 import NotFound from '../pages/NotFound';
@@ -19,6 +18,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import AddItem from '../pages/AddItem';
 import RequestItem from '../pages/RequestItem';
 import ViewRequests from '../pages/ViewRequests';
+import ListItem from '../pages/ListItem';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => {
@@ -38,7 +38,7 @@ const App = () => {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signout" element={<SignOut />} />
           <Route path="/home" element={<ProtectedRoute><Landing /></ProtectedRoute>} />
-          <Route path="/list" element={<ProtectedRoute><ListStuff /></ProtectedRoute>} />
+          <Route path="/list" element={<ProtectedRoute><ListItem /></ProtectedRoute>} />
           <Route path="/add" element={<ProtectedRoute><AddItem /></ProtectedRoute>} />
           <Route path="/edit/:_id" element={<ProtectedRoute><EditStuff /></ProtectedRoute>} />
           <Route path="/admin" element={<AdminProtectedRoute ready={ready}><ListStuffAdmin /></AdminProtectedRoute>} />

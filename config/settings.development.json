@@ -38,7 +38,7 @@
   "defaultItems": [
     {
       "title": "BIO 350 Course Reader",
-      "image": "imageurl",
+      "image": "doc/BIO350-Book.jpeg",
       "description": "Bought the BIO 350 course reader book, ended up not even using it once.",
       "quantity": 1,
       "condition": "Excellent",
@@ -46,7 +46,7 @@
     },
     {
       "title": "iClicker",
-      "image": "imageurl",
+      "image": "doc/iclicker.jpeg",
       "description": "If anyone needs an iClicker for a class and do not want to buy one, here is mine.",
       "quantity": 1,
       "condition": "Good",
@@ -54,7 +54,7 @@
     },
     {
       "title": "Spare Binders",
-      "image": "imageurl",
+      "image": "doc/binders.jpeg",
       "description": "I have some extra binders I no longer have any use for if someone could help take them off my hands.",
       "quantity": 3,
       "condition": "Acceptable",
