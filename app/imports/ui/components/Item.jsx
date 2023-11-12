@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Card, Image } from 'react-bootstrap';
 
-/** Renders a single row in the List item table. See pages/YourItems.jsx. */
+/** Renders a single row in the List item table. See pages/ListItem.jsx. */
 const Item = ({ item }) => (
   <Card className="h-100">
     <Card.Header>

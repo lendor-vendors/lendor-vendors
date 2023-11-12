@@ -7,7 +7,7 @@ import Item from '../components/Item';
 import { Items } from '../../api/item/Items';
 
 /* Renders a table containing all of the Item documents. Use <Item> to render each row. */
-const YourItems = () => {
+const ListItem = () => {
   // useTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker
   const { ready, items } = useTracker(() => {
     // Note that this subscription will get cleaned up
@@ -39,4 +39,4 @@ const YourItems = () => {
   ) : <LoadingSpinner />);
 };
 
-export default YourItems;
+export default ListItem;
