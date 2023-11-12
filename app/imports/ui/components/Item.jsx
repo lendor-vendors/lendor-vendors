@@ -6,11 +6,12 @@ import { Card, Image } from 'react-bootstrap';
 const Item = ({ item }) => (
   <Card className="h-100">
     <Card.Header>
-      <Image src={item.image} width={75} />
+      <Image src={item.image} width={150} height={150} />
       <Card.Title>{item.title}</Card.Title>
     </Card.Header>
     <Card.Body>
       <Card.Text>{item.description}</Card.Text>
+      <Card.Link href={`/request/${item._id}`}>Edit</Card.Link>
     </Card.Body>
   </Card>
 );
