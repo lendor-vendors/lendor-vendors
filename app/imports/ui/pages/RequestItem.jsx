@@ -10,6 +10,7 @@ import { useTracker } from 'meteor/react-meteor-data';
 import { Items } from '../../api/item/Items';
 import { Requests } from '../../api/request/Requests';
 import LoadingSpinner from '../components/LoadingSpinner';
+import NotFound from './NotFound';
 
 const RequestItem = () => {
   // Get the documentID from the URL field. See imports/ui/layouts/App.jsx for the route containing :_id.
@@ -48,6 +49,9 @@ const RequestItem = () => {
   const bridge = new SimpleSchema2Bridge(formSchema);
   // Render the form. Use Uniforms: https://github.com/vazco/uniforms
   if (ready) {
+    if (!item) {
+      return <NotFound />;
+    }
     return item.owner === Meteor.user().username ? (
       <Container className="py-3 text-center">
         <h1>You own this item.</h1>

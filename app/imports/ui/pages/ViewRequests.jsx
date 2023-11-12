@@ -6,6 +6,7 @@ import { useParams } from 'react-router';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { Items } from '../../api/item/Items';
 import { Requests } from '../../api/request/Requests';
+import NotFound from './NotFound';
 
 /* Renders the EditStuff page for editing a single document. */
 const ViewRequests = () => {
@@ -27,6 +28,9 @@ const ViewRequests = () => {
     };
   }, [_id]);
   if (ready) {
+    if (!item) {
+      return <NotFound />;
+    }
     if (item.owner !== Meteor.user().username) {
       return (
         <Container className="py-3 text-center">
