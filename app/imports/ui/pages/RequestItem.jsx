@@ -30,9 +30,9 @@ const RequestItem = () => {
   // On submit, insert the data.
   const submit = (data) => {
     const { quantity } = data;
-    const owner = Meteor.user().username;
+    const requester = Meteor.user().username;
     Requests.collection.insert(
-      { item: _id, quantity, owner },
+      { item: _id, quantity, requester },
       (error) => {
         if (error) {
           swal('Error', error.message, 'error');

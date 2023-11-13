@@ -15,7 +15,7 @@ const ViewRequests = () => {
   const { item, requests, ready } = useTracker(() => {
     // Get access to Stuff documents.
     const itemSubscription = Meteor.subscribe(Items.userPublicationName);
-    const requestsSubscription = Meteor.subscribe(Requests.userPublicationName);
+    const requestsSubscription = Meteor.subscribe(Requests.adminPublicationName);
     // Determine if the subscription is ready
     const rdy = itemSubscription.ready() && requestsSubscription.ready();
     // Get the document
@@ -47,7 +47,7 @@ const ViewRequests = () => {
             <ListGroup.Item key={request._id}>
               <Row className="align-items-center">
                 <Col>
-                  <Row><p className="text-start">From: {request.owner}</p></Row>
+                  <Row><p className="text-start">From: {request.requester}</p></Row>
                   <Row><p className="text-start">Quantity: {request.quantity}</p></Row>
                 </Col>
                 <Col><p className="text-end">Accept Deny</p></Col>
