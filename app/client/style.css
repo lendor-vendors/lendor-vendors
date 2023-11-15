@@ -43,3 +43,14 @@ footer, footer a {
   padding-top: 10px;
   padding-bottom: 20px;
 }
+
+#editButton {
+  font-size: 15px;
+  float: left;
+}
+
+#requestButton {
+  font-size: 15px;
+  text-align: end;
+  float: right;
+}
