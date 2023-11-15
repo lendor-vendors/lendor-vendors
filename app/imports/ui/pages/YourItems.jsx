@@ -7,7 +7,7 @@ import Item from '../components/Item';
 import { Items } from '../../api/item/Items';
 
 /* Renders a table containing all of the Item documents. Use <Item> to render each row. */
-const ListItem = () => {
+const YourItems = () => {
   // useTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker
   const { ready, items } = useTracker(() => {
     // Note that this subscription will get cleaned up
@@ -28,7 +28,7 @@ const ListItem = () => {
       <Row className="justify-content-center">
         <Col md={7}>
           <Col className="text-center">
-            <h2>List Items</h2>
+            <h2>Your Items</h2>
           </Col>
           <Row xs={1} md={2} lg={3} className="g-4">
             {items.map((item, index) => <Col key={index}><Item item={item} /></Col>)}
@@ -39,4 +39,4 @@ const ListItem = () => {
   ) : <LoadingSpinner />);
 };
 
-export default ListItem;
+export default YourItems;

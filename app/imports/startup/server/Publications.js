@@ -25,7 +25,7 @@ Meteor.publish(Stuffs.adminPublicationName, function () {
 });
 
 Meteor.publish(Profiles.userPublicationName, () => Profiles.collection.find());
-// For ListItem
+// For YourItems
 Meteor.publish(Items.userPublicationName, function () {
   if (this.userId) {
     const username = Meteor.users.findOne(this.userId).username;
@@ -38,11 +38,22 @@ Meteor.publish(Items.adminPublicationName, () => Items.collection.find());
 
 Meteor.publish(Requests.userPublicationName, function () {
   if (this.userId) {
+    // Get the user's username
     const username = Meteor.users.findOne(this.userId).username;
+    // Get all items that this user owns
     const userItems = Items.collection.find({ owner: username }).fetch();
+    // Take the IDs of all those items
     const idList = userItems.map(item => item._id);
-    // find requests whose item is equal to an _id in items
-    return Requests.collection.find({ item: { $in: idList } });
+    // Find all requests that are for one of these items
+    return Requests.collection.find({ itemId: { $in: idList } });
+  }
+  return this.ready();
+});
+
+Meteor.publish(Requests.thisUserPublicationName, function () {
+  if (this.userId) {
+    const username = Meteor.users.findOne(this.userId).username;
+    return Requests.collection.find({ requester: username });
   }
   return this.ready();
 });
