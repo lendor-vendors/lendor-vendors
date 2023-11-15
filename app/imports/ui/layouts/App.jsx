@@ -18,6 +18,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import PostItem from '../pages/PostItem';
 import RequestItem from '../pages/RequestItem';
 import ViewRequests from '../pages/ViewRequests';
+import YourRequests from '../pages/YourRequests';
 import YourItems from '../pages/YourItems';
 import Gallery from '../pages/Gallery';
 import ViewItem from '../pages/ViewItem';
@@ -43,7 +44,6 @@ const App = () => {
           <Route path="/post" element={<ProtectedRoute><PostItem /></ProtectedRoute>} />
           <Route path="/list" element={<ProtectedRoute><YourItems /></ProtectedRoute>} />
           <Route path="/home" element={<ProtectedRoute><Gallery /></ProtectedRoute>} />
-          <Route path="/list" element={<ProtectedRoute><ListStuff /></ProtectedRoute>} />
           <Route path="/add" element={<ProtectedRoute><PostItem /></ProtectedRoute>} />
           <Route path="/edit/:_id" element={<ProtectedRoute><EditStuff /></ProtectedRoute>} />
           <Route path="/admin" element={<AdminProtectedRoute ready={ready}><ListStuffAdmin /></AdminProtectedRoute>} />
@@ -51,6 +51,7 @@ const App = () => {
           <Route path="/request/:_id" element={<ProtectedRoute><RequestItem /></ProtectedRoute>} />
           <Route path="/view_requests/:_id" element={<ProtectedRoute><ViewRequests /></ProtectedRoute>} />
           <Route path="/view_item/:_id" element={<ProtectedRoute><ViewItem /></ProtectedRoute>} />
+          <Route path="/your_requests" element={<ProtectedRoute><YourRequests /></ProtectedRoute>} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer />
