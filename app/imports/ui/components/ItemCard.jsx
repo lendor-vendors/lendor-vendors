@@ -8,8 +8,12 @@ import { Link } from 'react-router-dom';
 const ItemCard = ({ item }) => (
   <Link to={`/view_item/${item._id}`}>
     <Card className="h-100">
-      <Image src={item.image} width={200} />
-      <Card.Title>{item.title}</Card.Title>
+      <Card.Header>
+        <Image src={item.image} width={200} height={150} />
+      </Card.Header>
+      <Card.Body>
+        <Card.Title>{item.title}</Card.Title>
+      </Card.Body>
     </Card>
   </Link>
 );

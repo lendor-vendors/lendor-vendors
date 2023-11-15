@@ -6,14 +6,16 @@ import { Button, Card, Image } from 'react-bootstrap';
 const Item = ({ item }) => (
   <Card className="h-100">
     <Card.Header>
-      <Image src={item.image} width={150} height={150} />
-      <Card.Title>{item.title}</Card.Title>
+      <Image src={item.image} width={200} height={150} />
     </Card.Header>
     <Card.Body>
+      <Card.Title>{item.title}</Card.Title>
       <Card.Text>{item.description}</Card.Text>
-      <Card.Link href="/notauthorized">Edit</Card.Link>
-      <Button href={`/view_requests/${item._id}`}>View Requests</Button>
     </Card.Body>
+    <Card.Footer>
+      <Button id="editButton" href="/notauthorized">Edit</Button>
+      <Button id="requestButton" href={`/view_requests/${item._id}`}>View Requests</Button>
+    </Card.Footer>
   </Card>
 );
 

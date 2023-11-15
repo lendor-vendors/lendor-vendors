@@ -13,7 +13,7 @@ const Gallery = () => {
     // Note that this subscription will get cleaned up
     // when your component is unmounted or deps change.
     // Get access to Stuff documents.
-    const subscription = Meteor.subscribe(Items.userPublicationName);
+    const subscription = Meteor.subscribe(Items.adminPublicationName);
     // Determine if the subscription is ready
     const rdy = subscription.ready();
     // Get the Stuff documents
@@ -28,11 +28,11 @@ const Gallery = () => {
       <Row className="justify-content-center">
         <Col md={7}>
           <Col className="text-center">
-            <h2>Test</h2>
+            <h2>Gallery</h2>
           </Col>
         </Col>
-        <Row xs={1} md={2} lg={3} className="g-4">
-          {items.map((item) => (<Col key={item._id}><ItemCard item={item} /></Col>))}
+        <Row xs={1} md={2} lg={5} className="g-4">
+          {items.map((item, index) => <Col key={index}><ItemCard item={item} /></Col>)}
         </Row>
       </Row>
     </Container>
