@@ -1,4 +1,9 @@
 {
+  "monti": {
+    "appId": "g9WakvBNxDthLvbvP",
+    "appSecret": "b03c54d7-aea1-41f1-ab44-1b14f0361cf6"
+  },
+
   "defaultAccounts": [
     { "email": "admin@foo.com", "password": "changeme", "role": "admin" },
     { "email": "john@foo.com", "password": "changeme" }
@@ -10,6 +15,7 @@
     { "name": "Banana", "quantity": 2, "owner": "admin@foo.com", "condition": "good" },
     { "name": "Boogie Board", "quantity": 2, "owner": "admin@foo.com", "condition": "excellent" }
   ],
+
   "defaultProfiles": [
     {
       "name": "Philip Johnson",
