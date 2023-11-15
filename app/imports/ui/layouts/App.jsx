@@ -19,6 +19,8 @@ import PostItem from '../pages/PostItem';
 import RequestItem from '../pages/RequestItem';
 import ViewRequests from '../pages/ViewRequests';
 import YourItems from '../pages/YourItems';
+import Gallery from '../pages/Gallery';
+import ViewItem from '../pages/ViewItem';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => {
@@ -40,11 +42,15 @@ const App = () => {
           <Route path="/home" element={<ProtectedRoute><Landing /></ProtectedRoute>} />
           <Route path="/post" element={<ProtectedRoute><PostItem /></ProtectedRoute>} />
           <Route path="/list" element={<ProtectedRoute><YourItems /></ProtectedRoute>} />
+          <Route path="/home" element={<ProtectedRoute><Gallery /></ProtectedRoute>} />
+          <Route path="/list" element={<ProtectedRoute><ListStuff /></ProtectedRoute>} />
+          <Route path="/add" element={<ProtectedRoute><PostItem /></ProtectedRoute>} />
           <Route path="/edit/:_id" element={<ProtectedRoute><EditStuff /></ProtectedRoute>} />
           <Route path="/admin" element={<AdminProtectedRoute ready={ready}><ListStuffAdmin /></AdminProtectedRoute>} />
           <Route path="/notauthorized" element={<NotAuthorized />} />
           <Route path="/request/:_id" element={<ProtectedRoute><RequestItem /></ProtectedRoute>} />
           <Route path="/view_requests/:_id" element={<ProtectedRoute><ViewRequests /></ProtectedRoute>} />
+          <Route path="/view_item/:_id" element={<ProtectedRoute><ViewItem /></ProtectedRoute>} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer />
