@@ -32,7 +32,7 @@ const RequestItem = () => {
     const { quantity } = data;
     const requester = Meteor.user().username;
     Requests.collection.insert(
-      { item: _id, quantity, requester },
+      { itemId: _id, quantity, requester },
       (error) => {
         if (error) {
           swal('Error', error.message, 'error');

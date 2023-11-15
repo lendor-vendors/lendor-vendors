@@ -20,6 +20,7 @@ class RequestsCollection {
     this.collection.attachSchema(this.schema);
     // Define names for publications and subscriptions
     this.userPublicationName = `${this.name}.publication.user`;
+    this.thisUserPublicationName = `${this.name}.publication.thisUser`;
     this.adminPublicationName = `${this.name}.publication.admin`;
   }
 }
