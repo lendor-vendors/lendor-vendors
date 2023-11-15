@@ -42,8 +42,8 @@ const App = () => {
           <Route path="/signout" element={<SignOut />} />
           <Route path="/home" element={<ProtectedRoute><Gallery /></ProtectedRoute>} />
           <Route path="/post" element={<ProtectedRoute><PostItem /></ProtectedRoute>} />
-          <Route path="/list" element={<ProtectedRoute><YourItems /></ProtectedRoute>} />
           <Route path="/home" element={<ProtectedRoute><Gallery /></ProtectedRoute>} />
+          <Route path="/your_items" element={<ProtectedRoute><YourItems /></ProtectedRoute>} />
           <Route path="/add" element={<ProtectedRoute><PostItem /></ProtectedRoute>} />
           <Route path="/edit/:_id" element={<ProtectedRoute><EditStuff /></ProtectedRoute>} />
           <Route path="/admin" element={<AdminProtectedRoute ready={ready}><ListStuffAdmin /></AdminProtectedRoute>} />
