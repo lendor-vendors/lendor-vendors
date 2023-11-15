@@ -14,13 +14,13 @@ const ViewRequests = () => {
   const { _id } = useParams();
   const { item, requests, ready } = useTracker(() => {
     // Get access to Stuff documents.
-    const itemSubscription = Meteor.subscribe(Items.userPublicationName);
+    const itemSubscription = Meteor.subscribe(Items.adminPublicationName);
     const requestsSubscription = Meteor.subscribe(Requests.userPublicationName);
     // Determine if the subscription is ready
     const rdy = itemSubscription.ready() && requestsSubscription.ready();
     // Get the document
     const foundItem = Items.collection.findOne({ _id: _id });
-    const foundRequests = Requests.collection.find({ item: _id }).fetch();
+    const foundRequests = Requests.collection.find({ itemId: _id }).fetch();
     return {
       item: foundItem,
       requests: foundRequests,
@@ -47,7 +47,7 @@ const ViewRequests = () => {
             <ListGroup.Item key={request._id}>
               <Row className="align-items-center">
                 <Col>
-                  <Row><p className="text-start">From: {request.owner}</p></Row>
+                  <Row><p className="text-start">From: {request.requester}</p></Row>
                   <Row><p className="text-start">Quantity: {request.quantity}</p></Row>
                 </Col>
                 <Col><p className="text-end">Accept Deny</p></Col>
