@@ -11,16 +11,15 @@ import NotFound from './NotFound';
 /* Renders the EditStuff page for editing a single document. */
 const YourRequests = () => {
   const { requests, ready } = useTracker(() => {
-    const owner = Meteor.user().username;
     // Get access to Stuff documents.
-    const itemSubscription = Meteor.subscribe(Items.userPublicationName);
-    const requestsSubscription = Meteor.subscribe(Requests.userPublicationName);
+    const itemSubscription = Meteor.subscribe(Items.adminPublicationName);
+    const requestsSubscription = Meteor.subscribe(Requests.thisUserPublicationName);
     // Determine if the subscription is ready
     const rdy = itemSubscription.ready() && requestsSubscription.ready();
     // Get the document
-    const foundRequests = Requests.collection.find({ owner: owner }).fetch();
-    const foundItemIds = foundRequests.map(request => request.item);
-    const foundItems = Items.collection.find({ _id: { $in: foundItemIds } });
+    const foundRequests = Requests.collection.find().fetch();
+    const requestedItemsIds = foundRequests.map(request => request.itemId);
+    const foundItems = Items.collection.find({ _id: { $in: requestedItemsIds } });
     return {
       items: foundItems,
       requests: foundRequests,
@@ -37,10 +36,10 @@ const YourRequests = () => {
             <ListGroup.Item key={request._id}>
               <Row className="align-items-center">
                 <Col>
-                  <Row><p className="text-start">From: {request.owner}</p></Row>
+                  <Row><p className="text-start">From: {request.requester} (you)</p></Row>
                   <Row><p className="text-start">Quantity: {request.quantity}</p></Row>
                 </Col>
-                <Col><p className="text-end">Accept Deny</p></Col>
+                <Col><p className="text-end">Cancel</p></Col>
               </Row>
             </ListGroup.Item>
           );
@@ -49,7 +48,7 @@ const YourRequests = () => {
     );
     return (
       <Container className="py-3">
-        <Row className="justify-content-center text-center"><h3>{numRequests} {numRequests === 1 ? 'request' : 'requests'} for your {item.title}</h3></Row>
+        <Row className="justify-content-center text-center"><h3>You have {numRequests} {numRequests === 1 ? 'request' : 'requests'}</h3></Row>
         <ListGroup className="justify-content-center">
           {requestsList}
         </ListGroup>
