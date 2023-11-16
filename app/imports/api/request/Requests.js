@@ -19,8 +19,8 @@ class RequestsCollection {
     // Attach the schema to the collection, so all attempts to insert a document are checked against schema.
     this.collection.attachSchema(this.schema);
     // Define names for publications and subscriptions
-    this.userPublicationName = `${this.name}.publication.user`;
-    this.thisUserPublicationName = `${this.name}.publication.thisUser`;
+    this.toUserPublicationName = `${this.name}.publication.toUser`;
+    this.fromUserPublicationName = `${this.name}.publication.fromUser`;
     this.adminPublicationName = `${this.name}.publication.admin`;
   }
 }

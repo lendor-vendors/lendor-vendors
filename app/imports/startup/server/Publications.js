@@ -35,8 +35,8 @@ Meteor.publish(Items.userPublicationName, function () {
 });
 // For gallery
 Meteor.publish(Items.adminPublicationName, () => Items.collection.find());
-
-Meteor.publish(Requests.userPublicationName, function () {
+// Publish all requests for each of the current user's items
+Meteor.publish(Requests.toUserPublicationName, function () {
   if (this.userId) {
     // Get the user's username
     const username = Meteor.users.findOne(this.userId).username;
@@ -49,8 +49,8 @@ Meteor.publish(Requests.userPublicationName, function () {
   }
   return this.ready();
 });
-
-Meteor.publish(Requests.thisUserPublicationName, function () {
+// Publish all outgoing requests from this user
+Meteor.publish(Requests.fromUserPublicationName, function () {
   if (this.userId) {
     const username = Meteor.users.findOne(this.userId).username;
     return Requests.collection.find({ requester: username });

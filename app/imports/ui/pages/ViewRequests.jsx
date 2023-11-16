@@ -16,7 +16,7 @@ const ViewRequests = () => {
   const { item, requests, ready } = useTracker(() => {
     // Get access to Stuff documents.
     const itemSubscription = Meteor.subscribe(Items.adminPublicationName);
-    const requestsSubscription = Meteor.subscribe(Requests.userPublicationName);
+    const requestsSubscription = Meteor.subscribe(Requests.toUserPublicationName);
     // Determine if the subscription is ready
     const rdy = itemSubscription.ready() && requestsSubscription.ready();
     // Get the document
