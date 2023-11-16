@@ -4,7 +4,6 @@ import { Col, Container, Row } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { Items } from '../../api/item/Items';
-import ItemCard from '../components/ItemCard';
 import Item from '../components/Item';
 
 /* Renders a table containing all of the Stuff documents. Use <Contact> to render each row. */

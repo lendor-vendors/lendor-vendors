@@ -5,7 +5,6 @@ import { useTracker } from 'meteor/react-meteor-data';
 import LoadingSpinner from '../components/LoadingSpinner';
 import Item from '../components/Item';
 import { Items } from '../../api/item/Items';
-import ItemCard from '../components/ItemCard';
 
 /* Renders a table containing all of the Item documents. Use <Item> to render each row. */
 const YourItems = () => {
