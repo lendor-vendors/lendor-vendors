@@ -2,6 +2,7 @@ import React from 'react';
 import { Col, Container, ListGroup, Row } from 'react-bootstrap';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
+import { Link } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { Items } from '../../api/item/Items';
 import { Requests } from '../../api/request/Requests';
@@ -16,10 +17,7 @@ const YourRequests = () => {
     const rdy = itemSubscription.ready() && requestsSubscription.ready();
     // Get the document
     const foundRequests = Requests.collection.find().fetch();
-    const requestedItemsIds = foundRequests.map(request => request.itemId);
-    const foundItems = Items.collection.find({ _id: { $in: requestedItemsIds } });
     return {
-      items: foundItems,
       requests: foundRequests,
       ready: rdy,
     };
@@ -30,12 +28,16 @@ const YourRequests = () => {
       <ListGroup>
         {requests.map((request) => {
           numRequests++;
+          const item = Items.collection.findOne({ _id: request.itemId });
           return (
             <ListGroup.Item key={request._id}>
               <Row className="align-items-center">
                 <Col>
                   <Row><p className="text-start">From: {request.requester} (you)</p></Row>
                   <Row><p className="text-start">Quantity: {request.quantity}</p></Row>
+                </Col>
+                <Col>
+                  <Link to={`/view_item/${item._id}`}>{item.title}</Link>
                 </Col>
                 <Col><p className="text-end">Cancel</p></Col>
               </Row>
@@ -46,7 +48,7 @@ const YourRequests = () => {
     );
     return (
       <Container className="py-3">
-        <Row className="justify-content-center text-center"><h3>You have {numRequests} {numRequests === 1 ? 'request' : 'requests'}</h3></Row>
+        <Row className="justify-content-center text-center"><h3>You have made {numRequests} {numRequests === 1 ? 'request' : 'requests'}</h3></Row>
         <ListGroup className="justify-content-center">
           {requestsList}
         </ListGroup>
