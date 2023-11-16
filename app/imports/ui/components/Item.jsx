@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Card, Image } from 'react-bootstrap';
+import { Card, Image } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 /** Renders a single row in the List item table. See pages/YourItems.jsx. */
 const Item = ({ item }) => (
@@ -9,13 +10,9 @@ const Item = ({ item }) => (
       <Image src={item.image} width={200} height={150} />
     </Card.Header>
     <Card.Body>
-      <Card.Title>{item.title}</Card.Title>
+      <Link id="item-cards" to={`/view_item/${item._id}`}><Card.Title>{item.title}</Card.Title></Link>
       <Card.Text>{item.description}</Card.Text>
     </Card.Body>
-    <Card.Footer>
-      <Button id="editButton" href="/notauthorized">Edit</Button>
-      <Button id="requestButton" href={`/view_requests/${item._id}`}>View Requests</Button>
-    </Card.Footer>
   </Card>
 );
 

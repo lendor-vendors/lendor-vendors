@@ -54,3 +54,22 @@ footer, footer a {
   text-align: end;
   float: right;
 }
+
+#item-cards:hover{
+  text-decoration: none;
+  color: blue;
+}
+
+#item-cards {
+  text-decoration: none;
+  color: black;
+}
+
+.img {
+  width: 45em;
+  height: 35em;
+}
+
+#btn1 {
+  white-space: nowrap;
+}

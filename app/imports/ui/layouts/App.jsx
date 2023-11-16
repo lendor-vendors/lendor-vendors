@@ -7,7 +7,6 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import Footer from '../components/Footer';
 import Landing from '../pages/Landing';
 import ListStuffAdmin from '../pages/ListStuffAdmin';
-import EditStuff from '../pages/EditStuff';
 import NotFound from '../pages/NotFound';
 import SignUp from '../pages/SignUp';
 import SignOut from '../pages/SignOut';
@@ -22,6 +21,7 @@ import YourRequests from '../pages/YourRequests';
 import YourItems from '../pages/YourItems';
 import Gallery from '../pages/Gallery';
 import ViewItem from '../pages/ViewItem';
+import EditItem from '../pages/EditItem';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => {
@@ -45,7 +45,7 @@ const App = () => {
           <Route path="/home" element={<ProtectedRoute><Gallery /></ProtectedRoute>} />
           <Route path="/your_items" element={<ProtectedRoute><YourItems /></ProtectedRoute>} />
           <Route path="/add" element={<ProtectedRoute><PostItem /></ProtectedRoute>} />
-          <Route path="/edit/:_id" element={<ProtectedRoute><EditStuff /></ProtectedRoute>} />
+          <Route path="/edit/:_id" element={<ProtectedRoute><EditItem /></ProtectedRoute>} />
           <Route path="/admin" element={<AdminProtectedRoute ready={ready}><ListStuffAdmin /></AdminProtectedRoute>} />
           <Route path="/notauthorized" element={<NotAuthorized />} />
           <Route path="/request/:_id" element={<ProtectedRoute><RequestItem /></ProtectedRoute>} />
