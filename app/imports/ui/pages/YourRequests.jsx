@@ -2,18 +2,16 @@ import React from 'react';
 import { Col, Container, ListGroup, Row } from 'react-bootstrap';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
-import { useParams } from 'react-router';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { Items } from '../../api/item/Items';
 import { Requests } from '../../api/request/Requests';
-import NotFound from './NotFound';
 
 /* Renders the EditStuff page for editing a single document. */
 const YourRequests = () => {
   const { requests, ready } = useTracker(() => {
     // Get access to Stuff documents.
     const itemSubscription = Meteor.subscribe(Items.adminPublicationName);
-    const requestsSubscription = Meteor.subscribe(Requests.thisUserPublicationName);
+    const requestsSubscription = Meteor.subscribe(Requests.fromUserPublicationName);
     // Determine if the subscription is ready
     const rdy = itemSubscription.ready() && requestsSubscription.ready();
     // Get the document
