@@ -11,7 +11,6 @@ const Item = ({ item }) => (
     </Card.Header>
     <Card.Body>
       <Link id="item-cards" to={`/view_item/${item._id}`}><Card.Title>{item.title}</Card.Title></Link>
-      <Card.Text>{item.description}</Card.Text>
     </Card.Body>
   </Card>
 );
@@ -20,12 +19,12 @@ const Item = ({ item }) => (
 Item.propTypes = {
   item: PropTypes.shape({
     title: PropTypes.string,
-    image: PropTypes.number,
+    image: PropTypes.string,
     description: PropTypes.string,
     quantity: PropTypes.number,
     condition: PropTypes.string,
-    _id: PropTypes.string,
     owner: PropTypes.string,
+    _id: PropTypes.string,
   }).isRequired,
 };
 

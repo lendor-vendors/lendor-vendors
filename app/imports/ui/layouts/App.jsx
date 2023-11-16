@@ -17,7 +17,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import PostItem from '../pages/PostItem';
 import RequestItem from '../pages/RequestItem';
 import ViewRequests from '../pages/ViewRequests';
-import YourRequests from '../pages/YourRequests';
+import RequestsPage from '../pages/RequestsPage';
 import YourItems from '../pages/YourItems';
 import Gallery from '../pages/Gallery';
 import ViewItem from '../pages/ViewItem';
@@ -51,7 +51,7 @@ const App = () => {
           <Route path="/request/:_id" element={<ProtectedRoute><RequestItem /></ProtectedRoute>} />
           <Route path="/view_requests/:_id" element={<ProtectedRoute><ViewRequests /></ProtectedRoute>} />
           <Route path="/view_item/:_id" element={<ProtectedRoute><ViewItem /></ProtectedRoute>} />
-          <Route path="/your_requests" element={<ProtectedRoute><YourRequests /></ProtectedRoute>} />
+          <Route path="/requests" element={<ProtectedRoute><RequestsPage /></ProtectedRoute>} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer />

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Container, ListGroup, Row } from 'react-bootstrap';
+import { Button, Col, Container, ListGroup, Row } from 'react-bootstrap';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import { useParams } from 'react-router';
@@ -42,12 +42,17 @@ const ViewRequests = () => {
           numRequests++;
           return (
             <ListGroup.Item key={request._id}>
-              <Row className="align-items-center">
+              <Row>
                 <Col>
                   <Row><p className="text-start">From: {request.requester}</p></Row>
                   <Row><p className="text-start">Quantity: {request.quantity}</p></Row>
                 </Col>
-                <Col><p className="text-end">Accept Deny</p></Col>
+                <Col>
+                  <Container className="d-flex justify-content-end">
+                    <Button className="me-3">Accept</Button>
+                    <Button>Deny</Button>
+                  </Container>
+                </Col>
               </Row>
             </ListGroup.Item>
           );
