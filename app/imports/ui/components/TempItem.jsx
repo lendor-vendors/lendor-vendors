@@ -31,9 +31,9 @@ const TempItem = ({ item }) => (
     ) : (
       <Container className="d-flex justify-content-end">
         <Row>
-        <Col className="px-4"><Button id="btn1" href={`/edit/${item._id}`}>Edit</Button></Col>
-        <Col><Button id="btn1" href={`/view_requests/${item._id}`}>View Request</Button></Col>
-      </Row>
+          <Col className="px-4"><Button id="btn1" href={`/edit/${item._id}`}>Edit</Button></Col>
+          <Col><Button id="btn1" href={`/view_requests/${item._id}`}>View Requests</Button></Col>
+        </Row>
       </Container>
     )}
   </Container>

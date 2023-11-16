@@ -30,10 +30,10 @@ const YourItems = () => {
           <Col className="text-center">
             <h2>Your Items</h2>
           </Col>
-          <Row xs={1} md={2} lg={3} className="g-4">
-            {items.map((item, index) => <Col key={index}><Item item={item} /></Col>)}
-          </Row>
         </Col>
+        <Row xs={1} md={2} lg={5} className="g-4">
+          {items.map((item, index) => <Col key={index}><Item item={item} /></Col>)}
+        </Row>
       </Row>
     </Container>
   ) : <LoadingSpinner />);
