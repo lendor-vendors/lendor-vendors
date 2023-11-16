@@ -23,7 +23,8 @@ const NavBar = () => {
           <Nav className="me-auto justify-content-start">
             {currentUser ? ([
               <Nav.Link id="post-item-nav" as={NavLink} to="/post" key="post">Post Item</Nav.Link>,
-              <Nav.Link id="your-items-nav" as={NavLink} to="/your_items" key="list">Your Items</Nav.Link>,
+              <Nav.Link id="your-items-nav" as={NavLink} to="/your_items" key="your_items">Your Items</Nav.Link>,
+              <Nav.Link id="your-requests-nav" as={NavLink} to="/your_requests" key="your_requests">Your Requests</Nav.Link>,
             ]) : ''}
             {Roles.userIsInRole(Meteor.userId(), 'admin') ? (
               <Nav.Link id="list-stuff-admin-nav" as={NavLink} to="/admin" key="admin">Admin</Nav.Link>
