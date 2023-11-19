@@ -1,21 +1,47 @@
 import React from 'react';
+import { Meteor } from 'meteor/meteor';
 import PropTypes from 'prop-types';
-import { Card, Image } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Button, Col, Container, Image, Row } from 'react-bootstrap';
 
-/** Renders a single row in the List item table. See pages/YourItems.jsx. */
+/* Renders the EditContact page for editing a single item. */
 const Item = ({ item }) => (
-  <Card className="h-100">
-    <Card.Header>
-      <Image src={item.image} width={200} height={150} />
-    </Card.Header>
-    <Card.Body>
-      <Link id="item-cards" to={`/view_item/${item._id}`}><Card.Title>{item.title}</Card.Title></Link>
-    </Card.Body>
-  </Card>
+  // console.log('EditContact', item, ready);
+  // On successful submit, insert the data.
+  <Container className="py-3">
+    <Row className="justify-content-center">
+      <Col>
+        <Image className="img" src={item.image} width={500} />
+      </Col>
+      <Col>
+        <h1>{item.title}</h1>
+        <hr />
+        <h6>Owner: {item.owner}</h6>
+        <hr />
+        <h6>Condition: {item.condition}</h6>
+        <h6>Quantity: {item.quantity}</h6>
+        <hr />
+        <h6>Description:</h6>
+        <p>{item.description}</p>
+      </Col>
+    </Row>
+    {item.owner !== Meteor.user().username ? (
+      <Container>
+        <Row className="float-end">
+          <Col>
+            <Button id="button-addon1 button-text" href={`/request/${item._id}`}>Request To Borrow</Button>
+          </Col>
+        </Row>
+      </Container>
+    ) : (
+      <Container className="d-flex justify-content-end">
+        <Row>
+          <Col className="px-4"><Button id="btn1" href={`/edit/${item._id}`}>Edit</Button></Col>
+          <Col><Button id="btn1" href={`/view_requests/${item._id}`}>View Requests</Button></Col>
+        </Row>
+      </Container>
+    )}
+  </Container>
 );
-
-// Require a document to be passed to this component.
 Item.propTypes = {
   item: PropTypes.shape({
     title: PropTypes.string,

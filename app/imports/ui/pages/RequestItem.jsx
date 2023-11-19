@@ -15,15 +15,19 @@ import NotFound from './NotFound';
 const RequestItem = () => {
   // Get the documentID from the URL field. See imports/ui/layouts/App.jsx for the route containing :_id.
   const { _id } = useParams();
-  const { item, ready } = useTracker(() => {
+  const { item, hasRequested, ready } = useTracker(() => {
     // Get access to Stuff documents.
-    const subscription = Meteor.subscribe(Items.adminPublicationName);
+    const itemsSubscription = Meteor.subscribe(Items.adminPublicationName);
+    const fromRequestsSubscription = Meteor.subscribe(Requests.fromUserPublicationName);
     // Determine if the subscription is ready
-    const rdy = subscription.ready();
+    const rdy = itemsSubscription.ready() && fromRequestsSubscription.ready();
     // Get the document
     const foundItem = Items.collection.findOne({ _id: _id });
+    // If there exists a request from this user for this item, then they have requested this item already
+    const foundHasRequested = Requests.collection.find({ itemId: _id }).fetch().length > 0;
     return {
       item: foundItem,
+      hasRequested: foundHasRequested,
       ready: rdy,
     };
   }, [_id]);
@@ -51,6 +55,13 @@ const RequestItem = () => {
   if (ready) {
     if (!item) {
       return <NotFound />;
+    }
+    if (hasRequested) {
+      return (
+        <Container className="py-3 text-center">
+          <h1>You have requested this item.</h1>
+        </Container>
+      );
     }
     return item.owner === Meteor.user().username ? (
       <Container className="py-3 text-center">

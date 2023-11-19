@@ -5,7 +5,7 @@ import { useTracker } from 'meteor/react-meteor-data';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { Items } from '../../api/item/Items';
 import { Requests } from '../../api/request/Requests';
-import Item from '../components/Item';
+import ItemCard from '../components/ItemCard';
 
 /* Renders the EditStuff page for editing a single document. */
 const RequestsPage = () => {
@@ -38,7 +38,7 @@ const RequestsPage = () => {
             <ListGroup.Item key={request._id}>
               <Row>
                 <Col>
-                  <Item item={item} />
+                  <ItemCard item={item} />
                 </Col>
                 <Col>
                   <p>Owner: {item.owner}</p>
@@ -69,7 +69,7 @@ const RequestsPage = () => {
             <ListGroup.Item>
               <Row>
                 <Col>
-                  <Item item={item} />
+                  <ItemCard item={item} />
                 </Col>
                 <Col>
                   {items[itemId].map((requester) => <p>{requester}</p>)}

@@ -8,6 +8,7 @@ import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import { useParams } from 'react-router';
 import { Items } from '../../api/item/Items';
 import LoadingSpinner from '../components/LoadingSpinner';
+import NotFound from './NotFound';
 
 const bridge = new SimpleSchema2Bridge(Items.schema);
 
@@ -17,15 +18,15 @@ const EditItem = () => {
   const { _id } = useParams();
   // console.log('EditItem', _id);
   // useTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker
-  const { doc, ready } = useTracker(() => {
+  const { item, ready } = useTracker(() => {
     // Get access to Item documents.
     const subscription = Meteor.subscribe(Items.userPublicationName);
     // Determine if the subscription is ready
     const rdy = subscription.ready();
     // Get the document
-    const document = Items.collection.findOne(_id);
+    const foundItem = Items.collection.findOne(_id);
     return {
-      doc: document,
+      item: foundItem,
       ready: rdy,
     };
   }, [_id]);
@@ -38,31 +39,37 @@ const EditItem = () => {
       swal('Success', 'Item updated successfully', 'success')));
   };
 
-  return ready ? (
-    <Container className="py-3">
-      <Row className="justify-content-center">
-        <Col>
-          <Image className="img" src={doc.image} width="500" />
-        </Col>
-        <Col xs={5}>
-          <Col className="text-center"><h2>Edit Item</h2></Col>
-          <AutoForm schema={bridge} onSubmit={data => submit(data)} model={doc}>
-            <Card>
-              <Card.Body>
-                <TextField name="title" />
-                <TextField name="image" />
-                <LongTextField name="description" />
-                <NumField name="quantity" decimal={false} />
-                <SelectField name="condition" />
-                <SubmitField value="Submit" />
-                <ErrorsField />
-              </Card.Body>
-            </Card>
-          </AutoForm>
-        </Col>
-      </Row>
-    </Container>
-  ) : <LoadingSpinner />;
+  if (ready) {
+    if (!item) {
+      return <NotFound />;
+    }
+    return (
+      <Container className="py-3">
+        <Row className="justify-content-center">
+          <Col>
+            <Image className="img" src={item.image} width="500" />
+          </Col>
+          <Col xs={5}>
+            <Col className="text-center"><h2>Edit {item.title}</h2></Col>
+            <AutoForm schema={bridge} onSubmit={data => submit(data)} model={item}>
+              <Card>
+                <Card.Body>
+                  <TextField name="title" />
+                  <TextField name="image" />
+                  <LongTextField name="description" />
+                  <NumField name="quantity" decimal={false} />
+                  <SelectField name="condition" />
+                  <SubmitField value="Submit" />
+                  <ErrorsField />
+                </Card.Body>
+              </Card>
+            </AutoForm>
+          </Col>
+        </Row>
+      </Container>
+    );
+  }
+  return <LoadingSpinner />;
 };
 
 export default EditItem;
