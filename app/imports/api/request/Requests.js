@@ -15,6 +15,11 @@ class RequestsCollection {
       itemId: String,
       quantity: { type: SimpleSchema.Integer, min: 1 },
       requester: String,
+      status: {
+        type: String,
+        allowedValues: ['pending', 'accepted', 'denied'],
+        defaultValue: 'pending',
+      },
     });
     // Attach the schema to the collection, so all attempts to insert a document are checked against schema.
     this.collection.attachSchema(this.schema);
