@@ -7,6 +7,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import { Items } from '../../api/item/Items';
 import { Requests } from '../../api/request/Requests';
 import ItemCard from '../components/ItemCard';
+import { deleteRequestMethod } from '../../startup/both/Methods';
 
 /* Renders the EditStuff page for editing a single document. */
 const RequestsPage = () => {
@@ -29,6 +30,16 @@ const RequestsPage = () => {
     };
   }, []);
   if (ready) {
+    const handleCancelConfirm = (request) => {
+      Meteor.call(deleteRequestMethod, { requestId: request._id }, (error) => {
+        if (error) {
+          swal('Error', error.message, 'error');
+        } else {
+          swal('Success', 'Cancelled request', 'success');
+        }
+      });
+      setCancelConfirmShow(false);
+    };
     let numFromRequests = 0;
     const fromRequestsList = (
       <ListGroup>
@@ -44,7 +55,12 @@ const RequestsPage = () => {
                 <Col>
                   <p>Owner: {item.owner}</p>
                   <Button onClick={() => setCancelConfirmShow(true)}>Cancel</Button>
-                  <Modal show={cancelConfirmShow} onHide={() => setCancelConfirmShow(false)}>
+                  <Modal
+                    show={cancelConfirmShow}
+                    onHide={() => setCancelConfirmShow(false)}
+                    backdrop="static"
+                    keyboard={false}
+                  >
                     <Modal.Header closeButton>
                       <Modal.Title>Are you sure you want to cancel your request?</Modal.Title>
                     </Modal.Header>
@@ -54,14 +70,7 @@ const RequestsPage = () => {
                       Owner: {item.owner}
                     </Modal.Body>
                     <Modal.Footer>
-                      <Button onClick={() => {
-                        Requests.collection.remove({ _id: request._id });
-                        setCancelConfirmShow(false);
-                        swal('Success', 'Cancelled request', 'success');
-                      }}
-                      >
-                        Yes
-                      </Button>
+                      <Button onClick={() => handleCancelConfirm(request)}>Yes</Button>
                       <Button onClick={() => setCancelConfirmShow(false)}>No</Button>
                     </Modal.Footer>
                   </Modal>

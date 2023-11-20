@@ -15,7 +15,7 @@ class ItemsCollection {
       title: String,
       image: { type: String, optional: true },
       description: { type: String, optional: true },
-      quantity: { type: SimpleSchema.Integer, defaultValue: 1, min: 1 },
+      quantity: { type: SimpleSchema.Integer, defaultValue: 1, min: 0 },
       condition: { type: String, allowedValues: ['Poor', 'Acceptable', 'Good', 'Excellent'] },
       owner: String,
     });
