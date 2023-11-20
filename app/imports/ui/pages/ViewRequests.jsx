@@ -66,7 +66,10 @@ const ViewRequests = () => {
                 <Col className="d-flex align-items-center">
                   <Container className="d-flex justify-content-end">
                     <Button className="me-3" onClick={() => setAcceptConfirmShow(true)}>Accept</Button>
-                    <Modal show={acceptConfirmShow} onHide={() => setAcceptConfirmShow(false)}>
+                    <Modal
+                      show={acceptConfirmShow}
+                      onHide={() => setAcceptConfirmShow(false)}
+                    >
                       <Modal.Header closeButton>
                         <Modal.Title>Are you sure you want to accept this request?</Modal.Title>
                       </Modal.Header>
@@ -74,6 +77,9 @@ const ViewRequests = () => {
                         Item: {item.title} <br />
                         Quantity: {request.quantity} <br />
                         Requester: {request.requester}
+                      </Modal.Body>
+                      <Modal.Body>
+                        {item.quantity - request.quantity === 0 ? `Your ${item.title} will have 0 quantity after accepting this request, so we will deny all other requests for you if you accept this request.` : ''}
                       </Modal.Body>
                       <Modal.Footer>
                         <Button onClick={() => handleAcceptConfirm(request)}>Yes</Button>

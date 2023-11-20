@@ -24,7 +24,7 @@ const RequestItem = () => {
     // Get the document
     const foundItem = Items.collection.findOne({ _id: _id });
     // If there exists a request from this user for this item, then they have requested this item already
-    const foundHasRequested = Requests.collection.find({ itemId: _id }).fetch().length > 0;
+    const foundHasRequested = Requests.collection.find({ itemId: _id, status: 'pending' }).fetch().length > 0;
     return {
       item: foundItem,
       hasRequested: foundHasRequested,

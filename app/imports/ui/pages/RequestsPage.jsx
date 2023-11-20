@@ -13,7 +13,7 @@ import { deleteRequestMethod } from '../../startup/both/Methods';
 const RequestsPage = () => {
   const currentUser = useTracker(() => Meteor.user());
   const [cancelConfirmShow, setCancelConfirmShow] = useState(false);
-  const { fromRequests, toRequests, ready } = useTracker(() => {
+  const { allFromRequests, allToRequests, ready } = useTracker(() => {
     // Get access to Stuff documents.
     const itemSubscription = Meteor.subscribe(Items.adminPublicationName);
     const fromRequestsSubscription = Meteor.subscribe(Requests.fromUserPublicationName);
@@ -24,14 +24,18 @@ const RequestsPage = () => {
     const foundFromRequests = Requests.collection.find({ requester: currentUser?.username }).fetch();
     const foundToRequests = Requests.collection.find({ requester: { $not: currentUser?.username } }).fetch();
     return {
-      fromRequests: foundFromRequests,
-      toRequests: foundToRequests,
+      allFromRequests: foundFromRequests,
+      allToRequests: foundToRequests,
       ready: rdy,
     };
   }, []);
   if (ready) {
-    const handleCancelConfirm = (request) => {
-      Meteor.call(deleteRequestMethod, { requestId: request._id }, (error) => {
+    const fromRequests = { pending: [], accepted: [], denied: [] };
+    allFromRequests.forEach((fromRequest) => fromRequests[fromRequest.status].push(fromRequest));
+    const toRequests = { pending: [], accepted: [], denied: [] };
+    allToRequests.forEach((toRequest) => toRequests[toRequest.status].push(toRequest));
+    const handleCancelConfirm = (fromRequest) => {
+      Meteor.call(deleteRequestMethod, { requestId: fromRequest._id }, (error) => {
         if (error) {
           swal('Error', error.message, 'error');
         } else {
@@ -40,11 +44,9 @@ const RequestsPage = () => {
       });
       setCancelConfirmShow(false);
     };
-    let numFromRequests = 0;
-    const fromRequestsList = (
+    const pendingFromRequestsList = (
       <ListGroup>
-        {fromRequests.map((request) => {
-          numFromRequests++;
+        {fromRequests.pending.map((request) => {
           const item = Items.collection.findOne({ _id: request.itemId });
           return (
             <ListGroup.Item key={request._id}>
@@ -58,8 +60,6 @@ const RequestsPage = () => {
                   <Modal
                     show={cancelConfirmShow}
                     onHide={() => setCancelConfirmShow(false)}
-                    backdrop="static"
-                    keyboard={false}
                   >
                     <Modal.Header closeButton>
                       <Modal.Title>Are you sure you want to cancel your request?</Modal.Title>
@@ -85,20 +85,20 @@ const RequestsPage = () => {
         })}
       </ListGroup>
     );
+    // for each request to the user, map the request's requester to the request's itemId, and ensure that each itemId is only mapped once.
     const items = {};
-    let numItems = 0;
-    toRequests.forEach((request) => {
+    toRequests.pending.forEach((request) => {
       // eslint-disable-next-line no-prototype-builtins
-      if (items.hasOwnProperty(request.itemId)) {
-        items[request.itemId].push(request.requester);
-      } else {
+      if (!items.hasOwnProperty(request.itemId)) {
         items[request.itemId] = [request.requester];
+      } else {
+        items[request.itemId].push(request.requester);
       }
     });
-    const toRequestsList = (
+    // now, map each itemId to the itemCard and all its requesters. each itemCard should only appear once.
+    const pendingToRequestsList = (
       <ListGroup>
         {Object.keys(items).map((itemId) => {
-          numItems++;
           const item = Items.collection.findOne({ _id: itemId });
           return (
             <ListGroup.Item key={itemId}>
@@ -120,19 +120,19 @@ const RequestsPage = () => {
       <Container className="py-3">
         <Row className="justify-content-center text-center">
           <Col>
-            <h3>You have made {numFromRequests} {numFromRequests === 1 ? 'request' : 'requests'}</h3>
+            <h3>Requests you made</h3>
             <ListGroup className="justify-content-center">
-              {fromRequestsList}
+              {pendingFromRequestsList}
             </ListGroup>
           </Col>
           <Col>
-            <h3>{numItems} of your items have pending requests</h3>
+            <h3>Requests for your items
+            </h3>
             <ListGroup className="justify-content-center">
-              {toRequestsList}
+              {pendingToRequestsList}
             </ListGroup>
           </Col>
         </Row>
-
       </Container>
     );
   }
