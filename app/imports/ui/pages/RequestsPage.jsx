@@ -8,11 +8,14 @@ import { Items } from '../../api/item/Items';
 import { Requests } from '../../api/request/Requests';
 import ItemCard from '../components/ItemCard';
 import { deleteRequestMethod } from '../../startup/both/Methods';
+import Tabs from '../components/Tabs';
 
 /* Renders the EditStuff page for editing a single document. */
 const RequestsPage = () => {
   const currentUser = useTracker(() => Meteor.user());
   const [cancelConfirmShow, setCancelConfirmShow] = useState(false);
+  const [fromRequestsTab, setFromRequestsTab] = useState('pending');
+  const [toRequestsTab, setToRequestsTab] = useState('pending');
   const { allFromRequests, allToRequests, ready } = useTracker(() => {
     // Get access to Stuff documents.
     const itemSubscription = Meteor.subscribe(Items.adminPublicationName);
@@ -44,9 +47,12 @@ const RequestsPage = () => {
       });
       setCancelConfirmShow(false);
     };
-    const pendingFromRequestsList = (
+    const receiveCurrentFromTab = (currentTab) => {
+      setFromRequestsTab(currentTab);
+    };
+    const fromRequestsList = (
       <ListGroup>
-        {fromRequests.pending.map((request) => {
+        {fromRequests[fromRequestsTab].map((request) => {
           const item = Items.collection.findOne({ _id: request.itemId });
           return (
             <ListGroup.Item key={request._id}>
@@ -85,9 +91,12 @@ const RequestsPage = () => {
         })}
       </ListGroup>
     );
+    const receiveCurrentToTab = (currentTab) => {
+      setToRequestsTab(currentTab);
+    };
     // for each request to the user, map the request's requester to the request's itemId, and ensure that each itemId is only mapped once.
     const items = {};
-    toRequests.pending.forEach((request) => {
+    toRequests[toRequestsTab].forEach((request) => {
       // eslint-disable-next-line no-prototype-builtins
       if (!items.hasOwnProperty(request.itemId)) {
         items[request.itemId] = [request.requester];
@@ -96,7 +105,7 @@ const RequestsPage = () => {
       }
     });
     // now, map each itemId to the itemCard and all its requesters. each itemCard should only appear once.
-    const pendingToRequestsList = (
+    const toRequestsList = (
       <ListGroup>
         {Object.keys(items).map((itemId) => {
           const item = Items.collection.findOne({ _id: itemId });
@@ -122,14 +131,21 @@ const RequestsPage = () => {
           <Col>
             <h3>Requests you made</h3>
             <ListGroup className="justify-content-center">
-              {pendingFromRequestsList}
+              <Tabs
+                tabNames={['pending', 'accepted', 'denied']}
+                sendCurrentTab={receiveCurrentFromTab}
+              />
+              {fromRequestsList}
             </ListGroup>
           </Col>
           <Col>
-            <h3>Requests for your items
-            </h3>
+            <h3>Requests for your items</h3>
             <ListGroup className="justify-content-center">
-              {pendingToRequestsList}
+              <Tabs
+                tabNames={['pending', 'accepted', 'denied']}
+                sendCurrentTab={receiveCurrentToTab}
+              />
+              {toRequestsList}
             </ListGroup>
           </Col>
         </Row>
