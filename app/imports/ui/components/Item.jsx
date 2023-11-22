@@ -1,7 +1,9 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import PropTypes from 'prop-types';
+import swal from 'sweetalert';
 import { Button, Col, Container, Image, Row } from 'react-bootstrap';
+import { deleteItemMethod } from '../../startup/both/Methods';
 
 /* Renders the EditContact page for editing a single item. */
 const Item = ({ item }) => (
@@ -28,15 +30,24 @@ const Item = ({ item }) => (
       <Container>
         <Row className="float-end">
           <Col>
-            <Button id="button-addon1 button-text" href={`/request/${item._id}`}>Request To Borrow</Button>
+            <Button id="button-addon1 button-text" title="Request" href={`/request/${item._id}`}>Request To Borrow</Button>
           </Col>
         </Row>
       </Container>
     ) : (
       <Container className="d-flex justify-content-end">
         <Row>
-          <Col className="px-4"><Button id="btn1" href={`/edit/${item._id}`}>Edit</Button></Col>
-          <Col><Button id="btn1" href={`/view_requests/${item._id}`}>View Requests</Button></Col>
+          <Col className="px-1"><Button id="btn1" title="Edit" href={`/edit/${item._id}`}>Edit</Button></Col>
+          <Col className="px-1"><Button id="btn1" title="View Requests" href={`/view_requests/${item._id}`}>View Requests</Button></Col>
+          <Col className="px-1">
+            <Button
+              id="btn1"
+              variant="danger"
+              title="Delete"
+              onClick={() => { Meteor.call(deleteItemMethod, { itemId: item._id }, (error) => { if (error) { swal('Error', error.message, 'error'); } else { swal('Success', 'Post Deleted', 'success'); } }); }}
+            >Delete Post
+            </Button>
+          </Col>
         </Row>
       </Container>
     )}
