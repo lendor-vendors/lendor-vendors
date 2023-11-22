@@ -16,6 +16,7 @@ const ViewRequests = () => {
 // Get the documentID from the URL field. See imports/ui/layouts/App.jsx for the route containing :_id.
   const { _id } = useParams();
   const [acceptConfirmShow, setAcceptConfirmShow] = useState(false);
+  const [modalContent, setModalContent] = useState({ request: undefined });
   const { item, requests, ready } = useTracker(() => {
     // Get access to Stuff documents.
     const itemSubscription = Meteor.subscribe(Items.userPublicationName);
@@ -36,6 +37,7 @@ const ViewRequests = () => {
     if (!item) {
       return <NotFound />;
     }
+    const pendingRequests = requests.filter(request => request.status === 'pending');
     const handleAcceptConfirm = (request) => {
       Meteor.call(
         acceptRequestMethod,
@@ -50,56 +52,66 @@ const ViewRequests = () => {
       );
       setAcceptConfirmShow(false);
     };
-    let numRequests = 0;
-    const pendingRequests = requests.filter(request => request.status === 'pending');
+    const handleAccept = ({ request }) => {
+      setAcceptConfirmShow(true);
+      setModalContent({ request: request });
+    };
+    const acceptModal = () => {
+      const { request } = modalContent;
+      if (request) {
+        const toDenyRequests = pendingRequests.filter(pendingRequest => (item.quantity - request.quantity < pendingRequest.quantity) && (request._id !== pendingRequest._id));
+        return (
+          <Modal
+            show={acceptConfirmShow}
+            onHide={() => setAcceptConfirmShow(false)}
+          >
+            <Modal.Header closeButton>
+              <Modal.Title>Are you sure you want to accept this request?</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              Item: {item.title} <br />
+              Quantity: {request.quantity} <br />
+              Requester: {request.requester}
+            </Modal.Body>
+            {toDenyRequests.length > 0 ? (
+              <Modal.Body>
+                THERE ARE TODENYREQUESTS
+              </Modal.Body>
+            ) : ''}
+            <Modal.Footer>
+              <Button onClick={() => handleAcceptConfirm(request)}>Yes</Button>
+              <Button onClick={() => setAcceptConfirmShow(false)}>No</Button>
+            </Modal.Footer>
+          </Modal>
+        );
+      }
+      return '';
+    };
     const pendingRequestsList = (
       <ListGroup>
-        {pendingRequests.map((request) => {
-          numRequests++;
-          return (
-            <ListGroup.Item key={request._id}>
-              <Row>
-                <Col>
-                  <Row><p className="text-start">From: {request.requester}</p></Row>
-                  <Row><p className="text-start">Quantity: {request.quantity}</p></Row>
-                </Col>
-                <Col className="d-flex align-items-center">
-                  <Container className="d-flex justify-content-end">
-                    <Button className="me-3" onClick={() => setAcceptConfirmShow(true)}>Accept</Button>
-                    <Modal
-                      show={acceptConfirmShow}
-                      onHide={() => setAcceptConfirmShow(false)}
-                    >
-                      <Modal.Header closeButton>
-                        <Modal.Title>Are you sure you want to accept this request?</Modal.Title>
-                      </Modal.Header>
-                      <Modal.Body>
-                        Item: {item.title} <br />
-                        Quantity: {request.quantity} <br />
-                        Requester: {request.requester}
-                      </Modal.Body>
-                      <Modal.Body>
-                        {item.quantity - request.quantity === 0 ? `Your ${item.title} will have 0 quantity after accepting this request, so we will deny all other requests for you if you accept this request.` : ''}
-                      </Modal.Body>
-                      <Modal.Footer>
-                        <Button onClick={() => handleAcceptConfirm(request)}>Yes</Button>
-                        <Button onClick={() => setAcceptConfirmShow(false)}>No</Button>
-                      </Modal.Footer>
-                    </Modal>
-                    <Button>Deny</Button>
-                  </Container>
-                </Col>
-              </Row>
-            </ListGroup.Item>
-          );
-        })}
+        {pendingRequests.map((request) => (
+          <ListGroup.Item key={request._id}>
+            <Row>
+              <Col>
+                <Row><p className="text-start">From: {request.requester}</p></Row>
+                <Row><p className="text-start">Quantity: {request.quantity}</p></Row>
+              </Col>
+              <Col className="d-flex align-items-center">
+                <Container className="d-flex justify-content-end">
+                  <Button className="me-3" onClick={() => handleAccept({ request })}>Accept</Button>
+                  {acceptModal()}
+                  <Button>Deny</Button>
+                </Container>
+              </Col>
+            </Row>
+          </ListGroup.Item>
+        ))}
       </ListGroup>
     );
     const acceptedRequests = requests.filter(request => request.status === 'accepted');
     const acceptedRequestsList = (
       <ListGroup>
         {acceptedRequests.map((request) => {
-          numRequests++;
           const requesterProfile = Profiles.collection.findOne({ email: request.requester });
           return (
             <ListGroup.Item key={request._id}>
@@ -121,7 +133,7 @@ const ViewRequests = () => {
     );
     return (
       <Container className="py-3">
-        <Row className="justify-content-center text-center"><h3>{numRequests} {numRequests === 1 ? 'request' : 'requests'} for your {item.title}</h3></Row>
+        <Row className="justify-content-center text-center"><h3>Requests for your {item.title} ({item.quantity})</h3></Row>
         <Row>
           <Col>
             <h4 className="text-center">Pending requests:</h4>

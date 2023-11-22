@@ -50,8 +50,11 @@ const RequestsPage = () => {
     const receiveCurrentFromTab = (currentTab) => {
       setFromRequestsTab(currentTab);
     };
+    const receiveCurrentToTab = (currentTab) => {
+      setToRequestsTab(currentTab);
+    };
     const fromRequestsList = (
-      <ListGroup>
+      <>
         {fromRequests[fromRequestsTab].map((request) => {
           const item = Items.collection.findOne({ _id: request.itemId });
           return (
@@ -62,38 +65,35 @@ const RequestsPage = () => {
                 </Col>
                 <Col>
                   <p>Owner: {item.owner}</p>
-                  <Button onClick={() => setCancelConfirmShow(true)}>Cancel</Button>
-                  <Modal
-                    show={cancelConfirmShow}
-                    onHide={() => setCancelConfirmShow(false)}
-                  >
-                    <Modal.Header closeButton>
-                      <Modal.Title>Are you sure you want to cancel your request?</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                      Item: {item.title} <br />
-                      Quantity: {request.quantity} <br />
-                      Owner: {item.owner}
-                    </Modal.Body>
-                    <Modal.Footer>
-                      <Button onClick={() => handleCancelConfirm(request)}>Yes</Button>
-                      <Button onClick={() => setCancelConfirmShow(false)}>No</Button>
-                    </Modal.Footer>
-                  </Modal>
-                  {
-                    // Requests.collection.remove({ _id: request._id });
-                    // Meteor.call('Requests.remove', { requestId: request._id });
-                  }
+                  {request.status === 'pending' ? (
+                    <>
+                      <Button onClick={() => setCancelConfirmShow(true)}>Cancel</Button>
+                      <Modal
+                        show={cancelConfirmShow}
+                        onHide={() => setCancelConfirmShow(false)}
+                      >
+                        <Modal.Header closeButton>
+                          <Modal.Title>Are you sure you want to cancel your request?</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                          Item: {item.title} <br />
+                          Quantity: {request.quantity} <br />
+                          Owner: {item.owner}
+                        </Modal.Body>
+                        <Modal.Footer>
+                          <Button onClick={() => handleCancelConfirm(request)}>Yes</Button>
+                          <Button onClick={() => setCancelConfirmShow(false)}>No</Button>
+                        </Modal.Footer>
+                      </Modal>
+                    </>
+                  ) : ''}
                 </Col>
               </Row>
             </ListGroup.Item>
           );
         })}
-      </ListGroup>
+      </>
     );
-    const receiveCurrentToTab = (currentTab) => {
-      setToRequestsTab(currentTab);
-    };
     // for each request to the user, map the request's requester to the request's itemId, and ensure that each itemId is only mapped once.
     const items = {};
     toRequests[toRequestsTab].forEach((request) => {
@@ -106,7 +106,7 @@ const RequestsPage = () => {
     });
     // now, map each itemId to the itemCard and all its requesters. each itemCard should only appear once.
     const toRequestsList = (
-      <ListGroup>
+      <>
         {Object.keys(items).map((itemId) => {
           const item = Items.collection.findOne({ _id: itemId });
           return (
@@ -123,7 +123,7 @@ const RequestsPage = () => {
             </ListGroup.Item>
           );
         })}
-      </ListGroup>
+      </>
     );
     return (
       <Container className="py-3">
