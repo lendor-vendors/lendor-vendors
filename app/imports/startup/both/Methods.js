@@ -1,7 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Items } from '../../api/item/Items';
 import { Requests } from '../../api/request/Requests';
-import { Profiles } from '../../api/profile/Profiles';
 
 const deleteRequestMethod = 'Requests.delete';
 const acceptRequestMethod = 'Requests.accept';

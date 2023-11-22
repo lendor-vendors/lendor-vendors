@@ -1,9 +1,8 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import PropTypes from 'prop-types';
-import swal from 'sweetalert';
 import { Button, Col, Container, Image, Row } from 'react-bootstrap';
-import { deleteItemMethod } from '../../startup/both/Methods';
+import DeleteButton from './DeleteButton';
 
 /* Renders the EditContact page for editing a single item. */
 const Item = ({ item }) => (
@@ -40,13 +39,7 @@ const Item = ({ item }) => (
           <Col className="px-1"><Button id="btn1" title="Edit" href={`/edit/${item._id}`}>Edit</Button></Col>
           <Col className="px-1"><Button id="btn1" title="View Requests" href={`/view_requests/${item._id}`}>View Requests</Button></Col>
           <Col className="px-1">
-            <Button
-              id="btn1"
-              variant="danger"
-              title="Delete"
-              onClick={() => { Meteor.call(deleteItemMethod, { itemId: item._id }, (error) => { if (error) { swal('Error', error.message, 'error'); } else { swal('Success', 'Post Deleted', 'success'); } }); }}
-            >Delete Post
-            </Button>
+            <DeleteButton item={item} />
           </Col>
         </Row>
       </Container>
