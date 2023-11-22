@@ -10,7 +10,7 @@ const DeleteButton = ({ item }) => {
   return (
     <>
       <Button
-        id="button-addon1 button-text"
+        id="btn1"
         variant="danger"
         onClick={() => setShowModal(true)}
       >Delete Post
