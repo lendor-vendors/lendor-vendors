@@ -13,9 +13,10 @@ class ForumRequestsCollection {
     // Define the structure of each document in the collection.
     this.schema = new SimpleSchema({
       forumRequester: String,
-      minimumQuantity: { type: SimpleSchema.Integer, defaultValue: 1, min: 0 },
-      minimumCondition: { type: String, allowedValues: ['Poor', 'Acceptable', 'Good', 'Excellent'] },
+      requestingQuantity: { type: SimpleSchema.Integer, defaultValue: 1, min: 0 },
+      requestingCondition: { type: String, allowedValues: ['Poor', 'Acceptable', 'Good', 'Excellent'] },
       forumText: String,
+      status: { type: String, allowedValues: ['unresolved', 'resolved'], defaultValue: 'unresolved'},
     });
     // Attach the schema to the collection, so all attempts to insert a document are checked against schema.
     this.collection.attachSchema(this.schema);
