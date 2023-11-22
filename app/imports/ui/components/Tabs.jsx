@@ -6,7 +6,7 @@ const Tabs = ({ tabNames, sendCurrentTab }) => {
   const [currentTab, setCurrentTab] = useState(tabNames[0]);
   return (
     <Row>
-      <Container style={{ width: '100%' }}>
+      <Container className="d-flex justify-content-evenly">
         {tabNames.map((tabName) => (
           // Button component is temporary. TODO: Re-style tab buttons to look better
           <Button
@@ -14,7 +14,11 @@ const Tabs = ({ tabNames, sendCurrentTab }) => {
               setCurrentTab(tabName);
               sendCurrentTab(tabName);
             }}
-            variant={currentTab === tabName ? 'danger' : 'primary'}
+            style={{
+              width: '100%',
+              borderRadius: 0,
+            }}
+            variant={currentTab === tabName ? 'success' : 'outline-dark'}
           >{tabName}
           </Button>
         ))}
