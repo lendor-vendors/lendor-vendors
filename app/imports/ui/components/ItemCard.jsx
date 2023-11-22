@@ -2,10 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Roles } from 'meteor/alanning:roles';
 import { Meteor } from 'meteor/meteor';
-import swal from 'sweetalert';
-import { Button, Card, Col, Container, Image, Row } from 'react-bootstrap';
+import { Card, Col, Container, Image, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { deleteItemMethod } from '../../startup/both/Methods';
 import DeleteButton from './DeleteButton';
 
 /** Renders a single row in the List item table. See pages/YourItems.jsx. */
