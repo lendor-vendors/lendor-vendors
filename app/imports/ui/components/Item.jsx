@@ -3,6 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import PropTypes from 'prop-types';
 import { Button, Col, Container, Image, Row } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
+import DeleteButton from './DeleteButton';
 
 /* Renders the EditContact page for editing a single item. */
 const Item = ({ item, ownerProfile }) => {
@@ -40,12 +41,14 @@ const Item = ({ item, ownerProfile }) => {
           <Row>
             <Col className="px-4"><Button id="btn1" href={`/edit/${item._id}`}>Edit</Button></Col>
             <Col><Button id="btn1" href={`/view_requests/${item._id}`}>View Requests</Button></Col>
+            <Col><DeleteButton item={item} /></Col>
           </Row>
         </Container>
       )}
     </Container>
   );
 };
+
 Item.propTypes = {
   item: PropTypes.shape({
     title: PropTypes.string,

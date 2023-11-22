@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Image, Modal } from 'react-bootstrap';
+import { Button, Modal } from 'react-bootstrap';
 import swal from 'sweetalert';
 import { Meteor } from 'meteor/meteor';
 import PropTypes from 'prop-types';
@@ -10,7 +10,7 @@ const DeleteButton = ({ item }) => {
   return (
     <>
       <Button
-        id="button-addon1 button-text"
+        id="btn1"
         variant="danger"
         onClick={() => setShowModal(true)}
       >Delete Post
