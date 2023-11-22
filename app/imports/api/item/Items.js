@@ -17,6 +17,7 @@ class ItemsCollection {
       description: { type: String, optional: true },
       quantity: { type: SimpleSchema.Integer, defaultValue: 1, min: 1 },
       condition: { type: String, allowedValues: ['Poor', 'Acceptable', 'Good', 'Excellent'] },
+      createdAt: { type: Date, autoValue: () => new Date(), optional: true },
       owner: String,
     });
     // Attach the schema to the collection, so all attempts to insert a document are checked against schema.

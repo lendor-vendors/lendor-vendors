@@ -22,6 +22,8 @@ const Item = ({ item }) => (
         <hr />
         <h6>Description:</h6>
         <p>{item.description}</p>
+        <hr />
+        <p>Created on: {item.createdAt.toLocaleDateString()}</p>
       </Col>
     </Row>
     {item.owner !== Meteor.user().username ? (
@@ -50,6 +52,7 @@ Item.propTypes = {
     quantity: PropTypes.number,
     condition: PropTypes.string,
     owner: PropTypes.string,
+    createdAt: PropTypes.instanceOf(Date),
     _id: PropTypes.string,
   }).isRequired,
 };

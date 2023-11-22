@@ -10,7 +10,10 @@ const ItemCard = ({ item }) => (
       <Image src={item.image} width={200} height={150} />
     </Card.Header>
     <Card.Body>
-      <Link id="item-cards" to={`/view_item/${item._id}`}><Card.Title>{item.title}</Card.Title></Link>
+      <Link id="item-cards" to={`/view_item/${item._id}`}>
+        <Card.Title>{item.title}</Card.Title>
+      </Link>
+      <p>Created on: {item.createdAt.toLocaleDateString()}</p>
     </Card.Body>
   </Card>
 );
@@ -25,6 +28,7 @@ ItemCard.propTypes = {
     condition: PropTypes.string,
     owner: PropTypes.string,
     _id: PropTypes.string,
+    createdAt: PropTypes.instanceOf(Date),
   }).isRequired,
 };
 
