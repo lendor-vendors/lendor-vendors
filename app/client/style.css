@@ -66,12 +66,16 @@ footer, footer a {
 }
 
 .img {
-  width: 45em;
-  height: 35em;
+  width: 45vw;
+  height: 65vh;
 }
 
 #btn1 {
   white-space: nowrap;
+}
+
+#button-contain {
+  font-size: 0;
 }
 
 #hasAccount {
