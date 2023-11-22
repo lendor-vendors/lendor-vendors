@@ -1,29 +1,39 @@
 import { Meteor } from 'meteor/meteor';
 import { Items } from '../../api/item/Items';
 import { Requests } from '../../api/request/Requests';
+// import { Profiles } from '../../api/profile/Profiles';
 
-const deleteRequestMethod = 'Requests.delete';
 const acceptRequestMethod = 'Requests.accept';
-const deleteItemMethod = 'Items.delete';
+const denyRequestMethod = 'Requests.deny';
+const cancelRequestMethod = 'Requests.cancel';
 
 /**
- * Used to update the Request collection whenever requests are accepted or denied.
+ * The server-side Profiles.update Meteor Method is called by the client-side Home page after pushing the update button.
+ * Its purpose is to update the Profiles, ProfilesInterests, and ProfilesProjects collections to reflect the
+ * updated situation specified by the user.
  */
 Meteor.methods({
-  'Requests.delete'({ requestId }) {
-    Requests.collection.remove({ _id: requestId });
-  },
-  'Requests.accept'({ requestId, requestQuantity, itemId, itemQuantity }) {
+  'Requests.accept'({ requestId, requestQuantity, itemId, itemQuantity, toDenyRequests }) {
     Requests.collection.update({ _id: requestId }, { $set: { status: 'accepted' } });
     const updatedQuantity = itemQuantity - requestQuantity;
-    console.log('Item quantity: ', itemQuantity, 'Request quantity: ', requestQuantity);
-    console.log('UPDATING ITEM ID: ', itemId);
     Items.collection.update({ _id: itemId }, { $set: { quantity: updatedQuantity } });
+    toDenyRequests.forEach((toDenyRequest) => Meteor.call(
+      denyRequestMethod,
+      { requestId: toDenyRequest._id },
+    ));
+  },
+  'Requests.deny'({ requestId }) {
+    Requests.collection.update({ _id: requestId }, { $set: { status: 'denied' } });
+  },
+  'Requests.cancel'({ requestId }) {
+    Requests.collection.remove({ _id: requestId });
   },
 });
 
+const removeItemMethod = 'Items.remove';
+
 Meteor.methods({
-  'Items.delete'({ itemId }) {
+  'Items.remove'({ itemId }) {
     Items.collection.remove({ _id: itemId });
   },
 });
@@ -34,4 +44,4 @@ Meteor.methods({
   },
 });
 
-export { deleteRequestMethod, acceptRequestMethod, deleteItemMethod };
+export { acceptRequestMethod, denyRequestMethod, cancelRequestMethod, removeItemMethod };
