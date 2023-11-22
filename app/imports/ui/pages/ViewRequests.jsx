@@ -79,6 +79,7 @@ const ViewRequests = () => {
     const acceptDenyModal = () => {
       const { type, request } = modalContent;
       if (request) {
+        const requesterProfile = Profiles.collection.findOne({ email: request.requester });
         if (type === 'accept') {
           const toDenyRequests = pendingRequests.filter(pendingRequest => (item.quantity - request.quantity < pendingRequest.quantity) && (request._id !== pendingRequest._id));
           return (
@@ -90,8 +91,8 @@ const ViewRequests = () => {
                 <Modal.Title>Are you sure you want to accept this request?</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-                From: {request.requester} <br />
-                For: your {item.title} <br />
+                From: {requesterProfile.name} <br />
+                For your: {item.title} <br />
                 Quantity: {request.quantity}
               </Modal.Body>
               <Modal.Body>
@@ -124,7 +125,7 @@ const ViewRequests = () => {
               <Modal.Title>Are you sure you want to deny this request?</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              From: {request.requester} <br />
+              From: {requesterProfile.name} <br />
               For: Your {item.title} <br />
               Quantity: {request.quantity}
             </Modal.Body>
@@ -139,23 +140,26 @@ const ViewRequests = () => {
     };
     const pendingRequestsList = (
       <ListGroup>
-        {pendingRequests.map((request) => (
-          <ListGroup.Item key={request._id}>
-            <Row>
-              <Col>
-                <Row><p className="text-start">From: {request.requester}</p></Row>
-                <Row><p className="text-start">Quantity: {request.quantity}</p></Row>
-              </Col>
-              <Col className="d-flex align-items-center">
-                <Container className="d-flex justify-content-end">
-                  <Button className="me-3" onClick={() => handleAcceptDeny({ type: 'accept', request: request })}>Accept</Button>
-                  <Button onClick={() => handleAcceptDeny({ type: 'deny', request: request })}>Deny</Button>
-                  {acceptDenyModal()}
-                </Container>
-              </Col>
-            </Row>
-          </ListGroup.Item>
-        ))}
+        {pendingRequests.map((request) => {
+          const requesterProfile = Profiles.collection.findOne({ email: request.requester });
+          return (
+            <ListGroup.Item key={request._id}>
+              <Row>
+                <Col>
+                  <Row><p className="text-start">From: {requesterProfile.name}</p></Row>
+                  <Row><p className="text-start">Quantity: {request.quantity}</p></Row>
+                </Col>
+                <Col className="d-flex align-items-center">
+                  <Container className="d-flex justify-content-end">
+                    <Button className="me-3" onClick={() => handleAcceptDeny({ type: 'accept', request: request })}>Accept</Button>
+                    <Button onClick={() => handleAcceptDeny({ type: 'deny', request: request })}>Deny</Button>
+                    {acceptDenyModal()}
+                  </Container>
+                </Col>
+              </Row>
+            </ListGroup.Item>
+          );
+        })}
       </ListGroup>
     );
     const acceptedRequests = requests.filter(request => request.status === 'accepted');
@@ -167,7 +171,7 @@ const ViewRequests = () => {
             <ListGroup.Item key={request._id}>
               <Row>
                 <Col>
-                  <Row><p className="text-start">From: {request.requester}</p></Row>
+                  <Row><p className="text-start">From: {requesterProfile.name}</p></Row>
                   <Row><p className="text-start">Quantity: {request.quantity}</p></Row>
                 </Col>
                 <Col className="d-flex align-items-center">

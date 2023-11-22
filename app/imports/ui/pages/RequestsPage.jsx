@@ -6,6 +6,7 @@ import swal from 'sweetalert';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { Items } from '../../api/item/Items';
 import { Requests } from '../../api/request/Requests';
+import { Profiles } from '../../api/profile/Profiles';
 import ItemCard from '../components/ItemCard';
 import { cancelRequestMethod } from '../../startup/both/Methods';
 import Tabs from '../components/Tabs';
@@ -21,8 +22,9 @@ const RequestsPage = () => {
     const itemSubscription = Meteor.subscribe(Items.adminPublicationName);
     const fromRequestsSubscription = Meteor.subscribe(Requests.fromUserPublicationName);
     const toRequestsSubscription = Meteor.subscribe(Requests.toUserPublicationName);
+    const profilesSubscription = Meteor.subscribe(Profiles.userPublicationName);
     // Determine if the subscription is ready
-    const rdy = itemSubscription.ready() && fromRequestsSubscription.ready() && toRequestsSubscription.ready();
+    const rdy = itemSubscription.ready() && fromRequestsSubscription.ready() && toRequestsSubscription.ready() && profilesSubscription.ready();
     // Get the document
     const foundFromRequests = Requests.collection.find({ requester: currentUser?.username }).fetch();
     const foundToRequests = Requests.collection.find({ requester: { $not: currentUser?.username } }).fetch();
@@ -57,6 +59,7 @@ const RequestsPage = () => {
       <>
         {fromRequests[fromRequestsTab].map((request) => {
           const item = Items.collection.findOne({ _id: request.itemId });
+          const ownerProfile = Profiles.collection.findOne({ email: item.owner });
           return (
             <ListGroup.Item key={request._id}>
               <Row>
@@ -65,7 +68,7 @@ const RequestsPage = () => {
                 </Col>
                 <Col>
                   <p>
-                    Owner: {item.owner} <br />
+                    Owner: {ownerProfile.name} <br />
                     Current quantity: {item.quantity} <br />
                     Requested quantity: {request.quantity}
                   </p>
@@ -82,7 +85,7 @@ const RequestsPage = () => {
                         <Modal.Body>
                           Item: {item.title} <br />
                           Quantity: {request.quantity} <br />
-                          Owner: {item.owner}
+                          Owner: {ownerProfile.name}
                         </Modal.Body>
                         <Modal.Footer>
                           <Button onClick={() => handleCancelConfirm(request)}>Yes</Button>
@@ -120,7 +123,13 @@ const RequestsPage = () => {
                   <ItemCard item={item} />
                 </Col>
                 <Col>
-                  {items[itemId].map((requester) => <p>{requester}</p>)}
+                  Requesters:
+                  {items[itemId].map((requester) => {
+                    const requesterProfile = Profiles.collection.findOne({ email: requester });
+                    return (
+                      <p>{requesterProfile.name}</p>
+                    );
+                  })}
                   <Button href={`/view_requests/${item._id}`}>View Requests</Button>
                 </Col>
               </Row>
