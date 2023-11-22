@@ -3,14 +3,14 @@ import { Button, Modal } from 'react-bootstrap';
 import swal from 'sweetalert';
 import { Meteor } from 'meteor/meteor';
 import PropTypes from 'prop-types';
-import { deleteItemMethod } from '../../startup/both/Methods';
+import { removeItemMethod } from '../../startup/both/Methods';
 
 const DeleteButton = ({ item }) => {
   const [showModal, setShowModal] = useState(false);
   return (
     <>
       <Button
-        id="btn1"
+        id="button-addon1 button-text"
         variant="danger"
         onClick={() => setShowModal(true)}
       >Delete Post
@@ -22,7 +22,7 @@ const DeleteButton = ({ item }) => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Footer>
-          <Button onClick={() => { Meteor.call(deleteItemMethod, { itemId: item._id }, (error) => { if (error) { swal('Error', error.message, 'error'); } else { swal('Success', 'Post Deleted', 'success'); } }); }}>Yes</Button>
+          <Button onClick={() => { Meteor.call(removeItemMethod, { itemId: item._id }, (error) => { if (error) { swal('Error', error.message, 'error'); } else { swal('Success', 'Post Deleted', 'success'); } }); }}>Yes</Button>
           <Button onClick={() => setShowModal(false)}>No</Button>
         </Modal.Footer>
       </Modal>
