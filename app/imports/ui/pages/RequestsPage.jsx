@@ -7,7 +7,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import { Items } from '../../api/item/Items';
 import { Requests } from '../../api/request/Requests';
 import ItemCard from '../components/ItemCard';
-import { deleteRequestMethod } from '../../startup/both/Methods';
+import { cancelRequestMethod } from '../../startup/both/Methods';
 import Tabs from '../components/Tabs';
 
 /* Renders the EditStuff page for editing a single document. */
@@ -38,7 +38,7 @@ const RequestsPage = () => {
     const toRequests = { pending: [], accepted: [], denied: [] };
     allToRequests.forEach((toRequest) => toRequests[toRequest.status].push(toRequest));
     const handleCancelConfirm = (fromRequest) => {
-      Meteor.call(deleteRequestMethod, { requestId: fromRequest._id }, (error) => {
+      Meteor.call(cancelRequestMethod, { requestId: fromRequest._id }, (error) => {
         if (error) {
           swal('Error', error.message, 'error');
         } else {
@@ -64,7 +64,11 @@ const RequestsPage = () => {
                   <ItemCard item={item} />
                 </Col>
                 <Col>
-                  <p>Owner: {item.owner}</p>
+                  <p>
+                    Owner: {item.owner} <br />
+                    Current quantity: {item.quantity} <br />
+                    Requested quantity: {request.quantity}
+                  </p>
                   {request.status === 'pending' ? (
                     <>
                       <Button onClick={() => setCancelConfirmShow(true)}>Cancel</Button>

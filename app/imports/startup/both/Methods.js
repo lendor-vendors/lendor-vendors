@@ -3,9 +3,9 @@ import { Items } from '../../api/item/Items';
 import { Requests } from '../../api/request/Requests';
 import { Profiles } from '../../api/profile/Profiles';
 
-const deleteRequestMethod = 'Requests.delete';
 const acceptRequestMethod = 'Requests.accept';
-const removeItemMethod = 'Items.remove';
+const denyRequestMethod = 'Requests.deny';
+const cancelRequestMethod = 'Requests.cancel';
 
 /**
  * The server-side Profiles.update Meteor Method is called by the client-side Home page after pushing the update button.
@@ -13,17 +13,24 @@ const removeItemMethod = 'Items.remove';
  * updated situation specified by the user.
  */
 Meteor.methods({
-  'Requests.delete'({ requestId }) {
-    Requests.collection.remove({ _id: requestId });
-  },
-  'Requests.accept'({ requestId, requestQuantity, itemId, itemQuantity }) {
+  'Requests.accept'({ requestId, requestQuantity, itemId, itemQuantity, toDenyRequests }) {
     Requests.collection.update({ _id: requestId }, { $set: { status: 'accepted' } });
     const updatedQuantity = itemQuantity - requestQuantity;
-    console.log('Item quantity: ', itemQuantity, 'Request quantity: ', requestQuantity);
-    console.log('UPDATING ITEM ID: ', itemId);
     Items.collection.update({ _id: itemId }, { $set: { quantity: updatedQuantity } });
+    toDenyRequests.forEach((toDenyRequest) => Meteor.call(
+      denyRequestMethod,
+      { requestId: toDenyRequest._id },
+    ));
+  },
+  'Requests.deny'({ requestId }) {
+    Requests.collection.update({ _id: requestId }, { $set: { status: 'denied' } });
+  },
+  'Requests.cancel'({ requestId }) {
+    Requests.collection.remove({ _id: requestId });
   },
 });
+
+const removeItemMethod = 'Items.remove';
 
 Meteor.methods({
   'Items.remove'({ itemId }) {
@@ -37,4 +44,4 @@ Meteor.methods({
   },
 });
 
-export { deleteRequestMethod, acceptRequestMethod, removeItemMethod };
+export { acceptRequestMethod, denyRequestMethod, cancelRequestMethod, removeItemMethod };
