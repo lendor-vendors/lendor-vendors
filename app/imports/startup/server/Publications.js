@@ -35,6 +35,7 @@ Meteor.publish(Items.userPublicationName, function () {
 });
 // For gallery
 Meteor.publish(Items.adminPublicationName, () => Items.collection.find());
+
 // Publish all requests for each of the current user's items
 Meteor.publish(Requests.toUserPublicationName, function () {
   if (this.userId) {
