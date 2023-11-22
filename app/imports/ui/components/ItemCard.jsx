@@ -6,6 +6,7 @@ import swal from 'sweetalert';
 import { Button, Card, Col, Container, Image, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { deleteItemMethod } from '../../startup/both/Methods';
+import DeleteButton from './DeleteButton';
 
 /** Renders a single row in the List item table. See pages/YourItems.jsx. */
 const ItemCard = ({ item }) => (
@@ -20,12 +21,7 @@ const ItemCard = ({ item }) => (
       <Container className="d-flex justify-content-start">
         <Row>
           <Col>
-            <Button
-              id="button-addon1 button-text"
-              variant="danger"
-              onClick={() => { Meteor.call(deleteItemMethod, { itemId: item._id }, (error) => { if (error) { swal('Error', error.message, 'error'); } else { swal('Success', 'Post Deleted', 'success'); } }); }}
-            >Delete Post
-            </Button>
+            <DeleteButton item={item} />
           </Col>
         </Row>
       </Container>
