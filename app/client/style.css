@@ -77,3 +77,7 @@ footer, footer a {
 #hasAccount {
   color: white;
 }
+
+.profileImg {
+  border-radius: 50%;
+}

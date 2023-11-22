@@ -22,6 +22,7 @@ import YourItems from '../pages/YourItems';
 import Gallery from '../pages/Gallery';
 import ViewItem from '../pages/ViewItem';
 import EditItem from '../pages/EditItem';
+import ViewProfile from '../pages/ViewProfile';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => {
@@ -52,6 +53,7 @@ const App = () => {
           <Route path="/view_requests/:_id" element={<ProtectedRoute><ViewRequests /></ProtectedRoute>} />
           <Route path="/view_item/:_id" element={<ProtectedRoute><ViewItem /></ProtectedRoute>} />
           <Route path="/requests" element={<ProtectedRoute><RequestsPage /></ProtectedRoute>} />
+          <Route path="/view_profile/:_id" element={<ProtectedRoute><ViewProfile /></ProtectedRoute>} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer />
