@@ -31,7 +31,7 @@ const Gallery = () => {
             <h2>Gallery</h2>
           </Col>
         </Col>
-        <Row xs={2} md={3} lg={4} xxl={5} className="d-flex flex-wrap justify-content-center g-4 px-5">
+        <Row xs={1} md={2} lg={3} xxl={5} className="d-flex flex-wrap justify-content-center g-4 px-5">
           {items.map((item, index) => <Col style={{ maxWidth: '250px' }} key={index}><ItemCard item={item} /></Col>)}
         </Row>
       </Row>
