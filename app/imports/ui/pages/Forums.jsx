@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
-import { Button, Col, Container, Row } from 'react-bootstrap';
+import { Button, Card, Col, Container, Row } from 'react-bootstrap';
 import { ForumRequests } from '../../api/forumRequest/ForumRequests';
 import LoadingSpinner from '../components/LoadingSpinner';
 import Tabs from '../components/Tabs';
+import ForumCard from '../components/ForumCard';
 
 const Forums = () => {
   const currentUser = useTracker(() => Meteor.user());
   const [postFilterTab, setPostFilterTab] = useState('All Forum Posts');
-  const { forumRequests, ready } = useTracker(() => {
+  const { forumRequests, userForumRequests, ready } = useTracker(() => {
     // Note that this subscription will get cleaned up
     // when your component is unmounted or deps change.
     // Get access to Stuff documents.
@@ -18,12 +19,13 @@ const Forums = () => {
     const rdy = forumRequestsSubscription.ready();
     // Get the Stuff documents
     const foundForumRequests = ForumRequests.collection.find().fetch();
+    const foundUserForumRequests = ForumRequests.collection.find({ poster: currentUser?.username });
     return {
       forumRequests: foundForumRequests,
+      userForumRequests: foundUserForumRequests,
       ready: rdy,
     };
   }, []);
-  const userForumRequests = forumRequests.map(forumRequest => forumRequest.poster === currentUser?.username);
   const receiveCurrentTab = (currentTab) => {
     setPostFilterTab(currentTab);
   };
@@ -35,7 +37,7 @@ const Forums = () => {
           <h2 className="text-center">Request Forums</h2>
         </Col>
         <Col className="text-end">
-          <Button>Post a request forum</Button>
+          <Button href="/post_forum_request">Post a request forum</Button>
         </Col>
       </Row>
       <Row className="d-flex justify-content-center">
@@ -46,10 +48,13 @@ const Forums = () => {
           />
         </Col>
       </Row>
-      <Row>
-        <Col>
-          {postFilterTab}
-        </Col>
+      <hr />
+      <Row xs={4} className="d-flex justify-content-center g-4">
+        {postFilterTab === 'All Forum Posts' ? (
+          forumRequests.map((forumRequest) => <Col><ForumCard forumRequest={forumRequest}>{forumRequest.title}</ForumCard></Col>)
+        ) : (
+          userForumRequests.map((userForumRequest) => <Col><ForumCard forumRequest={userForumRequest}>{userForumRequest.title}</ForumCard></Col>)
+        )}
       </Row>
     </Container>
   ) : <LoadingSpinner />);
