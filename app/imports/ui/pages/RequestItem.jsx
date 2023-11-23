@@ -55,7 +55,7 @@ const RequestItem = () => {
   };
   // Create a schema to specify the structure of the data to appear in the form.
   const formSchema = new SimpleSchema({
-    quantity: { type: Number, min: 1, max: () => item.quantity },
+    quantity: { type: Number, min: 1, max: () => item.quantity, defaultValue: 1 },
   });
   const bridge = new SimpleSchema2Bridge(formSchema);
   // Render the form. Use Uniforms: https://github.com/vazco/uniforms
@@ -91,9 +91,10 @@ const RequestItem = () => {
                         Your contact info: <br />
                         {requesterProfile.contactInfo}
                       </h6>
+                      Not correct? <a href="#" >Edit your profile</a> to update your contact information.
                     </Card.Body>
                     <Card.Body>
-                      By requesting this item, you agree to give {ownerProfile.name} your contact information if they accept your request.
+                      By requesting this item, you agree to have your contact information be automatically sent to {ownerProfile.name} if they accept your request.
                     </Card.Body>
                     <Card.Body>
                       <NumField

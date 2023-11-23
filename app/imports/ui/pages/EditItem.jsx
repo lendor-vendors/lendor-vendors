@@ -47,9 +47,9 @@ const EditItem = () => {
       <Container className="py-3">
         <Row className="justify-content-center">
           <Col>
-            <Image className="img" src={item.image} width="500" />
+            <Image className="img" src={item.image} width={500} style={{ objectFit: 'cover' }} />
           </Col>
-          <Col xs={5}>
+          <Col>
             <Col className="text-center"><h2>Edit {item.title}</h2></Col>
             <AutoForm schema={bridge} onSubmit={data => submit(data)} model={item}>
               <Card>
