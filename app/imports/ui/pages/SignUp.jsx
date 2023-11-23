@@ -7,19 +7,21 @@ import SimpleSchema from 'simpl-schema';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import { AutoForm, ErrorsField, SubmitField, TextField } from 'uniforms-bootstrap5';
 import Form from 'react-bootstrap/Form';
+import { Profiles } from '../../api/profile/Profiles';
 
 const SignUp = ({ location }) => {
   const [error, setError] = useState('');
   const [redirectToReferer, setRedirectToRef] = useState(false);
 
   const schema = new SimpleSchema({
+    name: String,
     email: String,
     password: String,
   });
   const bridge = new SimpleSchema2Bridge(schema);
 
   const submit = (doc) => {
-    const { email, password } = doc;
+    const { email, password, name } = doc;
     Accounts.createUser({ email, username: email, password }, (err) => {
       if (err) {
         setError(err.reason);
@@ -28,9 +30,14 @@ const SignUp = ({ location }) => {
         setRedirectToRef(true);
       }
     });
+    Profiles.collection.insert({
+      name: name,
+      rating: 5.0,
+      email: email,
+    });
   };
 
-  const { from } = location?.state || { from: { pathname: '/add' } };
+  const { from } = location?.state || { from: { pathname: '/home' } };
   if (redirectToReferer) {
     return <Navigate to={from} />;
   }
@@ -42,6 +49,7 @@ const SignUp = ({ location }) => {
           <AutoForm schema={bridge} onSubmit={(data) => submit(data)}>
             <Card>
               <Card.Body>
+                <TextField name="name" placeholder="Enter your name" />
                 <TextField name="email" placeholder="E-mail address" />
                 <TextField name="password" placeholder="Password" type="password" />
                 <ErrorsField />
