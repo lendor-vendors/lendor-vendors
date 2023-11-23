@@ -14,12 +14,20 @@ const Item = ({ item, ownerProfile }) => {
     <Container className="py-3">
       <Row className="justify-content-center">
         <Col>
-          <Image className="img" src={item.image} width={500} />
+          <Image className="img" src={item.image} width={500} style={{ objectFit: 'cover' }} />
         </Col>
         <Col>
           <h1>{item.title}</h1>
           <hr />
-          <h6>Owner: {ownerProfile.name} {ownerProfile.email === currentUser?.username ? '(you)' : ''}</h6>
+          <div className="d-flex align-items-center">
+            <div className="d-inline-block">
+              <Image src={ownerProfile.image ? ownerProfile.image : '/images/defaultPFP.png'} roundedCircle width={75} />
+            </div>
+            <Container className="d-inline-block">
+              <h6>Owner: {ownerProfile.name} {ownerProfile.email === currentUser?.username ? '(you)' : ''}</h6>
+              <h6>Rating: {ownerProfile.rating}</h6>
+            </Container>
+          </div>
           <hr />
           <h6>Condition: {item.condition}</h6>
           <h6>Quantity: {item.quantity}</h6>

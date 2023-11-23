@@ -13,7 +13,7 @@ const NavBar = () => {
   }), []);
 
   return (
-    <Navbar bg="dark" expand="lg">
+    <Navbar bg="dark navbar-dark" expand="lg">
       <Container>
         <Navbar.Brand as={NavLink} to="/">
           <h2>Lendor Vendors</h2>
