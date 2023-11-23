@@ -11,6 +11,7 @@ import { Profiles } from '../../api/profile/Profiles';
 const Forums = () => {
   const currentUser = useTracker(() => Meteor.user());
   const [postFilterTab, setPostFilterTab] = useState('All Forum Posts');
+  const [currentFilter, setCurrentFilter] = useState('all');
   const { forumRequests, userForumRequests, ready } = useTracker(() => {
     // Note that this subscription will get cleaned up
     // when your component is unmounted or deps change.
@@ -20,7 +21,7 @@ const Forums = () => {
     // Determine if the subscription is ready
     const rdy = forumRequestsSubscription.ready() && profilesSubscription.ready();
     // Get the Stuff documents
-    const foundForumRequests = ForumRequests.collection.find().fetch();
+    const foundForumRequests = ForumRequests.collection.find({ poster: { $not: currentUser?.username } }).fetch();
     const foundUserForumRequests = ForumRequests.collection.find({ poster: currentUser?.username }).fetch();
     return {
       forumRequests: foundForumRequests,
@@ -39,7 +40,7 @@ const Forums = () => {
           <h2 className="text-center">Request Forums</h2>
         </Col>
         <Col className="text-end">
-          <Button href="/post_forum_request">Post a request forum</Button>
+          <Button href="/post_forum_request" variant="outline-success">Post a forum request</Button>
         </Col>
       </Row>
       <Row className="d-flex justify-content-center">
@@ -51,21 +52,41 @@ const Forums = () => {
         </Col>
       </Row>
       <hr />
-      <Row xs={4} className="d-flex justify-content-center g-4">
+      <Row className="pb-3">
+        <Col className="text-end">
+          <select
+            name="filter"
+            value={currentFilter}
+            onChange={(event) => setCurrentFilter(event.target.value)}
+          >
+            <option value="all">All</option>
+            <option value="resolved">Resolved</option>
+            <option value="unresolved">Unresolved</option>
+          </select>
+        </Col>
+      </Row>
+      <Row xs={1} lg={2} xxl={3} className="d-flex justify-content-center g-4">
         {postFilterTab === 'All Forum Posts' ? (
           forumRequests.map((forumRequest) => {
-            const posterProfile = Profiles.collection.findOne({ email: forumRequest.poster });
-            return (
-              <Col><ForumCard forumRequest={forumRequest} profile={posterProfile}>{forumRequest.title}</ForumCard></Col>
-            );
+            if (currentFilter === 'all' || forumRequest.status === currentFilter) {
+              const posterProfile = Profiles.collection.findOne({ email: forumRequest.poster });
+              return (
+                <Col><ForumCard forumRequest={forumRequest} profile={posterProfile}>{forumRequest.title}</ForumCard></Col>
+              );
+            }
+            return '';
           })
         ) : (
           userForumRequests.map((userForumRequest) => {
-            const posterProfile = Profiles.collection.findOne({ email: userForumRequest.poster });
-            return (
-              <Col><ForumCard forumRequest={userForumRequest} profile={posterProfile}>{userForumRequest.title}</ForumCard></Col>
-            );
-          }))}
+            if (currentFilter === 'all' || userForumRequest.status === currentFilter) {
+              const posterProfile = Profiles.collection.findOne({ email: userForumRequest.poster });
+              return (
+                <Col><ForumCard forumRequest={userForumRequest} profile={posterProfile}>{userForumRequest.title}</ForumCard></Col>
+              );
+            }
+            return '';
+          })
+        )}
       </Row>
     </Container>
   ) : <LoadingSpinner />);

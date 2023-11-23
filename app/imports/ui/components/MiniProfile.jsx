@@ -3,11 +3,12 @@ import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 const MiniProfile = ({ profile }) => {
   const currentUser = useTracker(() => Meteor.user());
   return (
-    <div className="d-flex align-items-center">
+    <Link to={`/view_profile/${profile._id}`} id="mini-profile" className="d-flex align-items-center">
       <div className="d-inline-block">
         <Image src={profile.image ? profile.image : '/images/defaultPFP.png'} roundedCircle width={60} />
       </div>
@@ -15,7 +16,7 @@ const MiniProfile = ({ profile }) => {
         <h6>Owner: {profile.name} {profile.email === currentUser?.username ? '(you)' : ''}</h6>
         <h6>Rating: {profile.rating}</h6>
       </Container>
-    </div>
+    </Link>
   );
 };
 
@@ -26,6 +27,7 @@ MiniProfile.propTypes = {
     rating: PropTypes.number,
     contactInfo: PropTypes.string,
     email: PropTypes.string,
+    _id: PropTypes.string,
   }).isRequired,
 };
 
