@@ -30,4 +30,4 @@ class ForumRequestsCollection {
  * The singleton instance of the RequestsCollection.
  * @type {ForumRequestsCollection}
  */
-export const Requests = new ForumRequestsCollection();
+export const ForumRequests = new ForumRequestsCollection();
