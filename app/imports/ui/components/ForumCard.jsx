@@ -5,31 +5,37 @@ import { Meteor } from 'meteor/meteor';
 import { Card, Col, Container, Image, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import DeleteButton from './DeleteButton';
+import MiniProfile from './MiniProfile';
 
 /** Renders a single row in the List item table. See pages/YourItems.jsx. */
-const ForumCard = ({ forumRequest }) => (
+const ForumCard = ({ forumRequest, profile }) => (
   <Card className="h-100">
     <Link id="item-cards" to="#">
       <Card.Header>
-        {forumRequest.title}
+        <Card.Title>
+          {forumRequest.title}
+        </Card.Title>
+        <Card.Subtitle>
+          Status: {forumRequest.status}
+        </Card.Subtitle>
       </Card.Header>
     </Link>
     <Card.Body>
+      Requesting:
       <Row>
         <Col>
-          <Card.Text>
-            Quantity: <br />
-            {forumRequest.requestingQuantity}
-          </Card.Text>
+          Quantity: {forumRequest.requestingQuantity}
         </Col>
+      </Row>
+      <Row>
         <Col>
-          <Card.Text>
-            Condition: <br />
-            {forumRequest.requestingCondition}
-          </Card.Text>
+          Condition: {forumRequest.requestingCondition}
         </Col>
       </Row>
     </Card.Body>
+    <Card.Footer>
+      <MiniProfile profile={profile} />
+    </Card.Footer>
   </Card>
 );
 
@@ -41,7 +47,15 @@ ForumCard.propTypes = {
     requestingQuantity: PropTypes.number,
     requestingCondition: PropTypes.string,
     forumText: PropTypes.string,
+    status: PropTypes.string,
     _id: PropTypes.string,
+  }).isRequired,
+  profile: PropTypes.shape({
+    name: PropTypes.string,
+    image: PropTypes.string,
+    rating: PropTypes.number,
+    contactInfo: PropTypes.string,
+    email: PropTypes.string,
   }).isRequired,
 };
 
