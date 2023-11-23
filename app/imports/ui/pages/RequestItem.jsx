@@ -98,7 +98,8 @@ const RequestItem = () => {
                         Your contact info: <br />
                         {requesterProfile.contactInfo}
                       </h6>
-                      Not correct? <a href="#" >Edit your profile</a> to update your contact information.
+                      {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                      Not correct? <a href="#">Edit your profile</a> to update your contact information.
                     </Card.Body>
                     <Card.Body>
                       By requesting this item, you agree to have your contact information be automatically sent to {ownerProfile.name} if they accept your request.
