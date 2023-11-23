@@ -4,6 +4,7 @@ import { Stuffs } from '../../api/stuff/Stuff';
 import { Profiles } from '../../api/profile/Profiles';
 import { Items } from '../../api/item/Items';
 import { Requests } from '../../api/request/Requests';
+import { ForumRequests } from '../../api/forumRequest/ForumRequests';
 
 // User-level publication.
 // If logged in, then publish documents owned by this user. Otherwise, publish nothing.
@@ -59,6 +60,8 @@ Meteor.publish(Requests.fromUserPublicationName, function () {
 });
 
 Meteor.publish(Requests.adminPublicationName, () => Requests.collection.find());
+
+Meteor.publish(ForumRequests.userPublicationName, () => ForumRequests.collection.find());
 
 // alanning:roles publication
 // Recommended code to publish roles for each user.
