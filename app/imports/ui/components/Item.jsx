@@ -21,7 +21,7 @@ const Item = ({ item, ownerProfile }) => {
           <hr />
           <div className="d-flex align-items-center">
             <div className="d-inline-block">
-              <Image src={ownerProfile.image} roundedCircle width={75} />
+              <Image src={ownerProfile.image ? ownerProfile.image : '/images/defaultPFP.png'} roundedCircle width={75} />
             </div>
             <Container className="d-inline-block">
               <h6>Owner: {ownerProfile.name} {ownerProfile.email === currentUser?.username ? '(you)' : ''}</h6>

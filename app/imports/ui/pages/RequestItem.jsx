@@ -80,19 +80,19 @@ const RequestItem = () => {
             <Col className="text-center"><h2>Request {item.title}</h2></Col>
             <AutoForm schema={bridge} onSubmit={data => submit(data)}>
               <Card>
-                <Card.Title>
-                  <Container className="d-flex py-2 align-items-center">
-                    <div className="d-inline-block">
-                      <Image src={ownerProfile.image} roundedCircle width={75} />
-                    </div>
-                    <Container className="d-inline-block">
-                      <h6>Owner: {ownerProfile.name}</h6>
-                      <h6>Rating: {ownerProfile.rating}</h6>
-                    </Container>
-                  </Container>
-                </Card.Title>
                 {requesterProfile.contactInfo ? (
                   <>
+                    <Card.Title>
+                      <Container className="d-flex py-2 align-items-center">
+                        <div className="d-inline-block">
+                          <Image src={ownerProfile.image ? ownerProfile.image : '/images/defaultPFP.png'} roundedCircle width={75} />
+                        </div>
+                        <Container className="d-inline-block">
+                          <h6>Owner: {ownerProfile.name}</h6>
+                          <h6>Rating: {ownerProfile.rating}</h6>
+                        </Container>
+                      </Container>
+                    </Card.Title>
                     <Card.Body>
                       <h6>
                         Your contact info: <br />
@@ -113,18 +113,13 @@ const RequestItem = () => {
                     </Card.Body>
                   </>
                 ) : (
-                  <>
-                    <Card.Body>
-                      {
-                        // TODO: link this anchor to EditProfile when it's done
-                      }
-                      {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                      You have no contact info! Please <a href="">edit your profile</a> and add your contact information before requesting an item.
-                    </Card.Body>
-                    <Card.Body>
-                      <SubmitField disabled value="Submit" />
-                    </Card.Body>
-                  </>
+                  <Card.Body>
+                    {
+                      // TODO: link this anchor to EditProfile when it's done
+                    }
+                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                    You have no contact info! Please <a href="">edit your profile</a> and add your contact information before requesting an item.
+                  </Card.Body>
                 )}
                 <ErrorsField />
               </Card>
