@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Col, Container, Row } from 'react-bootstrap';
+import { Card, Col, Container, Image, Row } from 'react-bootstrap';
 import { AutoForm, ErrorsField, NumField, SubmitField } from 'uniforms-bootstrap5';
 import swal from 'sweetalert';
 import { Meteor } from 'meteor/meteor';
@@ -11,22 +11,28 @@ import { Items } from '../../api/item/Items';
 import { Requests } from '../../api/request/Requests';
 import LoadingSpinner from '../components/LoadingSpinner';
 import NotFound from './NotFound';
+import { Profiles } from '../../api/profile/Profiles';
 
 const RequestItem = () => {
   // Get the documentID from the URL field. See imports/ui/layouts/App.jsx for the route containing :_id.
   const { _id } = useParams();
-  const { item, hasRequested, ready } = useTracker(() => {
+  const { item, ownerProfile, requesterProfile, hasRequested, ready } = useTracker(() => {
     // Get access to Stuff documents.
     const itemsSubscription = Meteor.subscribe(Items.adminPublicationName);
     const fromRequestsSubscription = Meteor.subscribe(Requests.fromUserPublicationName);
+    const profilesSubscription = Meteor.subscribe(Profiles.userPublicationName);
     // Determine if the subscription is ready
-    const rdy = itemsSubscription.ready() && fromRequestsSubscription.ready();
+    const rdy = itemsSubscription.ready() && fromRequestsSubscription.ready() && profilesSubscription.ready();
     // Get the document
     const foundItem = Items.collection.findOne({ _id: _id });
+    const foundOwnerProfile = Profiles.collection.findOne({ email: foundItem?.owner });
+    const foundRequesterProfile = Profiles.collection.findOne({ email: Meteor.user()?.username });
     // If there exists a request from this user for this item, then they have requested this item already
     const foundHasRequested = Requests.collection.find({ itemId: _id, status: 'pending' }).fetch().length > 0;
     return {
       item: foundItem,
+      ownerProfile: foundOwnerProfile,
+      requesterProfile: foundRequesterProfile,
       hasRequested: foundHasRequested,
       ready: rdy,
     };
@@ -70,10 +76,30 @@ const RequestItem = () => {
     ) : (
       <Container className="py-3">
         <Row className="justify-content-center">
-          <Col xs={5}>
+          <Col xs={4}>
             <Col className="text-center"><h2>Request {item.title}</h2></Col>
             <AutoForm schema={bridge} onSubmit={data => submit(data)}>
               <Card>
+                <Card.Title>
+                  <Container className="d-flex py-2 align-items-center">
+                    <div className="d-inline-block">
+                      <Image src={ownerProfile.image} roundedCircle width={75} />
+                    </div>
+                    <Container className="d-inline-block">
+                      <h6>Owner: {ownerProfile.name}</h6>
+                      <h6>Rating: {ownerProfile.rating}</h6>
+                    </Container>
+                  </Container>
+                </Card.Title>
+                <Card.Body>
+                  <h6>
+                    Your contact info: <br />
+                    {requesterProfile.contactInfo}
+                  </h6>
+                </Card.Body>
+                <Card.Body>
+                  By requesting this item, you agree to give {ownerProfile.name} your contact information if they accept your request. <br />
+                </Card.Body>
                 <Card.Body>
                   <NumField
                     name="quantity"

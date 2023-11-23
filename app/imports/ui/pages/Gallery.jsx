@@ -31,8 +31,8 @@ const Gallery = () => {
             <h2>Gallery</h2>
           </Col>
         </Col>
-        <Row xs={1} md={2} lg={5} className="g-4">
-          {items.map((item, index) => <Col key={index}><ItemCard item={item} /></Col>)}
+        <Row xs={1} md={2} lg={5} className="d-flex flex-wrap justify-content-center g-4">
+          {items.map((item, index) => <Col className="d-inline-block" styles={{ minWidth: '100%' }} key={index}><ItemCard item={item} /></Col>)}
         </Row>
       </Row>
     </Container>

@@ -10,7 +10,7 @@ import DeleteButton from './DeleteButton';
 const ItemCard = ({ item }) => (
   <Card className="h-100">
     <Card.Header>
-      <Image src={item.image} width={200} height={150} />
+      <Card.Img src={item.image} style={{ objectFit: 'cover', minHeight: '150px', maxHeight: '150px', minWidth: '200px', maxWidth: '100%', width: 'auto', height: 'auto' }} />
     </Card.Header>
     <Card.Body>
       <Link id="item-cards" to={`/view_item/${item._id}`}><Card.Title>{item.title}</Card.Title></Link>

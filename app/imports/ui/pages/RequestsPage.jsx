@@ -69,8 +69,12 @@ const RequestsPage = () => {
                 <Col>
                   <p>
                     Owner: {ownerProfile.name} <br />
-                    Current quantity: {item.quantity} <br />
-                    Requested quantity: {request.quantity}
+                    Rating: {ownerProfile.rating} <br />
+                  </p>
+                  <p>
+                    Requested quantity: {request.quantity} <br />
+                    Contact {ownerProfile.name} at: <br />
+                    {ownerProfile.contactInfo}
                   </p>
                   {request.status === 'pending' ? (
                     <>
