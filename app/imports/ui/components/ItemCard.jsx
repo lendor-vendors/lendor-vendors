@@ -2,16 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Roles } from 'meteor/alanning:roles';
 import { Meteor } from 'meteor/meteor';
-import { Card, Col, Container, Image, Row } from 'react-bootstrap';
+import { Card, Col, Container, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import DeleteButton from './DeleteButton';
 
 /** Renders a single row in the List item table. See pages/YourItems.jsx. */
 const ItemCard = ({ item }) => (
   <Card className="h-100">
-    <Card.Header>
-      <Card.Img src={item.image} style={{ objectFit: 'cover', minHeight: '150px', maxHeight: '150px', minWidth: '200px', maxWidth: '100%', width: 'auto', height: 'auto' }} />
-    </Card.Header>
+    <Link id="item-cards" to={`/view_item/${item._id}`}>
+      <Card.Header>
+        <Card.Img src={item.image} alt={`${item.title} image`} style={{ width: '100%', height: '150px', objectFit: 'cover' }} rounded />
+      </Card.Header>
+    </Link>
     <Card.Body>
       <Link id="item-cards" to={`/view_item/${item._id}`}><Card.Title>{item.title}</Card.Title></Link>
     </Card.Body>

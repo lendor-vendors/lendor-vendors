@@ -91,25 +91,42 @@ const RequestItem = () => {
                     </Container>
                   </Container>
                 </Card.Title>
-                <Card.Body>
-                  <h6>
-                    Your contact info: <br />
-                    {requesterProfile.contactInfo}
-                  </h6>
-                </Card.Body>
-                <Card.Body>
-                  By requesting this item, you agree to give {ownerProfile.name} your contact information if they accept your request. <br />
-                </Card.Body>
-                <Card.Body>
-                  <NumField
-                    name="quantity"
-                    decimal={null}
-                    min={1}
-                    max={item.quantity}
-                  />
-                  <SubmitField value="Submit" />
-                  <ErrorsField />
-                </Card.Body>
+                {requesterProfile.contactInfo ? (
+                  <>
+                    <Card.Body>
+                      <h6>
+                        Your contact info: <br />
+                        {requesterProfile.contactInfo}
+                      </h6>
+                    </Card.Body>
+                    <Card.Body>
+                      By requesting this item, you agree to give {ownerProfile.name} your contact information if they accept your request.
+                    </Card.Body>
+                    <Card.Body>
+                      <NumField
+                        name="quantity"
+                        decimal={null}
+                        min={1}
+                        max={item.quantity}
+                      />
+                      <SubmitField value="Submit" />
+                    </Card.Body>
+                  </>
+                ) : (
+                  <>
+                    <Card.Body>
+                      {
+                        // TODO: link this anchor to EditProfile when it's done
+                      }
+                      {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                      You have no contact info! Please <a href="">edit your profile</a> and add your contact information before requesting an item.
+                    </Card.Body>
+                    <Card.Body>
+                      <SubmitField disabled value="Submit" />
+                    </Card.Body>
+                  </>
+                )}
+                <ErrorsField />
               </Card>
             </AutoForm>
           </Col>

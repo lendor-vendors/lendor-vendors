@@ -14,7 +14,7 @@ const Item = ({ item, ownerProfile }) => {
     <Container className="py-3">
       <Row className="justify-content-center">
         <Col>
-          <Image className="img" src={item.image} width={500} />
+          <Image className="img" src={item.image} width={500} style={{ objectFit: 'cover' }} />
         </Col>
         <Col>
           <h1>{item.title}</h1>

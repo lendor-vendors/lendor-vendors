@@ -16,7 +16,7 @@ const YourItems = () => {
     const subscription = Meteor.subscribe(Items.userPublicationName);
     // Determine if the subscription is ready
     const rdy = subscription.ready();
-    // Get the Stuff documents
+    // Get the Item documents
     const theItems = Items.collection.find({}).fetch();
     return {
       items: theItems,
@@ -28,11 +28,11 @@ const YourItems = () => {
       <Row className="justify-content-center">
         <Col md={7}>
           <Col className="text-center">
-            <h2>Your Items</h2>
+            <h2>Gallery</h2>
           </Col>
         </Col>
-        <Row xs={1} md={2} lg={5} className="g-4">
-          {items.map((item, index) => <Col key={index}><ItemCard item={item} /></Col>)}
+        <Row xs={2} md={3} lg={4} xxl={5} className="d-flex flex-wrap justify-content-center g-4 px-5">
+          {items.map((item, index) => <Col style={{ maxWidth: '250px' }} key={index}><ItemCard item={item} /></Col>)}
         </Row>
       </Row>
     </Container>
