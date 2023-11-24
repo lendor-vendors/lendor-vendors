@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Col, Container, Image, Row } from 'react-bootstrap';
+import { Card, Col, Container, Row } from 'react-bootstrap';
 import { AutoForm, ErrorsField, NumField, SubmitField } from 'uniforms-bootstrap5';
 import swal from 'sweetalert';
 import { Meteor } from 'meteor/meteor';
@@ -12,6 +12,7 @@ import { Requests } from '../../api/request/Requests';
 import LoadingSpinner from '../components/LoadingSpinner';
 import NotFound from './NotFound';
 import { Profiles } from '../../api/profile/Profiles';
+import MiniProfile from '../components/MiniProfile';
 
 const RequestItem = () => {
   // Get the documentID from the URL field. See imports/ui/layouts/App.jsx for the route containing :_id.
@@ -82,24 +83,15 @@ const RequestItem = () => {
               <Card>
                 {requesterProfile.contactInfo ? (
                   <>
-                    <Card.Title>
-                      <Container className="d-flex py-2 align-items-center">
-                        <div className="d-inline-block">
-                          <Image src={ownerProfile.image ? ownerProfile.image : '/images/defaultPFP.png'} roundedCircle width={75} />
-                        </div>
-                        <Container className="d-inline-block">
-                          <h6>Owner: {ownerProfile.name}</h6>
-                          <h6>Rating: {ownerProfile.rating}</h6>
-                        </Container>
-                      </Container>
-                    </Card.Title>
+                    <Card.Header>
+                      <MiniProfile profile={ownerProfile} />
+                    </Card.Header>
                     <Card.Body>
                       <h6>
                         Your contact info: <br />
                         {requesterProfile.contactInfo}
                       </h6>
-                      {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                      Not correct? <a href="#">Edit your profile</a> to update your contact information.
+                      Not correct? <a href="/edit_profile">Edit your profile</a> to update your contact information.
                     </Card.Body>
                     <Card.Body>
                       By requesting this item, you agree to have your contact information be automatically sent to {ownerProfile.name} if they accept your request.
@@ -120,7 +112,7 @@ const RequestItem = () => {
                       // TODO: link this anchor to EditProfile when it's done
                     }
                     {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                    You have no contact info! Please <a href="">edit your profile</a> and add your contact information before requesting an item.
+                    You have no contact info! Please <a href="/edit_profile">edit your profile</a> and add your contact information before requesting an item.
                   </Card.Body>
                 )}
                 <ErrorsField />

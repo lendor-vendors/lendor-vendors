@@ -65,6 +65,16 @@ footer, footer a {
   color: black;
 }
 
+#mini-profile {
+  text-decoration: none;
+  color: black;
+}
+
+#mini-profile:hover {
+  text-decoration: none;
+  color: black;
+}
+
 .img {
   width: 45vw;
   height: 65vh;
