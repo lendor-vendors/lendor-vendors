@@ -7,7 +7,7 @@ import MiniProfile from './MiniProfile';
 /** Renders a single row in the List item table. See pages/YourItems.jsx. */
 const ForumCard = ({ forumRequest, profile }) => (
   <Card className="h-100">
-    <Link id="item-cards" to="#">
+    <Link id="item-cards" to={`/view_forum_request/${forumRequest._id}`}>
       <Card.Header>
         <Card.Title>
           {forumRequest.title}
