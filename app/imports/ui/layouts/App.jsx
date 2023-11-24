@@ -23,6 +23,7 @@ import Gallery from '../pages/Gallery';
 import ViewItem from '../pages/ViewItem';
 import EditItem from '../pages/EditItem';
 import ViewProfile from '../pages/ViewProfile';
+import Terms from '../pages/Terms';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => {
@@ -38,15 +39,15 @@ const App = () => {
         <NavBar />
         <Routes>
           <Route exact path="/" element={<Landing />} />
+          <Route exact path="/home" element={<Landing />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signout" element={<SignOut />} />
-          <Route path="/home" element={<ProtectedRoute><Gallery /></ProtectedRoute>} />
+          <Route path="/gallery" element={<ProtectedRoute><Gallery /></ProtectedRoute>} />
           <Route path="/post" element={<ProtectedRoute><PostItem /></ProtectedRoute>} />
-          <Route path="/home" element={<ProtectedRoute><Gallery /></ProtectedRoute>} />
           <Route path="/your_items" element={<ProtectedRoute><YourItems /></ProtectedRoute>} />
           <Route path="/edit/:_id" element={<ProtectedRoute><EditItem /></ProtectedRoute>} />
-          <Route path="/admin" element={<AdminProtectedRoute ready={ready}><ListStuffAdmin /></AdminProtectedRoute>} />
+          <Route path="/terms" element={<ProtectedRoute><Terms /></ProtectedRoute>} />
           <Route path="/notauthorized" element={<NotAuthorized />} />
           <Route path="/request/:_id" element={<ProtectedRoute><RequestItem /></ProtectedRoute>} />
           <Route path="/view_requests/:_id" element={<ProtectedRoute><ViewRequests /></ProtectedRoute>} />

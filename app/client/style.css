@@ -78,6 +78,14 @@ footer, footer a {
   font-size: 0;
 }
 
+#feedback {
+  outline: none;
+}
+
+.text-decoration-none:hover {
+  color: lightgreen;
+}
+
 #hasAccount {
   color: white;
 }
