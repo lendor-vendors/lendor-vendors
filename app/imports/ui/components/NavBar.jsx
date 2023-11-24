@@ -5,13 +5,14 @@ import { NavLink } from 'react-router-dom';
 import { Roles } from 'meteor/alanning:roles';
 import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { BoxArrowRight, PersonFill, PersonPlusFill } from 'react-bootstrap-icons';
+import { Profiles } from '../../api/profile/Profiles';
+import ViewProfile from '../pages/ViewProfile';
 
 const NavBar = () => {
   // useTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker
   const { currentUser } = useTracker(() => ({
     currentUser: Meteor.user() ? Meteor.user().username : '',
   }), []);
-
   return (
     <Navbar bg="dark navbar-dark" expand="lg">
       <Container>
@@ -52,6 +53,9 @@ const NavBar = () => {
                   {' '}
                   Sign
                   out
+                </NavDropdown.Item>
+                <NavDropdown.Item as={NavLink} to={`/view_profile/${currentUser}`}>
+                  <PersonFill />View Profile
                 </NavDropdown.Item>
               </NavDropdown>
             )}
