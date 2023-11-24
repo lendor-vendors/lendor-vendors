@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Items } from '../../api/item/Items';
 import { Requests } from '../../api/request/Requests';
+import { ForumRequests } from '../../api/forumRequest/ForumRequests';
 // import { Profiles } from '../../api/profile/Profiles';
 
 const acceptRequestMethod = 'Requests.accept';
@@ -44,4 +45,16 @@ Meteor.methods({
   },
 });
 
-export { acceptRequestMethod, denyRequestMethod, cancelRequestMethod, removeItemMethod };
+const resolveForumRequestMethod = 'ForumRequests.resolve';
+const removeForumRequestMethod = 'ForumRequests.remove';
+
+Meteor.methods({
+  'ForumRequests.resolve'({ forumRequestId }) {
+    ForumRequests.collection.update({ _id: forumRequestId }, { $set: { status: 'resolved' } });
+  },
+  'ForumRequests.remove'({ forumRequestId }) {
+    ForumRequests.collection.remove({ _id: forumRequestId });
+  },
+});
+
+export { acceptRequestMethod, denyRequestMethod, cancelRequestMethod, removeItemMethod, resolveForumRequestMethod, removeForumRequestMethod };

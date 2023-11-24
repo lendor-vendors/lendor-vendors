@@ -25,6 +25,7 @@ import EditItem from '../pages/EditItem';
 import ViewProfile from '../pages/ViewProfile';
 import Forums from '../pages/Forums';
 import PostForumRequest from '../pages/PostForumRequest';
+import ViewForumRequest from '../pages/ViewForumRequest';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => {
@@ -57,6 +58,7 @@ const App = () => {
           <Route path="/view_profile/:_id" element={<ProtectedRoute><ViewProfile /></ProtectedRoute>} />
           <Route path="/forums" element={<ProtectedRoute><Forums /></ProtectedRoute>} />
           <Route path="/post_forum_request" element={<ProtectedRoute><PostForumRequest /></ProtectedRoute>} />
+          <Route path="/view_forum_request/:_id" element={<ProtectedRoute><ViewForumRequest /></ProtectedRoute>} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer />
