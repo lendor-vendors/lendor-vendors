@@ -4,7 +4,7 @@ import { Roles } from 'meteor/alanning:roles';
 import { Meteor } from 'meteor/meteor';
 import { Card, Col, Container, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import DeleteButton from './DeleteButton';
+import DeleteItemButton from './DeleteItemButton';
 
 /** Renders a single row in the List item table. See pages/YourItems.jsx. */
 const ItemCard = ({ item }) => (
@@ -21,7 +21,7 @@ const ItemCard = ({ item }) => (
       <Container className="d-flex justify-content-start">
         <Row>
           <Col>
-            <DeleteButton item={item} />
+            <DeleteItemButton item={item} />
           </Col>
         </Row>
       </Container>

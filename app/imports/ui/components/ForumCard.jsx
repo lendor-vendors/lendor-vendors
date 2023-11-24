@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Card, Col, Row } from 'react-bootstrap';
+import { Card, Col, Container, Image, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import MiniProfile from './MiniProfile';
 
 /** Renders a single row in the List item table. See pages/YourItems.jsx. */
-const ForumCard = ({ forumRequest, profile }) => (
+const ForumCard = ({ forumRequest, profile, currentUsername }) => (
   <Card className="h-100">
     <Link id="item-cards" to={`/view_forum_request/${forumRequest._id}`}>
       <Card.Header>
@@ -31,7 +30,15 @@ const ForumCard = ({ forumRequest, profile }) => (
       </Row>
     </Card.Body>
     <Card.Footer>
-      <MiniProfile profile={profile} />
+      <Link to={`/view_profile/${profile._id}`} id="mini-profile" className="d-flex align-items-center">
+        <div className="d-inline-block">
+          <Image src={profile.image ? profile.image : '/images/defaultPFP.png'} roundedCircle width={60} />
+        </div>
+        <Container className="d-inline-block">
+          <h6>Poster: {profile.name} {profile.email === currentUsername ? '(you)' : ''}</h6>
+          <h6>Date: </h6>
+        </Container>
+      </Link>
     </Card.Footer>
   </Card>
 );
@@ -53,7 +60,9 @@ ForumCard.propTypes = {
     rating: PropTypes.number,
     contactInfo: PropTypes.string,
     email: PropTypes.string,
+    _id: PropTypes.string,
   }).isRequired,
+  currentUsername: PropTypes.string.isRequired,
 };
 
 export default ForumCard;

@@ -2,7 +2,7 @@ import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import PropTypes from 'prop-types';
 import { Button, Col, Container, Image, Row } from 'react-bootstrap';
-import DeleteButton from './DeleteButton';
+import DeleteItemButton from './DeleteItemButton';
 import MiniProfile from './MiniProfile';
 
 /* Renders the EditContact page for editing a single item. */
@@ -37,7 +37,7 @@ const Item = ({ item, ownerProfile }) => (
         <Row>
           <Col className="px-1"><Button id="btn1" href={`/edit/${item._id}`}>Edit</Button></Col>
           <Col className="px-1"><Button id="btn1" href={`/view_requests/${item._id}`}>View Requests</Button></Col>
-          <Col className="px-1"><DeleteButton item={item} /></Col>
+          <Col className="px-1"><DeleteItemButton item={item} /></Col>
         </Row>
       </Container>
     )}
