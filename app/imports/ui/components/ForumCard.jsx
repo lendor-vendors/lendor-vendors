@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Card, Col, Container, Image, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import MiniProfile from './MiniProfile';
 
 /** Renders a single row in the List item table. See pages/YourItems.jsx. */
 const ForumCard = ({ forumRequest, profile, currentUsername }) => (
