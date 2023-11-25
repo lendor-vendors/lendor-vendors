@@ -11,7 +11,7 @@ const ItemCard = ({ item }) => (
   <Card className="h-100">
     <Link id="item-cards" to={`/view_item/${item._id}`}>
       <Card.Header>
-        <Card.Img src={item.image} alt={`${item.title} image`} style={{ width: '100%', height: '150px', objectFit: 'cover' }} rounded />
+        <Card.Img src={item.image} alt={`${item.title} image`} style={{ width: '100%', height: '150px', objectFit: 'cover' }} />
       </Card.Header>
     </Link>
     <Card.Body>

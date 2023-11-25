@@ -7,9 +7,10 @@ const Tabs = ({ tabNames, sendCurrentTab }) => {
   return (
     <Row>
       <Container className="d-flex justify-content-evenly">
-        {tabNames.map((tabName) => (
+        {tabNames.map((tabName, index) => (
           // Button component is temporary. TODO: Re-style tab buttons to look better
           <Button
+            key={index}
             onClick={() => {
               setCurrentTab(tabName);
               sendCurrentTab(tabName);

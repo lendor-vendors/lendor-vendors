@@ -1,18 +1,38 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { Roles } from 'meteor/alanning:roles';
 import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { BoxArrowRight, PersonFill, PersonPlusFill } from 'react-bootstrap-icons';
 import { Profiles } from '../../api/profile/Profiles';
-import ViewProfile from '../pages/ViewProfile';
 
 const NavBar = () => {
   // useTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker
   const { currentUser } = useTracker(() => ({
     currentUser: Meteor.user() ? Meteor.user().username : '',
   }), []);
+  function getProfilePromise() {
+    return new Promise((resolve) => {
+      const subscription = Meteor.subscribe(Profiles.userPublicationName);
+      const handle = setInterval(() => {
+        if (subscription.ready() && currentUser) {
+          clearInterval(handle); // Stop checking
+          resolve(); // Resolve the promise when the subscription is ready
+        }
+      }, 100); // Check every 100ms for subscription.ready()
+    });
+  }
+
+  async function getProfile() {
+    await getProfilePromise();
+    const documents = Profiles.collection.find({ email: currentUser }).fetch();
+    if (documents) { // Found the current user's profile
+      return documents[0];
+    }
+    return null; // Something went wrong
+  }
+  const navigate = useNavigate();
   return (
     <Navbar bg="dark navbar-dark" expand="lg">
       <Container>
@@ -54,8 +74,19 @@ const NavBar = () => {
                   Sign
                   out
                 </NavDropdown.Item>
-                <NavDropdown.Item as={NavLink} to={`/view_profile/${currentUser}`}>
-                  <PersonFill />View Profile
+                <NavDropdown.Item
+                  as={NavLink}
+                  onClick={() => {
+                    getProfile().then((profile) => {
+                      if (profile) {
+                        navigate(`/view_profile/${profile._id}`);
+                      } else {
+                        console.log('Profile not found.');
+                      }
+                    });
+                  }}
+                >
+                  <PersonFill />{' '}View Profile
                 </NavDropdown.Item>
               </NavDropdown>
             )}
