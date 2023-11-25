@@ -54,7 +54,7 @@ const NavBar = () => {
           </Nav>
           <Nav className="justify-content-end">
             {currentUser === '' ? (
-              <NavDropdown id="login-dropdown" title="Login">
+              <NavDropdown className="hover-dropdown" id="login-dropdown" title="Login">
                 <NavDropdown.Item id="login-dropdown-sign-in" as={NavLink} to="/signin">
                   <PersonFill />
                   Sign
@@ -67,15 +67,9 @@ const NavBar = () => {
                 </NavDropdown.Item>
               </NavDropdown>
             ) : (
-              <NavDropdown id="navbar-current-user" title={currentUser}>
-                <NavDropdown.Item id="navbar-sign-out" as={NavLink} to="/signout">
-                  <BoxArrowRight />
-                  {' '}
-                  Sign
-                  out
-                </NavDropdown.Item>
+              <NavDropdown className="hover-dropdown" id="navbar-current-user" title={currentUser}>
                 <NavDropdown.Item
-                  as={NavLink}
+                  id="navbar-view-profile"
                   onClick={() => {
                     getProfile().then((profile) => {
                       if (profile) {
@@ -86,7 +80,16 @@ const NavBar = () => {
                     });
                   }}
                 >
-                  <PersonFill />{' '}View Profile
+                  <PersonFill />{' '}Your Profile
+                </NavDropdown.Item>
+                <NavDropdown.Item>
+                  Edit Profile
+                </NavDropdown.Item>
+                <NavDropdown.Item id="navbar-sign-out" as={NavLink} to="/signout">
+                  <BoxArrowRight />
+                  {' '}
+                  Sign
+                  out
                 </NavDropdown.Item>
               </NavDropdown>
             )}
