@@ -10,6 +10,7 @@ import { Profiles } from '../../api/profile/Profiles';
 import NotFound from './NotFound';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { acceptRequestMethod, denyRequestMethod } from '../../startup/both/Methods';
+import { Link } from 'react-router-dom';
 
 /* Renders the EditStuff page for editing a single document. */
 const ViewRequests = () => {
@@ -91,7 +92,7 @@ const ViewRequests = () => {
                 <Modal.Title>Are you sure you want to accept this request?</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-                From: {requesterProfile.name} <br />
+                From: <Link to={`/view_profile/${requesterProfile._id}`}>{requesterProfile.name}</Link> <br />
                 For your: {item.title} <br />
                 Quantity: {request.quantity}
               </Modal.Body>
@@ -125,7 +126,7 @@ const ViewRequests = () => {
               <Modal.Title>Are you sure you want to deny this request?</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              From: {requesterProfile.name} <br />
+              From: <Link to={`/view_profile/${requesterProfile._id}`}>{requesterProfile.name}</Link> <br />
               For: Your {item.title} <br />
               Quantity: {request.quantity}
             </Modal.Body>
@@ -171,7 +172,7 @@ const ViewRequests = () => {
             <ListGroup.Item key={request._id}>
               <Row>
                 <Col>
-                  <Row><p className="text-start">From: {requesterProfile.name}</p></Row>
+                  <Row><p className="text-start">From: <Link to={`/view_profile/${requesterProfile._id}`}>{requesterProfile.name}</Link></p></Row>
                   <Row><p className="text-start">Quantity: {request.quantity}</p></Row>
                 </Col>
                 <Col className="d-flex align-items-center">
