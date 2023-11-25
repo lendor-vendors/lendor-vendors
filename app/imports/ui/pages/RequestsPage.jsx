@@ -10,6 +10,7 @@ import { Profiles } from '../../api/profile/Profiles';
 import ItemCard from '../components/ItemCard';
 import { cancelRequestMethod } from '../../startup/both/Methods';
 import Tabs from '../components/Tabs';
+import { Link } from 'react-router-dom';
 
 /* Renders the EditStuff page for editing a single document. */
 const RequestsPage = () => {
@@ -68,7 +69,7 @@ const RequestsPage = () => {
                 </Col>
                 <Col>
                   <p>
-                    Owner: {ownerProfile.name} <br />
+                    Owner: <Link to={`/view_profile/${ownerProfile._id}`}>{ownerProfile.name}</Link> <br />
                     Current quantity: {item.quantity} <br />
                     Requested quantity: {request.quantity}
                   </p>
@@ -85,7 +86,7 @@ const RequestsPage = () => {
                         <Modal.Body>
                           Item: {item.title} <br />
                           Quantity: {request.quantity} <br />
-                          Owner: {ownerProfile.name}
+                          Owner: <Link to={`/view_profile/${ownerProfile._id}`}>{ownerProfile.name}</Link>
                         </Modal.Body>
                         <Modal.Footer>
                           <Button onClick={() => handleCancelConfirm(request)}>Yes</Button>
@@ -127,7 +128,7 @@ const RequestsPage = () => {
                   {items[itemId].map((requester) => {
                     const requesterProfile = Profiles.collection.findOne({ email: requester });
                     return (
-                      <p>{requesterProfile.name}</p>
+                      <p><Link to={`/view_profile/${requesterProfile._id}`}>{requesterProfile.name}</Link></p>
                     );
                   })}
                   <Button href={`/view_requests/${item._id}`}>View Requests</Button>
