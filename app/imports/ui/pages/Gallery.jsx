@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Meteor } from 'meteor/meteor';
-import { Button, Col, Container, Row } from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
 import Fuse from 'fuse.js';
+import Form from 'react-bootstrap/Form';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { Items } from '../../api/item/Items';
 import ItemCard from '../components/ItemCard';
-import Form from 'react-bootstrap/Form';
 
 /* Renders a table containing all of the Stuff documents. Use <Contact> to render each row. */
 const Gallery = () => {

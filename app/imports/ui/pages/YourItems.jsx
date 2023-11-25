@@ -3,10 +3,10 @@ import { Meteor } from 'meteor/meteor';
 import { Col, Container, Row } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
 import Fuse from 'fuse.js';
+import Form from 'react-bootstrap/Form';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ItemCard from '../components/ItemCard';
 import { Items } from '../../api/item/Items';
-import Form from 'react-bootstrap/Form';
 
 /* Renders a table containing all of the ItemCard documents. Use <ItemCard> to render each row. */
 const YourItems = () => {
