@@ -4,13 +4,13 @@ import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import { useParams } from 'react-router';
 import swal from 'sweetalert';
+import { Link } from 'react-router-dom';
 import { Items } from '../../api/item/Items';
 import { Requests } from '../../api/request/Requests';
 import { Profiles } from '../../api/profile/Profiles';
 import NotFound from './NotFound';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { acceptRequestMethod, denyRequestMethod } from '../../startup/both/Methods';
-import { Link } from 'react-router-dom';
 
 /* Renders the EditStuff page for editing a single document. */
 const ViewRequests = () => {

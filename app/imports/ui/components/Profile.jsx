@@ -1,7 +1,7 @@
 import React from 'react';
 // import { Meteor } from 'meteor/meteor';
 import PropTypes from 'prop-types';
-import { Button, Col, Container, Image, Row } from 'react-bootstrap';
+import { Col, Container, Image, Row } from 'react-bootstrap';
 import { Star } from 'react-bootstrap-icons';
 import ProfileItems from './ProfileItems';
 

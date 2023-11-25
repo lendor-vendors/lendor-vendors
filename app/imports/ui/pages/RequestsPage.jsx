@@ -3,6 +3,7 @@ import { Button, Col, Container, ListGroup, Row, Modal } from 'react-bootstrap';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import swal from 'sweetalert';
+import { Link } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { Items } from '../../api/item/Items';
 import { Requests } from '../../api/request/Requests';
@@ -10,7 +11,6 @@ import { Profiles } from '../../api/profile/Profiles';
 import ItemCard from '../components/ItemCard';
 import { cancelRequestMethod } from '../../startup/both/Methods';
 import Tabs from '../components/Tabs';
-import { Link } from 'react-router-dom';
 
 /* Renders the EditStuff page for editing a single document. */
 const RequestsPage = () => {
