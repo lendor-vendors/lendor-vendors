@@ -14,9 +14,7 @@ const ForumCard = ({ forumRequest, profile, currentUsername }) => (
         <Card.Subtitle>
           Status: {forumRequest.status}
         </Card.Subtitle>
-        <Card.Subtitle>
-          Posted On: {new Date(forumRequest.createdAt).toLocaleDateString()}
-        </Card.Subtitle>
+
       </Card.Header>
     </Link>
     <Card.Body>
@@ -39,7 +37,7 @@ const ForumCard = ({ forumRequest, profile, currentUsername }) => (
         </div>
         <Container className="d-inline-block">
           <h6>Poster: {profile.name} {profile.email === currentUsername ? '(you)' : ''}</h6>
-          <h6>Date: </h6>
+          <h6>Posted On: {new Date(forumRequest.createdAt).toLocaleDateString()}</h6>
         </Container>
       </Link>
     </Card.Footer>
