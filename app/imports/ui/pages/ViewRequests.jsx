@@ -46,6 +46,7 @@ const ViewRequests = () => {
                 <Col>
                   <Row><p className="text-start">From: {request.requester}</p></Row>
                   <Row><p className="text-start">Quantity: {request.quantity}</p></Row>
+                  <Row><p className="text-start">Requested on: {new Date(Date.parse(request.requestedAt)).toLocaleDateString()}</p></Row>
                 </Col>
                 <Col>
                   <Container className="d-flex justify-content-end">

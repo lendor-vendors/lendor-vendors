@@ -17,8 +17,18 @@ class ItemsCollection {
       description: { type: String, optional: true },
       quantity: { type: SimpleSchema.Integer, defaultValue: 1, min: 1 },
       condition: { type: String, allowedValues: ['Poor', 'Acceptable', 'Good', 'Excellent'] },
-      createdAt: { type: Date, autoValue: () => new Date(), optional: true },
       owner: String,
+      createdAt: {
+        type: Date,
+        autoValue: function () {
+          if (this.isInsert) {
+            return new Date();
+          } if (this.isUpsert) {
+            return { $setOnInsert: new Date() };
+          }
+          return this.unset();
+        },
+      },
     });
     // Attach the schema to the collection, so all attempts to insert a document are checked against schema.
     this.collection.attachSchema(this.schema);

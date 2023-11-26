@@ -15,7 +15,17 @@ class RequestsCollection {
       itemId: String,
       quantity: { type: SimpleSchema.Integer, min: 1 },
       requester: String,
-      requestedAt: { type: Date, autoValue: () => new Date(), optional: true },
+      requestedAt: {
+        type: Date,
+        autoValue: function () {
+          if (this.isInsert) {
+            return new Date();
+          } if (this.isUpsert) {
+            return { $setOnInsert: new Date() };
+          }
+          return this.unset();
+        },
+      },
     });
     // Attach the schema to the collection, so all attempts to insert a document are checked against schema.
     this.collection.attachSchema(this.schema);
