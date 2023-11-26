@@ -20,17 +20,17 @@ class RequestsCollection {
         autoValue: function () {
           if (this.isInsert) {
             return new Date();
-          } if (this.isUpsert) {
+          }
+          if (this.isUpsert) {
             return { $setOnInsert: new Date() };
           }
           return this.unset();
         },
-
+      },
       status: {
         type: String,
         allowedValues: ['pending', 'accepted', 'denied'],
         defaultValue: 'pending',
-
       },
     });
     // Attach the schema to the collection, so all attempts to insert a document are checked against schema.

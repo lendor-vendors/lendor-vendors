@@ -18,6 +18,18 @@ class ForumRequestsCollection {
       requestingCondition: { type: String, allowedValues: ['Poor', 'Acceptable', 'Good', 'Excellent'] },
       forumText: { type: String, optional: true },
       status: { type: String, allowedValues: ['unresolved', 'resolved'], defaultValue: 'unresolved' },
+      createdAt: {
+        type: Date,
+        autoValue: function () {
+          if (this.isInsert) {
+            return new Date();
+          }
+          if (this.isUpsert) {
+            return { $setOnInsert: new Date() };
+          }
+          return this.unset();
+        },
+      },
     });
     // Attach the schema to the collection, so all attempts to insert a document are checked against schema.
     this.collection.attachSchema(this.schema);

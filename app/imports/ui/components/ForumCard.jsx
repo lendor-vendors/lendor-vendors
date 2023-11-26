@@ -14,6 +14,9 @@ const ForumCard = ({ forumRequest, profile, currentUsername }) => (
         <Card.Subtitle>
           Status: {forumRequest.status}
         </Card.Subtitle>
+        <Card.Subtitle>
+          Posted On: {new Date(forumRequest.createdAt).toLocaleDateString()}
+        </Card.Subtitle>
       </Card.Header>
     </Link>
     <Card.Body>
@@ -53,6 +56,18 @@ ForumCard.propTypes = {
     forumText: PropTypes.string,
     status: PropTypes.string,
     _id: PropTypes.string,
+    createdAt: {
+      type: Date,
+      autoValue: function () {
+        if (this.isInsert) {
+          return new Date();
+        }
+        if (this.isUpsert) {
+          return { $setOnInsert: new Date() };
+        }
+        return this.unset();
+      },
+    },
   }).isRequired,
   profile: PropTypes.shape({
     name: PropTypes.string,

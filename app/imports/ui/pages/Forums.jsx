@@ -80,7 +80,9 @@ const Forums = () => {
             if (currentFilter === 'all' || userForumRequest.status === currentFilter) {
               const posterProfile = Profiles.collection.findOne({ email: userForumRequest.poster });
               return (
-                <Col key={index}><ForumCard forumRequest={userForumRequest} profile={posterProfile} currentUsername={currentUser?.username} /></Col>
+                <Col key={index}>
+                  <ForumCard forumRequest={userForumRequest} profile={posterProfile} currentUsername={currentUser?.username} />
+                </Col>
               );
             }
             return '';
