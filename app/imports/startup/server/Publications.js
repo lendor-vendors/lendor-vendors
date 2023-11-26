@@ -4,6 +4,9 @@ import { Stuffs } from '../../api/stuff/Stuff';
 import { Profiles } from '../../api/profile/Profiles';
 import { Items } from '../../api/item/Items';
 import { Requests } from '../../api/request/Requests';
+import { ForumRequests } from '../../api/forumRequest/ForumRequests';
+import { Notifications } from '../../api/notification/Notifications';
+import { Reviews } from '../../api/review/Reviews';
 
 // User-level publication.
 // If logged in, then publish documents owned by this user. Otherwise, publish nothing.
@@ -35,6 +38,7 @@ Meteor.publish(Items.userPublicationName, function () {
 });
 // For gallery
 Meteor.publish(Items.adminPublicationName, () => Items.collection.find());
+
 // Publish all requests for each of the current user's items
 Meteor.publish(Requests.toUserPublicationName, function () {
   if (this.userId) {
@@ -59,6 +63,28 @@ Meteor.publish(Requests.fromUserPublicationName, function () {
 });
 
 Meteor.publish(Requests.adminPublicationName, () => Requests.collection.find());
+
+Meteor.publish(ForumRequests.userPublicationName, () => ForumRequests.collection.find());
+
+Meteor.publish(Notifications.toUserPublicationName, function () {
+  if (this.userId) {
+    const username = Meteor.users.findOne(this.userId).username;
+    return Notifications.collection.find({ to: username });
+  }
+  return this.ready();
+});
+
+Meteor.publish(Notifications.fromUserPublicationName, function () {
+  if (this.userId) {
+    const username = Meteor.users.findOne(this.userId).username;
+    return Notifications.collection.find({ from: username });
+  }
+  return this.ready();
+});
+
+Meteor.publish(Notifications.adminPublicationName, () => Notifications.collection.find());
+
+Meteor.publish(Reviews.userPublicationName, () => Reviews.collection.find());
 
 // alanning:roles publication
 // Recommended code to publish roles for each user.

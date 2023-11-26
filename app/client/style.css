@@ -65,15 +65,43 @@ footer, footer a {
   color: black;
 }
 
+#mini-profile {
+  text-decoration: none;
+  color: black;
+}
+
+#mini-profile:hover {
+  text-decoration: none;
+  color: black;
+}
+
 .img {
-  width: 45em;
-  height: 35em;
+  width: 45vw;
+  height: 65vh;
 }
 
 #btn1 {
   white-space: nowrap;
 }
 
+#button-contain {
+  font-size: 0;
+}
+
+#feedback {
+  outline: none;
+}
+
+.text-decoration-none:hover {
+  color: lightgreen;
+}
+
 #hasAccount {
   color: white;
+}
+
+.profileImg {
+  border-radius: 50%;
+  width: 240px;
+  height: auto;
 }

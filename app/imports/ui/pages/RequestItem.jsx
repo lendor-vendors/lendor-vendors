@@ -11,22 +11,29 @@ import { Items } from '../../api/item/Items';
 import { Requests } from '../../api/request/Requests';
 import LoadingSpinner from '../components/LoadingSpinner';
 import NotFound from './NotFound';
+import { Profiles } from '../../api/profile/Profiles';
+import MiniProfile from '../components/MiniProfile';
 
 const RequestItem = () => {
   // Get the documentID from the URL field. See imports/ui/layouts/App.jsx for the route containing :_id.
   const { _id } = useParams();
-  const { item, hasRequested, ready } = useTracker(() => {
+  const { item, ownerProfile, requesterProfile, hasRequested, ready } = useTracker(() => {
     // Get access to Stuff documents.
     const itemsSubscription = Meteor.subscribe(Items.adminPublicationName);
     const fromRequestsSubscription = Meteor.subscribe(Requests.fromUserPublicationName);
+    const profilesSubscription = Meteor.subscribe(Profiles.userPublicationName);
     // Determine if the subscription is ready
-    const rdy = itemsSubscription.ready() && fromRequestsSubscription.ready();
+    const rdy = itemsSubscription.ready() && fromRequestsSubscription.ready() && profilesSubscription.ready();
     // Get the document
     const foundItem = Items.collection.findOne({ _id: _id });
+    const foundOwnerProfile = Profiles.collection.findOne({ email: foundItem?.owner });
+    const foundRequesterProfile = Profiles.collection.findOne({ email: Meteor.user()?.username });
     // If there exists a request from this user for this item, then they have requested this item already
-    const foundHasRequested = Requests.collection.find({ itemId: _id }).fetch().length > 0;
+    const foundHasRequested = Requests.collection.find({ itemId: _id, status: 'pending' }).fetch().length > 0;
     return {
       item: foundItem,
+      ownerProfile: foundOwnerProfile,
+      requesterProfile: foundRequesterProfile,
       hasRequested: foundHasRequested,
       ready: rdy,
     };
@@ -48,7 +55,7 @@ const RequestItem = () => {
   };
   // Create a schema to specify the structure of the data to appear in the form.
   const formSchema = new SimpleSchema({
-    quantity: { type: Number, min: 1, max: () => item.quantity },
+    quantity: { type: Number, min: 1, max: () => item.quantity, defaultValue: 1 },
   });
   const bridge = new SimpleSchema2Bridge(formSchema);
   // Render the form. Use Uniforms: https://github.com/vazco/uniforms
@@ -70,20 +77,45 @@ const RequestItem = () => {
     ) : (
       <Container className="py-3">
         <Row className="justify-content-center">
-          <Col xs={5}>
+          <Col xs={4}>
             <Col className="text-center"><h2>Request {item.title}</h2></Col>
             <AutoForm schema={bridge} onSubmit={data => submit(data)}>
               <Card>
-                <Card.Body>
-                  <NumField
-                    name="quantity"
-                    decimal={null}
-                    min={1}
-                    max={item.quantity}
-                  />
-                  <SubmitField value="Submit" />
-                  <ErrorsField />
-                </Card.Body>
+                {requesterProfile.contactInfo ? (
+                  <>
+                    <Card.Header>
+                      <MiniProfile profile={ownerProfile} />
+                    </Card.Header>
+                    <Card.Body>
+                      <h6>
+                        Your contact info: <br />
+                        {requesterProfile.contactInfo}
+                      </h6>
+                      Not correct? <a href="/edit_profile">Edit your profile</a> to update your contact information.
+                    </Card.Body>
+                    <Card.Body>
+                      By requesting this item, you agree to have your contact information be automatically sent to {ownerProfile.name} if they accept your request.
+                    </Card.Body>
+                    <Card.Body>
+                      <NumField
+                        name="quantity"
+                        decimal={null}
+                        min={1}
+                        max={item.quantity}
+                      />
+                      <SubmitField value="Submit" />
+                    </Card.Body>
+                  </>
+                ) : (
+                  <Card.Body>
+                    {
+                      // TODO: link this anchor to EditProfile when it's done
+                    }
+                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                    You have no contact info! Please <a href="/edit_profile">edit your profile</a> and add your contact information before requesting an item.
+                  </Card.Body>
+                )}
+                <ErrorsField />
               </Card>
             </AutoForm>
           </Col>
