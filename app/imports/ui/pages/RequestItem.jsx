@@ -79,7 +79,7 @@ const RequestItem = () => {
         <Row className="justify-content-center">
           <Col xs={4}>
             <Col className="text-center"><h2>Request {item.title}</h2></Col>
-            <AutoForm schema={bridge} onSubmit={data => submit(data)}>
+            <AutoForm validate="onChange" schema={bridge} onSubmit={data => submit(data)}>
               <Card>
                 {requesterProfile.contactInfo ? (
                   <>

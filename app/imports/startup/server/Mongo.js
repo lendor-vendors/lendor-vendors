@@ -8,6 +8,8 @@ import { Stuffs } from '../../api/stuff/Stuff.js';
 /* eslint-disable no-console */
 
 // Initialize the database with a default data document.
+Meteor.users.allow({ update: () => true });
+Meteor.users.deny({ update: () => false });
 const addData = (data) => {
   console.log(`  Adding: ${data.name} (${data.owner})`);
   Stuffs.collection.insert(data);

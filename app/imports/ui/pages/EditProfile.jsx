@@ -1,16 +1,40 @@
 import React from 'react';
-import swal from 'sweetalert';
 import { Card, Col, Container, Image, Row } from 'react-bootstrap';
 import { AutoForm, ErrorsField, SubmitField, TextField } from 'uniforms-bootstrap5';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import { useParams } from 'react-router';
+import swal from 'sweetalert';
+import SimpleSchema from 'simpl-schema';
+import { updateProfileMethod } from '../../startup/both/Methods';
 import { Profiles } from '../../api/profile/Profiles';
 import LoadingSpinner from '../components/LoadingSpinner';
 import NotFound from './NotFound';
 
-const bridge = new SimpleSchema2Bridge(Profiles.schema);
+const editProfileSchema = new SimpleSchema({
+  _id: String,
+  name: String,
+  image: {
+    type: String,
+    required: false,
+  },
+  rating: Number,
+  contactInfo: String,
+  email: {
+    type: String,
+    required: true,
+    /* custom() {
+      const email = this.value;
+      const existingUser = Profiles.collection.findOne({ email });
+      if (existingUser) {
+        return 'Email already exists';
+      }
+      return null;
+    }, */
+  },
+});
+const bridge = new SimpleSchema2Bridge(editProfileSchema);
 
 /* Renders the EditItem page for editing a single document. */
 const EditProfile = () => {
@@ -30,15 +54,29 @@ const EditProfile = () => {
       ready: rdy,
     };
   }, [_id]);
+
+  const extraValidation = async (data, error) => {
+    if (error) {
+      return error;
+    }
+    editProfileSchema.validate(data);
+    const { email } = data;
+    const existingProfile = Profiles.collection.findOne({ email: email });
+    if (existingProfile && existingProfile.email !== profile.email) {
+      return 'This email has already been taken';
+    }
+    return null;
+  };
+
   // console.log('EditItem', doc, ready);
   // On successful submit, insert the data.
   const submit = (data) => {
     const { name, image, contactInfo, email } = data;
+    console.log('CALLING UPDATEPROFILEMETHOD WITH: ', _id, name, image, contactInfo, email);
     Profiles.collection.update(_id, { $set: { name, image, contactInfo, email } }, (error) => (error ?
       swal('Error', error.message, 'error') :
       swal('Success', 'Profile updated successfully', 'success')));
-    Meteor.users.allow();
-    Meteor.users.update({ _id: Meteor.userId() }, { $set: { username: email } });
+    Meteor.call(updateProfileMethod, { profileId: _id, name, image, contactInfo, email });
   };
 
   if (ready) {
@@ -53,7 +91,12 @@ const EditProfile = () => {
           </Col>
           <Col>
             <Col className="text-center"><h2>Edit Your Profile</h2></Col>
-            <AutoForm schema={bridge} onSubmit={data => submit(data)} model={profile}>
+            <AutoForm
+              schema={bridge}
+              onSubmit={data => submit(data)}
+              onValidate={extraValidation}
+              model={profile}
+            >
               <Card>
                 <Card.Body>
                   <TextField name="name" />
