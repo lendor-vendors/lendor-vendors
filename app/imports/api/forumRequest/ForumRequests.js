@@ -2,7 +2,7 @@ import { Mongo } from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema';
 
 /**
- * The ForumRequestsCollection. It encapsulates state and variable values for Request.
+ * The ForumRequestsCollection. It encapsulates state and variable values for ForumRequest.
  */
 class ForumRequestsCollection {
   constructor() {
@@ -12,11 +12,24 @@ class ForumRequestsCollection {
     this.collection = new Mongo.Collection(this.name);
     // Define the structure of each document in the collection.
     this.schema = new SimpleSchema({
-      forumRequester: String,
-      requestingQuantity: { type: SimpleSchema.Integer, defaultValue: 1, min: 0 },
+      title: String,
+      poster: String,
+      requestingQuantity: { type: SimpleSchema.Integer, defaultValue: 1, min: 1 },
       requestingCondition: { type: String, allowedValues: ['Poor', 'Acceptable', 'Good', 'Excellent'] },
-      forumText: String,
+      forumText: { type: String, optional: true },
       status: { type: String, allowedValues: ['unresolved', 'resolved'], defaultValue: 'unresolved' },
+      createdAt: {
+        type: Date,
+        autoValue: function () {
+          if (this.isInsert) {
+            return new Date();
+          }
+          if (this.isUpsert) {
+            return { $setOnInsert: new Date() };
+          }
+          return this.unset();
+        },
+      },
     });
     // Attach the schema to the collection, so all attempts to insert a document are checked against schema.
     this.collection.attachSchema(this.schema);
@@ -27,7 +40,7 @@ class ForumRequestsCollection {
 }
 
 /**
- * The singleton instance of the RequestsCollection.
+ * The singleton instance of the ForumRequestsCollection.
  * @type {ForumRequestsCollection}
  */
 export const ForumRequests = new ForumRequestsCollection();

@@ -4,6 +4,7 @@ import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import { useParams } from 'react-router';
 import swal from 'sweetalert';
+import { Link } from 'react-router-dom';
 import { Items } from '../../api/item/Items';
 import { Requests } from '../../api/request/Requests';
 import { Profiles } from '../../api/profile/Profiles';
@@ -91,7 +92,7 @@ const ViewRequests = () => {
                 <Modal.Title>Are you sure you want to accept this request?</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-                From: {requesterProfile.name} <br />
+                From: <Link to={`/view_profile/${requesterProfile._id}`}>{requesterProfile.name}</Link> <br />
                 For your: {item.title} <br />
                 Quantity: {request.quantity}
               </Modal.Body>
@@ -125,7 +126,7 @@ const ViewRequests = () => {
               <Modal.Title>Are you sure you want to deny this request?</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              From: {requesterProfile.name} <br />
+              From: <Link to={`/view_profile/${requesterProfile._id}`}>{requesterProfile.name}</Link> <br />
               For: Your {item.title} <br />
               Quantity: {request.quantity}
             </Modal.Body>
@@ -148,6 +149,7 @@ const ViewRequests = () => {
                 <Col>
                   <Row><p className="text-start">From: {requesterProfile.name}</p></Row>
                   <Row><p className="text-start">Quantity: {request.quantity}</p></Row>
+                  <Row><p className="text-start">Requested on: {new Date(Date.parse(request.requestedAt)).toLocaleDateString()}</p></Row>
                 </Col>
                 <Col className="d-flex align-items-center">
                   <Container className="d-flex justify-content-end">
@@ -171,7 +173,7 @@ const ViewRequests = () => {
             <ListGroup.Item key={request._id}>
               <Row>
                 <Col>
-                  <Row><p className="text-start">From: {requesterProfile.name}</p></Row>
+                  <Row><p className="text-start">From: <Link to={`/view_profile/${requesterProfile._id}`}>{requesterProfile.name}</Link></p></Row>
                   <Row><p className="text-start">Quantity: {request.quantity}</p></Row>
                 </Col>
                 <Col className="d-flex align-items-center">

@@ -21,6 +21,9 @@ import Gallery from '../pages/Gallery';
 import ViewItem from '../pages/ViewItem';
 import EditItem from '../pages/EditItem';
 import ViewProfile from '../pages/ViewProfile';
+import Forums from '../pages/Forums';
+import PostForumRequest from '../pages/PostForumRequest';
+import ViewForumRequest from '../pages/ViewForumRequest';
 import Terms from '../pages/Terms';
 import ReviewForm from '../pages/ReviewForm';
 import EditStuff from '../pages/EditStuff';
@@ -42,12 +45,17 @@ const App = () => (
         <Route path="/edit/:_id" element={<ProtectedRoute><EditStuff /></ProtectedRoute>} />
         <Route path="/terms" element={<ProtectedRoute><Terms /></ProtectedRoute>} />
         <Route path="/review/:_id" element={<ProtectedRoute><ReviewForm /></ProtectedRoute>} />
+        <Route path="/edit/:_id" element={<ProtectedRoute><EditItem /></ProtectedRoute>} />
+        <Route path="/terms" element={<ProtectedRoute><Terms /></ProtectedRoute>} />
         <Route path="/notauthorized" element={<NotAuthorized />} />
         <Route path="/request/:_id" element={<ProtectedRoute><RequestItem /></ProtectedRoute>} />
         <Route path="/view_requests/:_id" element={<ProtectedRoute><ViewRequests /></ProtectedRoute>} />
         <Route path="/view_item/:_id" element={<ProtectedRoute><ViewItem /></ProtectedRoute>} />
         <Route path="/requests" element={<ProtectedRoute><RequestsPage /></ProtectedRoute>} />
         <Route path="/view_profile/:_id" element={<ProtectedRoute><ViewProfile /></ProtectedRoute>} />
+        <Route path="/forums" element={<ProtectedRoute><Forums /></ProtectedRoute>} />
+        <Route path="/post_forum_request" element={<ProtectedRoute><PostForumRequest /></ProtectedRoute>} />
+        <Route path="/view_forum_request/:_id" element={<ProtectedRoute><ViewForumRequest /></ProtectedRoute>} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />

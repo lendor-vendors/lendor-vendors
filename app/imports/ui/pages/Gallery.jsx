@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { Col, Container, Row } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
+import Fuse from 'fuse.js';
+import Form from 'react-bootstrap/Form';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { Items } from '../../api/item/Items';
 import ItemCard from '../components/ItemCard';
@@ -23,6 +25,14 @@ const Gallery = () => {
       ready: rdy,
     };
   }, []);
+  const fuseOptions = {
+    shouldSort: true,
+    keys: ['title', 'condition', 'quantity'],
+    threshold: 0.3,
+  };
+  const fuse = new Fuse(items, fuseOptions);
+  const [searchPattern, setSearchPattern] = useState('');
+  const fuseSearch = fuse.search(searchPattern);
   return (ready ? (
     <Container className="py-3">
       <Row className="justify-content-center">
@@ -31,8 +41,24 @@ const Gallery = () => {
             <h2>Gallery</h2>
           </Col>
         </Col>
-        <Row xs={1} md={2} lg={3} xxl={5} className="d-flex flex-wrap justify-content-center g-4 px-5">
-          {items.map((item, index) => <Col style={{ maxWidth: '250px' }} key={index}><ItemCard item={item} /></Col>)}
+        <Container style={{ width: '50%' }}>
+          <Form>
+            <Form.Group>
+              <Form.Control
+                placeholder="Search for an item"
+                onChange={(event) => {
+                  setSearchPattern(event.target.value);
+                }}
+              />
+            </Form.Group>
+          </Form>
+        </Container>
+        <Row xs={1} md={2} lg={3} xl={4} xxl={5} className="d-flex flex-wrap justify-content-center g-4 px-5">
+          {fuseSearch.length === 0 ? (
+            items.map((item, index) => <Col style={{ maxWidth: '250px' }} key={index}><ItemCard item={item} /></Col>)
+          ) : (
+            fuseSearch.map((searchedObj, index) => <Col style={{ maxWidth: '250px' }} key={index}><ItemCard item={searchedObj.item} /></Col>)
+          )}
         </Row>
       </Row>
     </Container>

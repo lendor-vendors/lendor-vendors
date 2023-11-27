@@ -3,6 +3,7 @@ import { Button, Col, Container, ListGroup, Row, Modal } from 'react-bootstrap';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import swal from 'sweetalert';
+import { Link } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { Items } from '../../api/item/Items';
 import { Requests } from '../../api/request/Requests';
@@ -89,7 +90,7 @@ const RequestsPage = () => {
                         <Modal.Body>
                           Item: {item.title} <br />
                           Quantity: {request.quantity} <br />
-                          Owner: {ownerProfile.name}
+                          Owner: <Link to={`/view_profile/${ownerProfile._id}`}>{ownerProfile.name}</Link>
                         </Modal.Body>
                         <Modal.Footer>
                           <Button onClick={() => handleCancelConfirm(request)}>Yes</Button>
@@ -131,7 +132,7 @@ const RequestsPage = () => {
                   {items[itemId].map((requester) => {
                     const requesterProfile = Profiles.collection.findOne({ email: requester });
                     return (
-                      <p>{requesterProfile.name}</p>
+                      <p><Link to={`/view_profile/${requesterProfile._id}`}>{requesterProfile.name}</Link></p>
                     );
                   })}
                   <Button href={`/view_requests/${item._id}`}>View Requests</Button>

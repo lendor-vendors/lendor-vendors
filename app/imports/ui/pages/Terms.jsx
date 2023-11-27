@@ -3,7 +3,7 @@ import { Container } from 'react-bootstrap';
 
 const Terms = () => (
   <Container>
-    <h1 style={{textAlign: 'center' }}>Terms of Service</h1>
+    <h1 style={{ textAlign: 'center' }}>Terms of Service</h1>
     <br />
     <p>1. Listing and Borrowing:</p>
     <p>Lenders are responsible for the legitimacy of the items they list. Borrowers must treat the borrowed item with care and return them in the condition they received it in. Any damage/loss should be reported.</p>

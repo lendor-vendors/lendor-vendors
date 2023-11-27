@@ -15,6 +15,18 @@ class RequestsCollection {
       itemId: String,
       quantity: { type: SimpleSchema.Integer, min: 1 },
       requester: String,
+      requestedAt: {
+        type: Date,
+        autoValue: function () {
+          if (this.isInsert) {
+            return new Date();
+          }
+          if (this.isUpsert) {
+            return { $setOnInsert: new Date() };
+          }
+          return this.unset();
+        },
+      },
       status: {
         type: String,
         allowedValues: ['pending', 'accepted', 'denied'],
