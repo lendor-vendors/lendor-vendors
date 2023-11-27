@@ -5,14 +5,15 @@ import { useParams } from 'react-router';
 import { Col, Container, Row } from 'react-bootstrap';
 import { Notifications } from '../../api/notification/Notifications';
 import LoadingSpinner from '../components/LoadingSpinner';
-import Notification from '../components/Notification'; // Import the modified Notification component
+import Notification from '../components/Notification';
 
 const ViewNotifications = () => {
   const { _id } = useParams();
   const { notifications, ready } = useTracker(() => {
+    const currentUser = Meteor.user();
     const notificationsSubscription = Meteor.subscribe(Notifications.toUserPublicationName);
     const rdy = notificationsSubscription.ready();
-    const foundNotifications = Notifications.collection.find({ to: Meteor.userId() }).fetch();
+    const foundNotifications = Notifications.collection.find({ to: currentUser?.username }).fetch();
     return {
       notifications: foundNotifications,
       ready: rdy,
@@ -26,6 +27,7 @@ const ViewNotifications = () => {
           <Col md={7}>
             <Col className="text-center">
               <h2>Your Notifications</h2>
+              <hr />
               {notifications.length > 0 ? (
                 <div>
                   {notifications.map((notification) => (
