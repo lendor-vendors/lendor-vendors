@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Items } from '../../api/item/Items';
 import { Requests } from '../../api/request/Requests';
 import { ForumRequests } from '../../api/forumRequest/ForumRequests';
+import { Notifications } from '../../api/notification/Notifications';
 // import { Profiles } from '../../api/profile/Profiles';
 
 const acceptRequestMethod = 'Requests.accept';
@@ -18,13 +19,29 @@ Meteor.methods({
     Requests.collection.update({ _id: requestId }, { $set: { status: 'accepted' } });
     const updatedQuantity = itemQuantity - requestQuantity;
     Items.collection.update({ _id: itemId }, { $set: { quantity: updatedQuantity } });
+    // send notification
+    const requester = Requests.collection.findOne({ _id: requestId }).requester;
+    Notifications.collection.insert({
+      to: requester,
+      from: Meteor.user().username,
+      message: 'accept',
+      itemId: itemId,
+    });
     toDenyRequests.forEach((toDenyRequest) => Meteor.call(
       denyRequestMethod,
       { requestId: toDenyRequest._id },
     ));
+
   },
   'Requests.deny'({ requestId }) {
     Requests.collection.update({ _id: requestId }, { $set: { status: 'denied' } });
+    const requester = Requests.collection.findOne({ _id: requestId }).requester;
+    Notifications.collection.insert({
+      to: requester,
+      from: Meteor.user().username,
+      message: 'deny',
+      itemId: requestId,
+    });
   },
   'Requests.cancel'({ requestId }) {
     Requests.collection.remove({ _id: requestId });

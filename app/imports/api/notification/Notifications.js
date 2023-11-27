@@ -15,7 +15,7 @@ class NotificationsCollection {
       to: String,
       from: String,
       message: String,
-      timestamp: Date,
+      itemId: String,
     });
     // Attach the schema to the collection, so all attempts to insert a document are checked against schema.
     this.collection.attachSchema(this.schema);

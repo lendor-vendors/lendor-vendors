@@ -13,6 +13,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import NotFound from './NotFound';
 import { Profiles } from '../../api/profile/Profiles';
 import MiniProfile from '../components/MiniProfile';
+import { Notifications } from '../../api/notification/Notifications';
 
 const RequestItem = () => {
   // Get the documentID from the URL field. See imports/ui/layouts/App.jsx for the route containing :_id.
@@ -48,6 +49,12 @@ const RequestItem = () => {
         if (error) {
           swal('Error', error.message, 'error');
         } else {
+          Notifications.collection.insert({
+            to: item.owner,
+            from: requester,
+            message: 'request',
+            itemId: _id,
+          });
           swal('Success', 'Item requested successfully', 'success');
         }
       },
