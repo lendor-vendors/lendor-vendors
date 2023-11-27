@@ -32,7 +32,7 @@ footer, footer a {
 }
 
 /* Set the alert background on the signin and signup pages. */
-#signin-page .alert-light, #signup-page .alert-light {
+#signin-page .alert-light, #signup-page .alert-light, #navbar-view-profile .alert-light {
   --bs-alert-bg: var(--matr-navbar-bg);
 }
 
@@ -112,4 +112,8 @@ input[type=radio] {
   cursor: pointer;
   width: 240px;
   height: auto;
+}
+
+.hover-dropdown:hover {
+  display: block;
 }

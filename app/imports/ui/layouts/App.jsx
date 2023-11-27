@@ -27,6 +27,8 @@ import ViewForumRequest from '../pages/ViewForumRequest';
 import Terms from '../pages/Terms';
 import ReviewForm from '../pages/ReviewForm';
 import EditStuff from '../pages/EditStuff';
+import EditProfile from '../pages/EditProfile';
+import ViewNotifications from '../pages/ViewNotifications';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => (
@@ -47,6 +49,7 @@ const App = () => (
         <Route path="/review/:_id" element={<ProtectedRoute><ReviewForm /></ProtectedRoute>} />
         <Route path="/edit/:_id" element={<ProtectedRoute><EditItem /></ProtectedRoute>} />
         <Route path="/terms" element={<ProtectedRoute><Terms /></ProtectedRoute>} />
+        <Route path="/editProfile/:_id" element={<ProtectedRoute><EditProfile /></ProtectedRoute>} />
         <Route path="/notauthorized" element={<NotAuthorized />} />
         <Route path="/request/:_id" element={<ProtectedRoute><RequestItem /></ProtectedRoute>} />
         <Route path="/view_requests/:_id" element={<ProtectedRoute><ViewRequests /></ProtectedRoute>} />
@@ -56,6 +59,7 @@ const App = () => (
         <Route path="/forums" element={<ProtectedRoute><Forums /></ProtectedRoute>} />
         <Route path="/post_forum_request" element={<ProtectedRoute><PostForumRequest /></ProtectedRoute>} />
         <Route path="/view_forum_request/:_id" element={<ProtectedRoute><ViewForumRequest /></ProtectedRoute>} />
+        <Route path="/notifications" element={<ProtectedRoute><ViewNotifications /></ProtectedRoute>} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
