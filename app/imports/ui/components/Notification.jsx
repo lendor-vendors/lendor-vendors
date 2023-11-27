@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Alert } from 'react-bootstrap';
+import { Alert, Button } from 'react-bootstrap';
 
 const Notification = ({ notification }) => {
   const { from, message } = notification;
+  const {show, setShow} = useState(true);
 
   const getNotificationMessage = () => {
     switch (message) {
