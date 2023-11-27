@@ -4,7 +4,7 @@ import { useTracker } from 'meteor/react-meteor-data';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { Roles } from 'meteor/alanning:roles';
 import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
-import { BoxArrowRight, PersonFill, PersonPlusFill } from 'react-bootstrap-icons';
+import { BoxArrowRight, PencilSquare, PersonFill, PersonPlusFill } from 'react-bootstrap-icons';
 import { Profiles } from '../../api/profile/Profiles';
 
 const NavBar = () => {
@@ -83,8 +83,19 @@ const NavBar = () => {
                 >
                   <PersonFill />{' '}Your Profile
                 </NavDropdown.Item>
-                <NavDropdown.Item>
-                  Edit Profile
+                <NavDropdown.Item
+                  id="navbar-edit-profile"
+                  onClick={() => {
+                    getProfile().then((profile) => {
+                      if (profile) {
+                        navigate(`/editProfile/${profile._id}`);
+                      } else {
+                        console.log('Profile not found.');
+                      }
+                    });
+                  }}
+                >
+                  <PencilSquare /> Edit Profile
                 </NavDropdown.Item>
                 <NavDropdown.Item id="navbar-sign-out" as={NavLink} to="/signout">
                   <BoxArrowRight />

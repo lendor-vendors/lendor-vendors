@@ -37,6 +37,8 @@ const EditProfile = () => {
     Profiles.collection.update(_id, { $set: { name, image, contactInfo, email } }, (error) => (error ?
       swal('Error', error.message, 'error') :
       swal('Success', 'Profile updated successfully', 'success')));
+    Meteor.users.allow();
+    Meteor.users.update({ _id: Meteor.userId() }, { $set: { username: email } });
   };
 
   if (ready) {
