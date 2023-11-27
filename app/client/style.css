@@ -93,3 +93,10 @@ footer, footer a {
 .profileImg {
   border-radius: 50%;
 }
+input[type=radio] {
+  display: none;
+}
+
+.star {
+  cursor: pointer;
+}
