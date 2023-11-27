@@ -86,6 +86,7 @@ const NavBar = () => {
                 <NavDropdown.Item
                   id="navbar-edit-profile"
                   onClick={() => {
+                    console.log('CURRENT USER: ', currentUser);
                     getProfile().then((profile) => {
                       if (profile) {
                         navigate(`/editProfile/${profile._id}`);
