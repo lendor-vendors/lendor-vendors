@@ -60,7 +60,7 @@ const ViewItem = () => {
                           </div>
                           <Container className="d-inline-block">
                             <h6>Poster: {posterProfile.name}</h6>
-                            <h6>Date: </h6>
+                            <h6>Posted On: {new Date(forumRequest.createdAt).toLocaleDateString()}</h6>
                           </Container>
                         </Link>
                       </Row>
