@@ -26,7 +26,7 @@ const editProfileSchema = new SimpleSchema({
       const existingUser = Profiles.collection.findOne({ email });
       if (existingUser) {
         const currentUser = Meteor.users.find(Meteor.userId()).fetch()[0];
-        if (currentUser.emails[0].address !== email) {
+        if (currentUser.username !== email) {
           return 'takenEmail';
         }
       }
@@ -66,11 +66,8 @@ const EditProfile = () => {
   // On successful submit, insert the data.
   const submit = (data) => {
     const { name, image, contactInfo, email } = data;
-    console.log('CALLING UPDATEPROFILEMETHOD WITH: ', _id, name, image, contactInfo, email);
-    Profiles.collection.update(_id, { $set: { name, image, contactInfo, email } }, (error) => (error ?
-      swal('Error', error.message, 'error') :
-      swal('Success', 'Profile updated successfully', 'success')));
-    Meteor.call(updateProfileMethod, { profileId: _id, name, image, contactInfo, email });
+    const oldEmail = profile.email;
+    Meteor.call(updateProfileMethod, { profileId: _id, name, image, contactInfo, email, oldEmail });
   };
 
   if (ready) {
