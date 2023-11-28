@@ -5,12 +5,20 @@ import { NavLink } from 'react-router-dom';
 import { Roles } from 'meteor/alanning:roles';
 import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { BoxArrowRight, PersonFill, PersonPlusFill, BellFill } from 'react-bootstrap-icons';
+import { Notifications } from '../../api/notification/Notifications';
 
 const NavBar = () => {
-  // useTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker
-  const { currentUser } = useTracker(() => ({
-    currentUser: Meteor.user() ? Meteor.user().username : '',
-  }), []);
+  const { currentUser, unreadNotifications } = useTracker(() => {
+    const user = Meteor.user();
+    Meteor.subscribe(Notifications.toUserPublicationName);
+
+    return {
+      currentUser: user ? user.username : '',
+      unreadNotifications: Notifications.collection
+        .find({ to: user?.username, read: false }, { sort: { createdAt: -1 }, limit: 3 })
+        .fetch(),
+    };
+  });
 
   return (
     <Navbar bg="dark navbar-dark" expand="lg">
@@ -51,8 +59,16 @@ const NavBar = () => {
               <>
                 <NavDropdown id="notifications-icon-nav" as={NavLink} to="/notifications" title={<BellFill />}>
                   <hr />
+                  {unreadNotifications.length > 0 ? (
+                    unreadNotifications.map((notification) => (
+                      <NavDropdown.Item key={notification._id}>
+                        {notification.from} - {notification.message}
+                      </NavDropdown.Item>
+                    ))
+                  ) : (
+                    <NavDropdown.Item>No unread notifications</NavDropdown.Item>
+                  )}
                   <NavLink to="/notifications">View all Notifications</NavLink>
-                  {' '}
                 </NavDropdown>
                 <NavDropdown id="navbar-current-user" title={currentUser}>
                   <NavDropdown.Item id="navbar-sign-out" as={NavLink} to="/signout">
