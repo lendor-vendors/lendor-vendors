@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { Accounts } from 'meteor/accounts-base';
 import { Items } from '../../api/item/Items';
 import { Requests } from '../../api/request/Requests';
 import { ForumRequests } from '../../api/forumRequest/ForumRequests';
@@ -56,9 +57,18 @@ Meteor.methods({
   },
 });
 
+const updateProfileMethod = 'Profiles.update';
+
 Meteor.methods({
-  'Profiles.update'({ profileId }) {
+  'Profiles.update'({ profileId, email }) {
     console.log('Called Profiles.update with profileId: ', profileId);
+    const currentUser = Meteor.users.findOne(this.userId);
+    console.log(currentUser);
+    if (Meteor.isServer) {
+      Accounts.removeEmail(this.userId, currentUser.emails[0].address);
+      Accounts.addEmail(this.userId, email);
+    }
+    Meteor.users.update({ _id: currentUser._id }, { $set: { username: email } });
   },
 });
 
@@ -74,4 +84,4 @@ Meteor.methods({
   },
 });
 
-export { acceptRequestMethod, denyRequestMethod, cancelRequestMethod, removeItemMethod, resolveForumRequestMethod, removeForumRequestMethod };
+export { acceptRequestMethod, denyRequestMethod, cancelRequestMethod, removeItemMethod, updateProfileMethod, resolveForumRequestMethod, removeForumRequestMethod };
