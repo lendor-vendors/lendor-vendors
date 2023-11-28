@@ -7,7 +7,7 @@ import MiniProfile from './MiniProfile';
 
 /* Renders the EditContact page for editing a single item. */
 const Item = ({ item, ownerProfile }) => (
-  <Container className="py-3">
+  <Container id="view-item-page" className="py-3">
     <Row className="justify-content-center">
       <Col>
         <Image className="img" src={item.image} width={500} style={{ objectFit: 'cover' }} />

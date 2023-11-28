@@ -20,6 +20,8 @@ class ItemsCollection {
       owner: String,
       createdAt: {
         type: Date,
+        defaultValue: new Date(),
+        optional: true,
         autoValue: function () {
           if (this.isInsert) {
             return new Date();

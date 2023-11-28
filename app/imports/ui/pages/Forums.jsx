@@ -33,7 +33,7 @@ const Forums = () => {
     setPostFilterTab(currentTab);
   };
   return (ready ? (
-    <Container className="py-3">
+    <Container id="forums-page" className="py-3">
       <Row className="d-flex pb-3">
         <Col />
         <Col>

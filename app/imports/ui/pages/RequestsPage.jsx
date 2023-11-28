@@ -144,7 +144,7 @@ const RequestsPage = () => {
       </>
     );
     return (
-      <Container className="py-3">
+      <Container id="requests-page" className="py-3">
         <Row className="justify-content-center text-center">
           <Col>
             <h3>Requests you made</h3>

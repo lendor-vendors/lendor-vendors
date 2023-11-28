@@ -9,7 +9,7 @@ import ProfileItems from './ProfileItems';
 const Profile = ({ profile }) => (
   // console.log('EditContact', item, ready);
   // On successful submit, insert the data.
-  <Container className="py-3">
+  <Container id="view-profile-page" className="py-3">
     <Row className="justify-content-center">
       <Col xs={12} md={3}>
         <Image className="profileImg pb-3 pt-3" src={profile.image} />

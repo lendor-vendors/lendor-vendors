@@ -49,9 +49,9 @@ const SignUp = ({ location }) => {
           <AutoForm schema={bridge} onSubmit={(data) => submit(data)}>
             <Card>
               <Card.Body>
-                <TextField name="name" placeholder="Enter your name" />
-                <TextField name="email" placeholder="E-mail address" />
-                <TextField name="password" placeholder="Password" type="password" />
+                <TextField id="signup-form-name" name="name" placeholder="Enter your name" />
+                <TextField id="signup-form-email" name="email" placeholder="E-mail address" />
+                <TextField id="signup-form-password" name="password" placeholder="Password" type="password" />
                 <ErrorsField />
                 <Form.Text>
                   <h3>Terms of Service</h3>
@@ -61,7 +61,7 @@ const SignUp = ({ location }) => {
                   <p>Lenders are prohibited from listing any prohibited items. Borrowers are also prohibited from doing any illegal or harmful acts with the borrowed item.</p>
                   <p>By registering for an account, you agree to abide by these terms. We have the right to suspend or terminate accounts that violate these terms.</p>
                 </Form.Text>
-                <SubmitField />
+                <SubmitField id="signup-form-submit" />
               </Card.Body>
             </Card>
           </AutoForm>
