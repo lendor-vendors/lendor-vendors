@@ -1,10 +1,8 @@
 import { Meteor } from 'meteor/meteor';
-import swal from 'sweetalert';
 import { Accounts } from 'meteor/accounts-base';
 import { Items } from '../../api/item/Items';
 import { Requests } from '../../api/request/Requests';
 import { ForumRequests } from '../../api/forumRequest/ForumRequests';
-import { Profiles } from '../../api/profile/Profiles';
 // import { Profiles } from '../../api/profile/Profiles';
 
 const acceptRequestMethod = 'Requests.accept';
@@ -45,7 +43,7 @@ Meteor.methods({
 const updateProfileMethod = 'Profiles.update';
 
 Meteor.methods({
-  'Profiles.update'({ profileId, name, image, contactInfo, email }) {
+  'Profiles.update'({ profileId, email }) {
     console.log('Called Profiles.update with profileId: ', profileId);
     const currentUser = Meteor.users.findOne(this.userId);
     console.log(currentUser);

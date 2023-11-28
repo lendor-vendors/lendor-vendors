@@ -15,23 +15,31 @@ import NotFound from './NotFound';
 const editProfileSchema = new SimpleSchema({
   _id: String,
   name: String,
-  image: {
-    type: String,
-    required: false,
-  },
+  image: { type: String, required: false },
   rating: Number,
-  contactInfo: String,
+  contactInfo: { type: String, required: false },
   email: {
     type: String,
     required: true,
-    /* custom() {
+    custom() {
       const email = this.value;
       const existingUser = Profiles.collection.findOne({ email });
       if (existingUser) {
-        return 'Email already exists';
+        const currentUser = Meteor.users.find(Meteor.userId()).fetch()[0];
+        if (currentUser.emails[0].address !== email) {
+          return 'takenEmail';
+        }
       }
-      return null;
-    }, */
+      return undefined;
+    },
+  },
+}, {
+  getErrorMessage(error) {
+    if (error) {
+      if (error.type === 'takenEmail') return 'This email is taken';
+    }
+    // Returning undefined will fall back to using defaults
+    return undefined;
   },
 });
 const bridge = new SimpleSchema2Bridge(editProfileSchema);
@@ -54,20 +62,6 @@ const EditProfile = () => {
       ready: rdy,
     };
   }, [_id]);
-
-  const extraValidation = async (data, error) => {
-    if (error) {
-      return error;
-    }
-    editProfileSchema.validate(data);
-    const { email } = data;
-    const existingProfile = Profiles.collection.findOne({ email: email });
-    if (existingProfile && existingProfile.email !== profile.email) {
-      return 'This email has already been taken';
-    }
-    return null;
-  };
-
   // console.log('EditItem', doc, ready);
   // On successful submit, insert the data.
   const submit = (data) => {
@@ -91,12 +85,7 @@ const EditProfile = () => {
           </Col>
           <Col>
             <Col className="text-center"><h2>Edit Your Profile</h2></Col>
-            <AutoForm
-              schema={bridge}
-              onSubmit={data => submit(data)}
-              onValidate={extraValidation}
-              model={profile}
-            >
+            <AutoForm schema={bridge} onSubmit={data => submit(data)} model={profile}>
               <Card>
                 <Card.Body>
                   <TextField name="name" />
