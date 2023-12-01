@@ -3,25 +3,12 @@ import { Accounts } from 'meteor/accounts-base';
 import { Roles } from 'meteor/alanning:roles';
 import { Profiles } from '../../api/profile/Profiles';
 import { Items } from '../../api/item/Items';
-import { Stuffs } from '../../api/stuff/Stuff.js';
 
 /* eslint-disable no-console */
 
 // Initialize the database with a default data document.
 Meteor.users.allow({ update: () => true });
 Meteor.users.deny({ update: () => false });
-const addData = (data) => {
-  console.log(`  Adding: ${data.name} (${data.owner})`);
-  Stuffs.collection.insert(data);
-};
-
-// Initialize the StuffsCollection if empty.
-if (Stuffs.collection.find().count() === 0) {
-  if (Meteor.settings.defaultData) {
-    console.log('Creating default data.');
-    Meteor.settings.defaultData.forEach(data => addData(data));
-  }
-}
 
 /* eslint-disable no-console */
 // Create user account used for logging in and out
