@@ -32,7 +32,7 @@ const ViewItem = () => {
   // On successful submit, insert the data.
   if (ready) {
     if (item) {
-      return <Item item={item} ownerProfile={ownerProfile} />;
+      return <Item id="view-item-page" item={item} ownerProfile={ownerProfile} />;
     }
     return <NotFound />;
   }

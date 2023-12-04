@@ -33,7 +33,7 @@ const Forums = () => {
     setPostFilterTab(currentTab);
   };
   return (ready ? (
-    <Container className="py-3">
+    <Container id="forums-page" className="py-3">
       <Row className="d-flex pb-3">
         <Col />
         <Col>
@@ -64,7 +64,7 @@ const Forums = () => {
           </Dropdown>
         </Col>
       </Row>
-      <Row xs={1} md={1} lg={2} xl={2} xxl={3} className="d-flex g-4">
+      <Row xs={1} md={1} xl={2} className="d-flex g-4">
         {postFilterTab === 'All Forum Posts' ? (
           forumRequests.map((forumRequest, index) => {
             if (currentFilter === 'all' || forumRequest.status === currentFilter) {

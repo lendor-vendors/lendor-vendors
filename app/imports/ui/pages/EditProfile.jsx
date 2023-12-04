@@ -6,11 +6,43 @@ import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import { useParams } from 'react-router';
+import SimpleSchema from 'simpl-schema';
+import { updateProfileMethod } from '../../startup/both/Methods';
 import { Profiles } from '../../api/profile/Profiles';
 import LoadingSpinner from '../components/LoadingSpinner';
 import NotFound from './NotFound';
 
-const bridge = new SimpleSchema2Bridge(Profiles.schema);
+const editProfileSchema = new SimpleSchema({
+  _id: String,
+  name: String,
+  image: { type: String, required: false },
+  rating: Number,
+  contactInfo: { type: String, required: false },
+  email: {
+    type: String,
+    required: true,
+    custom() {
+      const email = this.value;
+      const existingUser = Profiles.collection.findOne({ email });
+      if (existingUser) {
+        const currentUser = Meteor.users.find(Meteor.userId()).fetch()[0];
+        if (currentUser.username !== email) {
+          return 'takenEmail';
+        }
+      }
+      return undefined;
+    },
+  },
+}, {
+  getErrorMessage(error) {
+    if (error) {
+      if (error.type === 'takenEmail') return 'This email is taken';
+    }
+    // Returning undefined will fall back to using defaults
+    return undefined;
+  },
+});
+const bridge = new SimpleSchema2Bridge(editProfileSchema);
 
 /* Renders the EditItem page for editing a single document. */
 const EditProfile = () => {
@@ -34,9 +66,8 @@ const EditProfile = () => {
   // On successful submit, insert the data.
   const submit = (data) => {
     const { name, image, contactInfo, email } = data;
-    Profiles.collection.update(_id, { $set: { name, image, contactInfo, email } }, (error) => (error ?
-      swal('Error', error.message, 'error') :
-      swal('Success', 'Profile updated successfully', 'success')));
+    const oldEmail = profile.email;
+    Meteor.call(updateProfileMethod, { profileId: _id, name, image, contactInfo, email, oldEmail });
   };
 
   const testClick = () => {

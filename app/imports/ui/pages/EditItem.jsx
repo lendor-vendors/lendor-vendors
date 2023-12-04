@@ -44,7 +44,7 @@ const EditItem = () => {
       return <NotFound />;
     }
     return (
-      <Container className="py-3">
+      <Container id="edit-item-page" className="py-3">
         <Row className="justify-content-center">
           <Col>
             <Image className="img" src={item.image} width={500} style={{ objectFit: 'cover' }} />
@@ -54,12 +54,12 @@ const EditItem = () => {
             <AutoForm schema={bridge} onSubmit={data => submit(data)} model={item}>
               <Card>
                 <Card.Body>
-                  <TextField name="title" />
+                  <TextField id="edit-item-form-name" name="title" />
                   <TextField name="image" />
                   <LongTextField name="description" />
                   <NumField name="quantity" decimal={false} />
                   <SelectField name="condition" />
-                  <SubmitField value="Submit" />
+                  <SubmitField id="edit-item-form-submit" value="Submit" />
                   <ErrorsField />
                 </Card.Body>
               </Card>

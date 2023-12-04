@@ -55,12 +55,22 @@ footer, footer a {
   float: right;
 }
 
-#item-cards:hover{
+.item-card {
+  transition: 0.25s;
+  box-shadow: 6px 6px 6px 0 rgba(0, 0, 0, 0.15);
+}
+
+.item-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 6px 10px 12px 0 rgba(0,0,0,0.15);
+}
+
+#cards-link:hover{
   text-decoration: none;
   color: blue;
 }
 
-#item-cards {
+#cards-link {
   text-decoration: none;
   color: black;
 }
@@ -117,3 +127,4 @@ input[type=radio] {
 .hover-dropdown:hover {
   display: block;
 }
+

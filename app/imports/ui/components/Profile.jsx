@@ -9,17 +9,21 @@ import ProfileItems from './ProfileItems';
 const Profile = ({ profile }) => (
   // console.log('EditContact', item, ready);
   // On successful submit, insert the data.
-  <Container className="py-3">
+  <Container id="view-profile-page" className="py-3">
     <Row className="justify-content-center">
       <Col xs={12} md={3}>
         <Image className="profileImg pb-3 pt-3" src={profile.image} />
       </Col>
       <Col xs={12} md={9}>
         <div className="pt-4">
-          <h1 style={{ fontSize: '5rem' }}>
-            {profile.name}
+          <h1 style={{ fontSize: '5rem' }}>{profile.name}
             {profile.email !== Meteor.user().username ? (
-              <Button className="float-end" href={`/review/${profile._id}`}>Write a Review</Button>) : <Button className="float-end" href={`/edit_profile/${profile._id}`}>Edit Profile</Button>}
+              <Button style={{ marginLeft: '15em' }} href={`/review/${profile._id}`}>Leave a Review
+              </Button>
+            ) : (
+              <Button style={{ marginLeft: '20em' }} id="review" href={`/editProfile/${profile._id}`}>Edit Profile
+              </Button>
+            )}
           </h1>
           <h1 style={{ fontSize: '2.75rem' }} className="pt-4"><Star className="pb-1" /> {profile.rating} </h1>
         </div>

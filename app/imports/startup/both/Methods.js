@@ -1,4 +1,6 @@
 import { Meteor } from 'meteor/meteor';
+import { Accounts } from 'meteor/accounts-base';
+import swal from 'sweetalert';
 import { Items } from '../../api/item/Items';
 import { Requests } from '../../api/request/Requests';
 import { ForumRequests } from '../../api/forumRequest/ForumRequests';
@@ -58,9 +60,18 @@ Meteor.methods({
   },
 });
 
+const updateProfileMethod = 'Profiles.update';
+
 Meteor.methods({
-  'Profiles.update'({ profileId }) {
-    console.log('Called Profiles.update with profileId: ', profileId);
+  'Profiles.update'({ profileId, name, image, contactInfo, email, oldEmail }) {
+    Meteor.users.update({ _id: this.userId }, { $set: { username: email } });
+    if (Meteor.isServer) {
+      Accounts.removeEmail(this.userId, oldEmail);
+      Accounts.addEmail(this.userId, email);
+    }
+    Profiles.collection.update({ _id: profileId }, { $set: { name, image, contactInfo, email } }, (error) => (error ?
+      swal('Error', error.message, 'error') :
+      swal('Success', 'Profile updated successfully', 'success')));
   },
 });
 
@@ -97,4 +108,4 @@ Meteor.methods({
   },
 });
 
-export { acceptRequestMethod, denyRequestMethod, cancelRequestMethod, removeItemMethod, resolveForumRequestMethod, removeForumRequestMethod, insertReviewMethod };
+export { acceptRequestMethod, denyRequestMethod, cancelRequestMethod, removeItemMethod, resolveForumRequestMethod, removeForumRequestMethod, insertReviewMethod, updateProfileMethod };

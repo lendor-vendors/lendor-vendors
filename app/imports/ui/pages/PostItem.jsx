@@ -24,8 +24,9 @@ const PostItem = () => {
   const submit = (data, formRef) => {
     const { title, image, description, quantity, condition } = data;
     const owner = Meteor.user().username;
+    const createdAt = new Date().toISOString();
     Items.collection.insert(
-      { title, image, description, quantity, condition, owner },
+      { title, image, description, quantity, condition, owner, createdAt },
       (error) => {
         if (error) {
           swal('Error', error.message, 'error');
@@ -40,19 +41,19 @@ const PostItem = () => {
   // Render the form. Use Uniforms: https://github.com/vazco/uniforms
   let fRef = null;
   return (
-    <Container className="py-3">
+    <Container id="post-item-page" className="py-3">
       <Row className="justify-content-center">
         <Col xs={5}>
           <Col className="text-center"><h2>Post Item</h2></Col>
           <AutoForm ref={ref => { fRef = ref; }} schema={bridge} onSubmit={data => submit(data, fRef)}>
             <Card>
               <Card.Body>
-                <TextField name="title" />
-                <TextField name="image" />
-                <LongTextField name="description" />
-                <NumField name="quantity" decimal={false} />
-                <SelectField name="condition" />
-                <SubmitField value="Post" />
+                <TextField id="post-item-form-name" name="title" />
+                <TextField id="post-item-form-image" name="image" />
+                <LongTextField id="post-item-form-description" name="description" />
+                <NumField id="post-item-form-quantity" name="quantity" decimal={false} />
+                <SelectField id="post-item-form-condition" name="condition" />
+                <SubmitField id="post-item-form-submit" value="Post" />
                 <ErrorsField />
               </Card.Body>
             </Card>

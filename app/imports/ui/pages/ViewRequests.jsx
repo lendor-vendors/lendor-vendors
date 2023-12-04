@@ -188,7 +188,7 @@ const ViewRequests = () => {
       </ListGroup>
     );
     return (
-      <Container className="py-3">
+      <Container id="view-request-page" className="py-3">
         <Row className="justify-content-center text-center"><h3>Requests for your {item.title} (Quantity: {item.quantity})</h3></Row>
         <Row>
           <Col>

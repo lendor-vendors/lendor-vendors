@@ -8,25 +8,25 @@ import DeleteItemButton from './DeleteItemButton';
 
 /** Renders a single row in the List item table. See pages/YourItems.jsx. */
 const ItemCard = ({ item }) => (
-  <Card className="h-100">
-    <Link id="item-cards" to={`/view_item/${item._id}`}>
+  <Link id="cards-link" to={`/view_item/${item._id}`}>
+    <Card className="h-100 item-card">
       <Card.Header>
         <Card.Img src={item.image} alt={`${item.title} image`} style={{ width: '100%', height: '150px', objectFit: 'cover' }} />
       </Card.Header>
-    </Link>
-    <Card.Body>
-      <Link id="item-cards" to={`/view_item/${item._id}`}><Card.Title>{item.title}</Card.Title></Link>
-    </Card.Body>
-    {Roles.userIsInRole(Meteor.user(), 'admin') ? (
-      <Container className="d-flex justify-content-start">
-        <Row>
-          <Col>
-            <DeleteItemButton item={item} />
-          </Col>
-        </Row>
-      </Container>
-    ) : ''}
-  </Card>
+      <Card.Body>
+        <Card.Title>{item.title}</Card.Title>
+      </Card.Body>
+      {Roles.userIsInRole(Meteor.user(), 'admin') ? (
+        <Container className="d-flex justify-content-start">
+          <Row>
+            <Col>
+              <DeleteItemButton item={item} />
+            </Col>
+          </Row>
+        </Container>
+      ) : ''}
+    </Card>
+  </Link>
 );
 
 // Require a document to be passed to this component.

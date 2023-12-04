@@ -34,7 +34,7 @@ const Gallery = () => {
   const [searchPattern, setSearchPattern] = useState('');
   const fuseSearch = fuse.search(searchPattern);
   return (ready ? (
-    <Container className="py-3">
+    <Container id="gallery-page" className="py-3">
       <Row className="justify-content-center">
         <Col md={7}>
           <Col className="text-center">
@@ -54,7 +54,7 @@ const Gallery = () => {
           </Form>
         </Container>
         <Row xs={1} md={2} lg={3} xl={4} xxl={5} className="d-flex flex-wrap justify-content-center g-4 px-5">
-          {fuseSearch.length === 0 ? (
+          {searchPattern === '' ? (
             items.map((item, index) => <Col style={{ maxWidth: '250px' }} key={index}><ItemCard item={item} /></Col>)
           ) : (
             fuseSearch.map((searchedObj, index) => <Col style={{ maxWidth: '250px' }} key={index}><ItemCard item={searchedObj.item} /></Col>)
