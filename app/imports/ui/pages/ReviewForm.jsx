@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import swal from 'sweetalert';
-import { Card, Col, Container, Image, Row } from 'react-bootstrap';
-import { AutoForm, ErrorsField, LongTextField, NumField, SelectField, SubmitField, TextField } from 'uniforms-bootstrap5';
+import { Card, Col, Container, Row } from 'react-bootstrap';
+import { AutoForm, ErrorsField, SubmitField, LongTextField } from 'uniforms-bootstrap5';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
@@ -10,8 +10,10 @@ import { useParams } from 'react-router';
 import LoadingSpinner from '../components/LoadingSpinner';
 import NotFound from './NotFound';
 import { Profiles } from '../../api/profile/Profiles';
+import { Reviews } from '../../api/review/Reviews';
+import { insertReviewMethod } from '../../startup/both/Methods';
 
-const bridge = new SimpleSchema2Bridge(Profiles.schema);
+const bridge = new SimpleSchema2Bridge(Reviews.schema);
 
 /* Renders the EditItem page for editing a single document. */
 const ReviewForm = () => {
@@ -21,14 +23,17 @@ const ReviewForm = () => {
   const { _id } = useParams();
   // console.log('EditItem', _id);
   // useTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker
-  const { profile, ready } = useTracker(() => {
+  const { review, profile, ready } = useTracker(() => {
     // Get access to Item documents.
     const subscription = Meteor.subscribe(Profiles.userPublicationName);
+    const sub2 = Meteor.subscribe(Reviews.userPublicationName);
     // Determine if the subscription is ready
-    const rdy = subscription.ready();
+    const rdy = subscription.ready() && sub2.ready();
     // Get the document
     const foundProfile = Profiles.collection.findOne(_id);
+    const reviewModel = Reviews.collection.findOne();
     return {
+      review: reviewModel,
       profile: foundProfile,
       ready: rdy,
     };
@@ -36,10 +41,14 @@ const ReviewForm = () => {
   // console.log('EditItem', doc, ready);
   // On successful submit, insert the data.
   const submit = (data) => {
-    const { ratings, review } = data;
-    Profiles.collection.update(_id, { $set: { ratings, review } }, (error) => (error ?
+    const { comment } = data;
+    const reviewee = Profiles.collection.findOne(_id);
+    const reviewer = { _id }.name;
+    const date = new Date();
+    Profiles.collection.update(_id, { $set: { reviewee, reviewer, rating, comment, date } }, (error) => (error ?
       swal('Error', error.message, 'error') :
       swal('Success', 'Item updated successfully', 'success')));
+    // Meteor.call(insertReviewMethod, { reviewee: reviewee }, { reviewer: reviewer }, { rating: theRating }, { comment: comment }, { timeStamp: new Date() });
   };
 
   if (ready) {
@@ -51,14 +60,14 @@ const ReviewForm = () => {
         <Row className="justify-content-center">
           <Col xs={5}>
             <Col className="text-center"><h2>Rate {profile.name}</h2></Col>
-            <AutoForm schema={bridge} onSubmit={data => submit(data)} model={profile}>
+            <AutoForm schema={bridge} onSubmit={data => submit(data)} model={review}>
               <Card>
                 <Card.Body>
                   Rate this user: <br /> {[...Array(5)].map((star, index) => {
                     const currentRating = index + 1;
                     return (
                       // eslint-disable-next-line jsx-a11y/label-has-associated-control
-                      <label>
+                      <label key={currentRating}>
                         <input
                           type="radio"
                           name="rating"
@@ -67,7 +76,6 @@ const ReviewForm = () => {
                         />
                         <StarFill
                           className="star"
-                          size={30}
                           color={currentRating <= (hover || rating) ? '#ffc107' : '#e4e5e9'}
                           onMouseEnter={() => setHover(currentRating)}
                           onMouseLeave={() => setHover(null)}
@@ -75,7 +83,8 @@ const ReviewForm = () => {
                       </label>
                     );
                   })}
-                  <TextField name="rating" />
+                  <LongTextField name="comment" />
+                  <SubmitField value="Submit" />
                   <ErrorsField />
                 </Card.Body>
               </Card>

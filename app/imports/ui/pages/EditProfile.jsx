@@ -1,6 +1,6 @@
 import React from 'react';
 import swal from 'sweetalert';
-import { Card, Col, Container, Image, Row } from 'react-bootstrap';
+import { Button, Card, Col, Container, Image, Row } from 'react-bootstrap';
 import { AutoForm, ErrorsField, SubmitField, TextField } from 'uniforms-bootstrap5';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
@@ -39,6 +39,16 @@ const EditProfile = () => {
       swal('Success', 'Profile updated successfully', 'success')));
   };
 
+  const testClick = () => {
+    const thing = Meteor.call('Test.method', function (error) {
+      if (error) {
+        console.log('there was an error', error);
+        swal('Error', error.message, 'error');
+      }
+    });
+    console.log(thing);
+  }
+
   if (ready) {
     if (!profile) {
       return <NotFound />;
@@ -59,6 +69,7 @@ const EditProfile = () => {
                   <TextField name="contactInfo" />
                   <TextField name="email" />
                   <SubmitField value="Submit" />
+                  <Button onClick={testClick}>Test Click</Button>
                   <ErrorsField />
                 </Card.Body>
               </Card>

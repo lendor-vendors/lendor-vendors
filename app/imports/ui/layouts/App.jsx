@@ -44,12 +44,11 @@ const App = () => (
         <Route path="/gallery" element={<ProtectedRoute><Gallery /></ProtectedRoute>} />
         <Route path="/post" element={<ProtectedRoute><PostItem /></ProtectedRoute>} />
         <Route path="/your_items" element={<ProtectedRoute><YourItems /></ProtectedRoute>} />
-        <Route path="/edit/:_id" element={<ProtectedRoute><EditStuff /></ProtectedRoute>} />
         <Route path="/terms" element={<ProtectedRoute><Terms /></ProtectedRoute>} />
         <Route path="/review/:_id" element={<ProtectedRoute><ReviewForm /></ProtectedRoute>} />
         <Route path="/edit/:_id" element={<ProtectedRoute><EditItem /></ProtectedRoute>} />
         <Route path="/terms" element={<ProtectedRoute><Terms /></ProtectedRoute>} />
-        <Route path="/editProfile/:_id" element={<ProtectedRoute><EditProfile /></ProtectedRoute>} />
+        <Route path="/edit_profile/:_id" element={<ProtectedRoute><EditProfile /></ProtectedRoute>} />
         <Route path="/notauthorized" element={<NotAuthorized />} />
         <Route path="/request/:_id" element={<ProtectedRoute><RequestItem /></ProtectedRoute>} />
         <Route path="/view_requests/:_id" element={<ProtectedRoute><ViewRequests /></ProtectedRoute>} />

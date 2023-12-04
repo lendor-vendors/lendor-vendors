@@ -110,7 +110,7 @@ input[type=radio] {
 
 .star {
   cursor: pointer;
-  width: 240px;
+  width: 2em;
   height: auto;
 }
 

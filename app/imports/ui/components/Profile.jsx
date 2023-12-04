@@ -1,7 +1,7 @@
 import React from 'react';
-// import { Meteor } from 'meteor/meteor';
+import { Meteor } from 'meteor/meteor';
 import PropTypes from 'prop-types';
-import { Col, Container, Image, Row } from 'react-bootstrap';
+import { Button, Col, Container, Image, Row } from 'react-bootstrap';
 import { Star } from 'react-bootstrap-icons';
 import ProfileItems from './ProfileItems';
 
@@ -16,7 +16,11 @@ const Profile = ({ profile }) => (
       </Col>
       <Col xs={12} md={9}>
         <div className="pt-4">
-          <h1 style={{ fontSize: '5rem' }}>{profile.name}</h1>
+          <h1 style={{ fontSize: '5rem' }}>
+            {profile.name}
+            {profile.email !== Meteor.user().username ? (
+              <Button className="float-end" href={`/review/${profile._id}`}>Write a Review</Button>) : <Button className="float-end" href={`/edit_profile/${profile._id}`}>Edit Profile</Button>}
+          </h1>
           <h1 style={{ fontSize: '2.75rem' }} className="pt-4"><Star className="pb-1" /> {profile.rating} </h1>
         </div>
       </Col>
@@ -34,6 +38,7 @@ Profile.propTypes = {
     image: PropTypes.string,
     rating: PropTypes.number,
     email: PropTypes.string,
+    comment: PropTypes.string,
     _id: PropTypes.string,
   }).isRequired,
 };
