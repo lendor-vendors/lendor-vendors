@@ -1,9 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Alert } from 'react-bootstrap';
+import { Alert, Button } from 'react-bootstrap';
+import { Meteor } from 'meteor/meteor';
 
 const Notification = ({ notification }) => {
-  const { from, message } = notification;
+  const { _id, from, message, read } = notification;
+  const [isRead, setIsRead] = useState(read);
+
+  const markAsRead = () => {
+    if (!isRead) {
+      // Update the notification's read status in the database
+      Meteor.call('Notifications.markAsRead', { notificationId: _id });
+      // Update the local state
+      setIsRead(true);
+    }
+  };
 
   const getNotificationMessage = () => {
     switch (message) {
@@ -21,16 +32,23 @@ const Notification = ({ notification }) => {
   };
 
   return (
-    <Alert variant="success">
+    <Alert variant={isRead ? 'light' : 'success'}>
       {getNotificationMessage()}
+      {!isRead && (
+        <Button variant="link" size="md" onClick={markAsRead}>
+          Mark as Read
+        </Button>
+      )}
     </Alert>
   );
 };
 
 Notification.propTypes = {
   notification: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
     from: PropTypes.string.isRequired,
     message: PropTypes.string.isRequired,
+    read: PropTypes.bool.isRequired,
   }).isRequired,
 };
 
