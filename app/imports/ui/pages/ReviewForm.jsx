@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import swal from 'sweetalert';
 import { Card, Col, Container, Row } from 'react-bootstrap';
-import { AutoForm, ErrorsField, SubmitField, LongTextField } from 'uniforms-bootstrap5';
+import { AutoForm, ErrorsField, SubmitField, LongTextField, HiddenField } from 'uniforms-bootstrap5';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
@@ -31,7 +31,7 @@ const ReviewForm = () => {
     const rdy = subscription.ready() && sub2.ready();
     // Get the document
     const foundProfile = Profiles.collection.findOne(_id);
-    const reviewModel = Reviews.collection.findOne();
+    const reviewModel = Reviews.collection.findOne(_id);
     return {
       review: reviewModel,
       profile: foundProfile,
@@ -43,12 +43,27 @@ const ReviewForm = () => {
   const submit = (data) => {
     const { comment } = data;
     const reviewee = Profiles.collection.findOne(_id);
-    const reviewer = { _id }.name;
+    const reviewer = Meteor.user().username;
     const date = new Date();
-    Profiles.collection.update(_id, { $set: { reviewee, reviewer, rating, comment, date } }, (error) => (error ?
-      swal('Error', error.message, 'error') :
-      swal('Success', 'Item updated successfully', 'success')));
-    // Meteor.call(insertReviewMethod, { reviewee: reviewee }, { reviewer: reviewer }, { rating: theRating }, { comment: comment }, { timeStamp: new Date() });
+    const reviewData = {
+      reviewee: reviewee.name,
+      reviewer: reviewer,
+      rating: rating,
+      comment: comment,
+      timeStamp: date,
+    };
+    // Profiles.collection.update(_id, { $set: { reviewee, reviewer, rating, comment, date } }, (error) => (error ?
+    //   swal('Error', error.message, 'error') :
+    //   swal('Success', 'Item updated successfully', 'success')));
+    //   Meteor.call(insertReviewMethod, { reviewee: reviewee }, { reviewer: reviewer }, { rating: rating }, { comment: comment }, { timeStamp: date });
+    // };
+    Meteor.call(insertReviewMethod, reviewData, (error) => {
+      if (error) {
+        swal('Error', error.message, 'error');
+      } else {
+        swal('Success', 'Review submitted successfully', 'success');
+      }
+    });
   };
 
   if (ready) {

@@ -1,7 +1,7 @@
 import React from 'react';
 import swal from 'sweetalert';
 import { Button, Card, Col, Container, Image, Row } from 'react-bootstrap';
-import { AutoForm, ErrorsField, SubmitField, TextField } from 'uniforms-bootstrap5';
+import { AutoForm, ErrorsField, HiddenField, SubmitField, TextField } from 'uniforms-bootstrap5';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
@@ -78,7 +78,7 @@ const EditProfile = () => {
       }
     });
     console.log(thing);
-  }
+  };
 
   if (ready) {
     if (!profile) {
