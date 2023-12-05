@@ -35,7 +35,7 @@ const Notification = ({ notification }) => {
     <Alert variant={isRead ? 'light' : 'success'}>
       {getNotificationMessage()}
       {!isRead && (
-        <Button variant="link" size="md" onClick={markAsRead}>
+        <Button variant="success" size="md" onClick={markAsRead}>
           Mark as Read
         </Button>
       )}

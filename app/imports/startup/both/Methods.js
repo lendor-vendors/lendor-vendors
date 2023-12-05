@@ -37,6 +37,7 @@ Meteor.methods({
   },
   'Requests.deny'({ requestId }) {
     Requests.collection.update({ _id: requestId }, { $set: { status: 'denied' } });
+    // send notification
     const requester = Requests.collection.findOne({ _id: requestId }).requester;
     const notificationId = Notifications.collection.insert({
       to: requester,

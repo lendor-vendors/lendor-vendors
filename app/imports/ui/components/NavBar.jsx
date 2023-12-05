@@ -78,18 +78,20 @@ const NavBar = () => {
               </NavDropdown>
             ) : (
               <>
-                <NavDropdown id="notifications-icon-nav" as={NavLink} to="/notifications" title={<BellFill />}>
-                  <hr />
+                <NavDropdown id="notifications-icon-nav" title={<BellFill />}>
+                  <NavDropdown.ItemText className="dropdown-header">Recent Notifications</NavDropdown.ItemText>
+                  <NavDropdown className="dropdown-divider" />
                   {unreadNotifications.length > 0 ? (
                     unreadNotifications.map((notification) => (
-                      <NavDropdown.Item key={notification._id}>
-                        {notification.from} - {notification.message}
-                      </NavDropdown.Item>
+                      <NavDropdown.ItemText className="dropdown-header" key={notification._id}>
+                        New {notification.message}
+                      </NavDropdown.ItemText>
                     ))
                   ) : (
-                    <NavDropdown.Item>No unread notifications</NavDropdown.Item>
+                    <NavDropdown.ItemText className="dropdown-header">No unread notifications</NavDropdown.ItemText>
                   )}
-                  <NavLink to="/notifications">View all Notifications</NavLink>
+                  <NavDropdown className="dropdown-divider" />
+                  <NavDropdown.ItemText as={NavLink} to="/notifications" className="dropdown-header">View all Notifications</NavDropdown.ItemText>
                 </NavDropdown>
                 <NavDropdown className="hover-dropdown" id="navbar-current-user" title={currentUser}>
                   <NavDropdown.Item
