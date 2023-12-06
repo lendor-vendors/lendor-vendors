@@ -84,10 +84,8 @@ Meteor.methods({
     // add everything up and divide by length
     const average = ratings.reduce((sum2, rating2) => sum2 + rating2, 0) / ratings.length;
     // update the profile with the new rating
-    Profiles.collection.update({ name: reviewee }, { $set: { rating: average } });
+    Profiles.collection.update({ email: reviewee }, { $set: { rating: average } });
     console.log('Updating profile with rating:', average);
-    // const averageRating = Reviews.collection.find({ reviewee: reviewee }).fetch().reduce((sum, review) => sum + review.rating, 0) / Reviews.collection.find({ reviewee: reviewee }).fetch().length;
-    // Profiles.collection.update({ email: reviewee }, { $set: { rating: averageRating } });
   },
 });
 
