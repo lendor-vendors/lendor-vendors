@@ -46,17 +46,12 @@ const ReviewForm = () => {
     const reviewer = Meteor.user().username;
     const date = new Date();
     const reviewData = {
-      reviewee: reviewee.name,
+      reviewee: reviewee.email,
       reviewer: reviewer,
       rating: rating,
       comment: comment,
       timeStamp: date,
     };
-    // Profiles.collection.update(_id, { $set: { reviewee, reviewer, rating, comment, date } }, (error) => (error ?
-    //   swal('Error', error.message, 'error') :
-    //   swal('Success', 'Item updated successfully', 'success')));
-    //   Meteor.call(insertReviewMethod, { reviewee: reviewee }, { reviewer: reviewer }, { rating: rating }, { comment: comment }, { timeStamp: date });
-    // };
     Meteor.call(insertReviewMethod, reviewData, (error) => {
       if (error) {
         swal('Error', error.message, 'error');
