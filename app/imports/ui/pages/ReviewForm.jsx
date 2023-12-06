@@ -46,7 +46,7 @@ const ReviewForm = () => {
     const reviewer = Meteor.user().username;
     const date = new Date();
     const reviewData = {
-      reviewee: reviewee.name,
+      reviewee: reviewee.email,
       reviewer: reviewer,
       rating: rating,
       comment: comment,
