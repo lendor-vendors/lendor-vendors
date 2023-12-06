@@ -14,7 +14,7 @@ const MiniProfile = ({ profile }) => {
       </div>
       <Container className="d-inline-block">
         <h6>Owner: {profile.name} {profile.email === currentUser?.username ? '(you)' : ''}</h6>
-        <h6>Rating: {profile.rating}</h6>
+        <h6>Rating: {profile.rating.toFixed(1)}</h6>
       </Container>
     </Link>
   );

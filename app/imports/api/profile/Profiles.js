@@ -14,7 +14,7 @@ class ProfilesCollection {
     this.schema = new SimpleSchema({
       name: String,
       image: { type: String, optional: true },
-      rating: { type: Number, min: 0, max: 10 },
+      rating: { type: Number, min: 0, max: 5 },
       contactInfo: { type: String, optional: true },
       email: { type: String, index: true, unique: true },
     });
