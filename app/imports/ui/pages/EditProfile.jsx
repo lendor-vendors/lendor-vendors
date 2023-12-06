@@ -1,7 +1,6 @@
 import React from 'react';
-import swal from 'sweetalert';
-import { Button, Card, Col, Container, Image, Row } from 'react-bootstrap';
-import { AutoForm, ErrorsField, HiddenField, SubmitField, TextField } from 'uniforms-bootstrap5';
+import { Card, Col, Container, Image, Row } from 'react-bootstrap';
+import { AutoForm, ErrorsField, SubmitField, TextField } from 'uniforms-bootstrap5';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
@@ -70,16 +69,6 @@ const EditProfile = () => {
     Meteor.call(updateProfileMethod, { profileId: _id, name, image, contactInfo, email, oldEmail });
   };
 
-  const testClick = () => {
-    const thing = Meteor.call('Test.method', function (error) {
-      if (error) {
-        console.log('there was an error', error);
-        swal('Error', error.message, 'error');
-      }
-    });
-    console.log(thing);
-  };
-
   if (ready) {
     if (!profile) {
       return <NotFound />;
@@ -100,7 +89,6 @@ const EditProfile = () => {
                   <TextField name="contactInfo" />
                   <TextField name="email" />
                   <SubmitField value="Submit" />
-                  <Button onClick={testClick}>Test Click</Button>
                   <ErrorsField />
                 </Card.Body>
               </Card>

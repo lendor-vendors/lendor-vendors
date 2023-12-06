@@ -25,7 +25,7 @@ const Profile = ({ profile }) => (
               </Button>
             )}
           </h1>
-          <h1 style={{ fontSize: '2.75rem' }} className="pt-4"><Star className="pb-1" /> {profile.rating} </h1>
+          <h1 style={{ fontSize: '2.75rem' }} className="pt-4"><Star className="pb-1" /> {profile.rating.toFixed(1)} </h1>
         </div>
       </Col>
     </Row>
