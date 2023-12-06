@@ -26,7 +26,6 @@ import PostForumRequest from '../pages/PostForumRequest';
 import ViewForumRequest from '../pages/ViewForumRequest';
 import Terms from '../pages/Terms';
 import ReviewForm from '../pages/ReviewForm';
-import EditStuff from '../pages/EditStuff';
 import EditProfile from '../pages/EditProfile';
 import ViewNotifications from '../pages/ViewNotifications';
 

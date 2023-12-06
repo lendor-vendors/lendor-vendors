@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import swal from 'sweetalert';
 import { Card, Col, Container, Row } from 'react-bootstrap';
-import { AutoForm, ErrorsField, SubmitField, LongTextField, HiddenField } from 'uniforms-bootstrap5';
+import { AutoForm, ErrorsField, SubmitField, LongTextField } from 'uniforms-bootstrap5';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
@@ -52,11 +52,6 @@ const ReviewForm = () => {
       comment: comment,
       timeStamp: date,
     };
-    // Profiles.collection.update(_id, { $set: { reviewee, reviewer, rating, comment, date } }, (error) => (error ?
-    //   swal('Error', error.message, 'error') :
-    //   swal('Success', 'Item updated successfully', 'success')));
-    //   Meteor.call(insertReviewMethod, { reviewee: reviewee }, { reviewer: reviewer }, { rating: rating }, { comment: comment }, { timeStamp: date });
-    // };
     Meteor.call(insertReviewMethod, reviewData, (error) => {
       if (error) {
         swal('Error', error.message, 'error');
