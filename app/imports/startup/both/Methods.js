@@ -72,6 +72,7 @@ Meteor.methods({
     Profiles.collection.update({ _id: profileId }, { $set: { name, image, contactInfo, email } }, (error) => (error ?
       swal('Error', error.message, 'error') :
       swal('Success', 'Profile updated successfully', 'success')));
+    Items.collection.update({ owner: oldEmail }, { $set: { owner: email } }, { multi: true });
   },
 });
 
