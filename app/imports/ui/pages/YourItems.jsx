@@ -36,10 +36,8 @@ const YourItems = () => {
   return (ready ? (
     <Container id="your-items-page" className="py-3">
       <Row className="justify-content-center">
-        <Col md={7}>
-          <Col className="text-center">
-            <h2>Your Items</h2>
-          </Col>
+        <Col md={7} className="text-center">
+          <h2>Your Items</h2>
         </Col>
         <Container style={{ width: '50%' }}>
           <Form>
@@ -53,7 +51,7 @@ const YourItems = () => {
             </Form.Group>
           </Form>
         </Container>
-        <Row xs={1} md={2} lg={3} xl={4} xxl={5} className="d-flex flex-wrap justify-content-center g-4 px-5">
+        <Row xs={1} md={2} lg={3} xl={4} xxl={5} className="d-flex flex-wrap   g-4 px-5">
           {searchPattern === '' ? (
             items.map((item, index) => <Col style={{ maxWidth: '250px' }} key={index}><ItemCard item={item} /></Col>)
           ) : (
