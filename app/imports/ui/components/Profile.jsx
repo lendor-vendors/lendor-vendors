@@ -16,14 +16,15 @@ const Profile = ({ profile }) => (
       </Col>
       <Col className="flex-grow-1 ps-4">
         <Row className="gy-4"><h1 style={{ fontSize: '5rem' }}>{profile.name}</h1>
-          <h1 style={{ fontSize: '2rem' }}><Star className="pb-1"/> {profile.rating} </h1>
+          <h1 style={{ fontSize: '2rem' }}><Star className="pb-1" /> {profile.rating} </h1>
           <h1>
             {profile.email !== Meteor.user().username ? (
               <Button href={`/review/${profile._id}`}>Leave a Review</Button>
             ) : (
               <Button id="review" href={`/editProfile/${profile._id}`}>Edit Profile</Button>
             )}
-          </h1></Row>
+          </h1>
+        </Row>
       </Col>
     </Row>
     <Row>
