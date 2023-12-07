@@ -4,12 +4,13 @@ import { useTracker } from 'meteor/react-meteor-data';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { Roles } from 'meteor/alanning:roles';
 import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
-import { BoxArrowRight, PencilSquare, PersonFill, PersonPlusFill, BellFill } from 'react-bootstrap-icons';
+import { BoxArrowRight, PencilSquare, PersonFill, PersonPlusFill } from 'react-bootstrap-icons';
 import { Profiles } from '../../api/profile/Profiles';
 import { Notifications } from '../../api/notification/Notifications';
+import NotificationDropdown from './NotificationDropdown';
 
 const NavBar = () => {
-  const { currentUser, unreadNotifications } = useTracker(() => {
+  const { currentUser } = useTracker(() => {
     const user = Meteor.user();
     Meteor.subscribe(Notifications.toUserPublicationName);
 
@@ -78,21 +79,7 @@ const NavBar = () => {
               </NavDropdown>
             ) : (
               <>
-                <NavDropdown id="notifications-icon-nav" title={<BellFill />}>
-                  <NavDropdown.ItemText className="dropdown-header">Recent Notifications</NavDropdown.ItemText>
-                  <NavDropdown className="dropdown-divider" />
-                  {unreadNotifications.length > 0 ? (
-                    unreadNotifications.map((notification) => (
-                      <NavDropdown.ItemText className="dropdown-header" key={notification._id}>
-                        New {notification.message}
-                      </NavDropdown.ItemText>
-                    ))
-                  ) : (
-                    <NavDropdown.ItemText className="dropdown-header">No unread notifications</NavDropdown.ItemText>
-                  )}
-                  <NavDropdown className="dropdown-divider" />
-                  <NavDropdown.ItemText as={NavLink} to="/notifications" className="dropdown-header">View all Notifications</NavDropdown.ItemText>
-                </NavDropdown>
+                <NotificationDropdown />
                 <NavDropdown className="hover-dropdown" id="navbar-current-user" title={currentUser}>
                   <NavDropdown.Item
                     id="navbar-view-profile"
