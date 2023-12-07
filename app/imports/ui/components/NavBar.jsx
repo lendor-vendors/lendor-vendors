@@ -90,7 +90,7 @@ const NavBar = () => {
                     console.log('CURRENT USER: ', currentUser);
                     getProfile().then((profile) => {
                       if (profile) {
-                        navigate(`/editProfile/${profile._id}`);
+                        navigate(`/edit_profile/${profile._id}`);
                       } else {
                         console.log('Profile not found.');
                       }

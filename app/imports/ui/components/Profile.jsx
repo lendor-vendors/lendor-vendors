@@ -12,23 +12,21 @@ const Profile = ({ profile }) => (
   // On successful submit, insert the data.
   <Container id="view-profile-page" className="py-3">
     <Row>
-      <Col xs={12} md={3} className="order-md-1">
-        <Image className="profileImg pb-3 pt-3" src={profile.image ? profile.image : '/images/defaultPFP.png'} />
+      <Col className="flex-grow-0">
+        <Image className="profileImg pb-3 pt-3" src={profile.image} />
       </Col>
-      <Col xs={12} md={9} className="order-md-2">
-        <div>
+      <Col className="flex-grow-1 ps-4">
+        <Row className="gy-4">
           <h1 style={{ fontSize: '5rem' }}>{profile.name}</h1>
-          <h1 style={{ fontSize: '2rem' }} className="pt-4"><Star className="pb-1" /> {profile.rating}</h1>
-          <h1 className="pt-4">
+          <h1 style={{ fontSize: '2rem' }}><Star className="pb-1" /> {profile.rating.toFixed(1)} </h1>
+          <h1>
             {profile.email !== Meteor.user().username ? (
-              <Button style={{ marginLeft: '0em' }} href={`/review/${profile._id}`}>Leave a Review
-              </Button>
+              <Button href={`/review/${profile._id}`}>Leave a Review</Button>
             ) : (
-              <Button style={{ marginLeft: '0em' }} id="review" href={`/editProfile/${profile._id}`}>Edit Profile
-              </Button>
+              <Button id="review" href={`/editProfile/${profile._id}`}>Edit Profile</Button>
             )}
           </h1>
-        </div>
+        </Row>
       </Col>
     </Row>
     <Row>
@@ -43,6 +41,7 @@ Profile.propTypes = {
     image: PropTypes.string,
     rating: PropTypes.number,
     email: PropTypes.string,
+    comment: PropTypes.string,
     _id: PropTypes.string,
   }).isRequired,
 };

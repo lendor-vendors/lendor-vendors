@@ -10,6 +10,7 @@ const DeleteItemButton = ({ item }) => {
     <>
       <Button
         id="btn1"
+        title="Delete"
         variant="danger"
         onClick={() => setShowModal(true)}
       >Delete Post
@@ -23,6 +24,7 @@ const DeleteItemButton = ({ item }) => {
         <Modal.Footer>
           <Button
             href="/your_items"
+            title="Confirm"
             onClick={() => {
               Meteor.call(removeItemMethod, { itemId: item._id });
             }}

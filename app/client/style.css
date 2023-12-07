@@ -112,7 +112,15 @@ footer, footer a {
 
 .profileImg {
   border-radius: 50%;
-  width: 240px;
+}
+
+input[type=radio] {
+  display: none;
+}
+
+.star {
+  cursor: pointer;
+  width: 2em;
   height: auto;
 }
 

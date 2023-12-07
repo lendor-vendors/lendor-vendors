@@ -20,7 +20,7 @@
     {
       "name": "Philip Johnson",
       "image": "https://github.com/philipmjohnson.png",
-      "rating": 6.3,
+      "rating": 0,
       "contactInfo": "john@foo.com/PhilipJohnsonContactInfo",
       "email": "john@foo.com",
       "password": "changeme"
@@ -28,7 +28,7 @@
     {
       "name": "Henri Casanova",
       "image": "https://avatars0.githubusercontent.com/u/7494478?s=460&v=4",
-      "rating": 8.7,
+      "rating": 0,
       "contactInfo": "admin@foo.com/HenriCasanovaContactInfo",
       "email": "admin@foo.com",
       "password": "changeme",
@@ -37,7 +37,7 @@
     {
       "name": "Kim Binsted",
       "image": "https://www.ics.hawaii.edu/wp-content/uploads/2013/08/kim_binsted-square-300x300.jpg",
-      "rating": 7.5,
+      "rating": 0,
       "contactInfo": "kim@foo.com/KimBinstedContactInfo",
       "email": "kim@foo.com",
       "password": "changeme"
