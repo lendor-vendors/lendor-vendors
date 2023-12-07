@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { Meteor } from 'meteor/meteor';
-import { Col, Container, Row } from 'react-bootstrap';
+import { Button, Card, Col, Container, Modal, Row } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
 import Fuse from 'fuse.js';
 import Form from 'react-bootstrap/Form';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { Items } from '../../api/item/Items';
 import ItemCard from '../components/ItemCard';
+import PostItemForm from '../components/PostItemForm';
 
 /* Renders a table containing all of the Stuff documents. Use <Contact> to render each row. */
 const Gallery = () => {
@@ -25,6 +26,7 @@ const Gallery = () => {
       ready: rdy,
     };
   }, []);
+  const [postModalShow, setPostModalShow] = useState(false);
   const fuseOptions = {
     shouldSort: true,
     keys: ['title', 'condition', 'quantity'],
@@ -35,9 +37,24 @@ const Gallery = () => {
   const fuseSearch = fuse.search(searchPattern);
   return (ready ? (
     <Container id="gallery-page" className="py-3">
-      <Row className="justify-content-center">
+      <Row className="d-flex">
+        <Col />
         <Col md={7} className="text-center">
           <h2>Gallery</h2>
+        </Col>
+        <Col className="text-end">
+          <Button variant="success" onClick={() => setPostModalShow(true)}>Post an item</Button>
+          <Modal
+            show={postModalShow}
+            onHide={() => setPostModalShow(false)}
+          >
+            <Card>
+              <Card.Body>
+                <Col className="text-center"><h2>Post Item</h2></Col>
+                <PostItemForm />
+              </Card.Body>
+            </Card>
+          </Modal>
         </Col>
         <Container style={{ width: '50%' }}>
           <Form>
