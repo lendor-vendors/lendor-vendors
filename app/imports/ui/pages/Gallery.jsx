@@ -2,12 +2,10 @@ import React, { useState } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { Button, Card, Col, Container, Modal, Row } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
-import Fuse from 'fuse.js';
-import Form from 'react-bootstrap/Form';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { Items } from '../../api/item/Items';
-import ItemCard from '../components/ItemCard';
 import PostItemForm from '../components/PostItemForm';
+import ItemsList from '../components/ItemsList';
 
 /* Renders a table containing all of the Stuff documents. Use <Contact> to render each row. */
 const Gallery = () => {
@@ -27,14 +25,6 @@ const Gallery = () => {
     };
   }, []);
   const [postModalShow, setPostModalShow] = useState(false);
-  const fuseOptions = {
-    shouldSort: true,
-    keys: ['title', 'condition', 'quantity'],
-    threshold: 0.3,
-  };
-  const fuse = new Fuse(items, fuseOptions);
-  const [searchPattern, setSearchPattern] = useState('');
-  const fuseSearch = fuse.search(searchPattern);
   return (ready ? (
     <Container id="gallery-page" className="py-3">
       <Row className="d-flex">
@@ -56,25 +46,7 @@ const Gallery = () => {
             </Card>
           </Modal>
         </Col>
-        <Container style={{ width: '50%' }}>
-          <Form>
-            <Form.Group>
-              <Form.Control
-                placeholder="Search for an item"
-                onChange={(event) => {
-                  setSearchPattern(event.target.value);
-                }}
-              />
-            </Form.Group>
-          </Form>
-        </Container>
-        <Row xs={1} md={2} lg={3} xl={4} xxl={5} className="d-flex flex-wrap g-4 px-5">
-          {searchPattern === '' ? (
-            items.map((item, index) => <Col style={{ maxWidth: '250px' }} key={index}><ItemCard item={item} /></Col>)
-          ) : (
-            fuseSearch.map((searchedObj, index) => <Col style={{ maxWidth: '250px' }} key={index}><ItemCard item={searchedObj.item} /></Col>)
-          )}
-        </Row>
+        <ItemsList items={items} />
       </Row>
     </Container>
   ) : <LoadingSpinner />);
