@@ -15,6 +15,7 @@ class ReviewsCollection {
       reviewee: String,
       reviewer: String,
       rating: { type: Number, min: 0, max: 10 },
+      comment: String,
       timeStamp: Date,
     });
     // Attach the schema to the collection, so all attempts to insert a document are checked against schema.

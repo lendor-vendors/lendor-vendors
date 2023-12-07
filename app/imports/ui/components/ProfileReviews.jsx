@@ -1,55 +1,55 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
-import { Col, Container, Row } from 'react-bootstrap';
+import { Container, Row } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
 import LoadingSpinner from './LoadingSpinner';
-import { Items } from '../../api/item/Items';
-import ItemCard from './ItemCard';
+import { Reviews } from '../../api/review/Reviews';
+import Review from './Review';
 
 /* Renders a table containing all of the Stuff documents. Use <Contact> to render each row. */
-const ProfileItems = ({ owner }) => {
+const ProfileReviews = ({ email }) => {
   // useTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker
-  const { ready, items } = useTracker(() => {
+  const { ready, reviews } = useTracker(() => {
     // Note that this subscription will get cleaned up
     // when your component is unmounted or deps change.
     // Get access to Stuff documents.
-    const subscription = Meteor.subscribe(Items.adminPublicationName);
+    const reviewsSubscription = Meteor.subscribe(Reviews.userPublicationName);
     // Determine if the subscription is ready
-    const rdy = subscription.ready();
+    const rdy = reviewsSubscription.ready();
     // Get the Stuff documents
-    const userItems = Items.collection.find({ owner: { $eq: owner } }).fetch();
+    const userReviews = Reviews.collection.find({ reviewee: { $eq: email } }).fetch();
     return {
-      items: userItems,
+      reviews: userReviews,
       ready: rdy,
     };
   }, []);
-  if (items.length !== 0) {
+  if (reviews.length !== 0) {
     return (ready ? (
       <Container>
         <hr />
-        <h2 className="pt-3">All Items ({items.length})</h2>
-        <Row className="justify-content-center py-3">
-          <Row xs={1} md={2} lg={5} className="g-3">
-            {items.map((item, index) => <Col key={index}><ItemCard item={item} /></Col>)}
-          </Row>
+        <h2 className="pt-4 pb-4">Reviews ({reviews.length})</h2>
+        <Row className="justify-content-center">
+          {reviews.map((review, index) => <Row key={index}><Review review={review} /></Row>)}
         </Row>
+        <hr />
       </Container>
     ) : <LoadingSpinner />);
   }
   return (ready ? (
     <Container>
       <hr />
-      <h2 className="pt-3">All Items ({items.length})</h2>
-      <Row className="py-3">
+      <h2 className="pt-3">Reviews ({reviews.length})</h2>
+      <Row className="justify-content-center pb-4">
         <Row />
       </Row>
+      <hr />
     </Container>
   ) : <LoadingSpinner />);
 };
 
-ProfileItems.propTypes = {
-  owner: PropTypes.string.isRequired,
+ProfileReviews.propTypes = {
+  email: PropTypes.string.isRequired,
 };
 
-export default ProfileItems;
+export default ProfileReviews;

@@ -4,6 +4,7 @@ import { Roles } from 'meteor/alanning:roles';
 import { Profiles } from '../../api/profile/Profiles';
 import { Items } from '../../api/item/Items';
 import { Stuffs } from '../../api/stuff/Stuff.js';
+// import { Reviews } from '../../api/review/Reviews';
 
 /* eslint-disable no-console */
 
@@ -51,6 +52,11 @@ const addItem = (item) => {
   Items.collection.insert(item);
 };
 
+/* const addReview = (review) => {
+  console.log(`Inserting review for ${review.reviewee} by reviewer ${review.reviewer}`);
+  Reviews.collection.insert(review);
+}; */
+
 // When running app for first time, pass a settings file to set up a default user account.
 // Create default profiles and add default items
 if (Meteor.users.find().count() === 0) {
@@ -59,6 +65,8 @@ if (Meteor.users.find().count() === 0) {
     Meteor.settings.defaultProfiles.map(profile => createProfile(profile));
     console.log('Creating the default item(s)');
     Meteor.settings.defaultItems.forEach((item) => addItem(item));
+    // console.log('Creating the default reviews');
+    // Meteor.settings.defaultReviews.forEach((review) => addReview(review));
   } else {
     console.log('Cannot initialize the database!  Please invoke meteor with a settings file.');
   }
