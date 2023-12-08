@@ -32,17 +32,14 @@ const ProfileReviews = ({ email }) => {
         <Row className="justify-content-center">
           {reviews.map((review, index) => <Row key={index}><Review review={review} /></Row>)}
         </Row>
-        <hr />
       </Container>
     ) : <LoadingSpinner />);
   }
   return (ready ? (
     <Container>
       <hr />
-      <h2 className="pt-3">Reviews ({reviews.length})</h2>
-      <Row className="justify-content-center pb-4">
-        <Row />
-      </Row>
+      <h2 className="pt-3 pb-4">Reviews ({reviews.length})</h2>
+      <Row className="pb-3" />
       <hr />
     </Container>
   ) : <LoadingSpinner />);
