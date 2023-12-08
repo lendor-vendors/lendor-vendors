@@ -37,8 +37,8 @@ const Item = ({ item, ownerProfile }) => (
     ) : (
       <Container className="d-flex justify-content-end">
         <Row>
-          <Col className="px-1"><Button id="btn1" href={`/edit/${item._id}`}>Edit</Button></Col>
-          <Col className="px-1"><Button id="btn1" href={`/view_requests/${item._id}`}>View Requests</Button></Col>
+          <Col className="px-1"><Button title="Edit" id="btn1" href={`/edit/${item._id}`}>Edit</Button></Col>
+          <Col className="px-1"><Button title="View Requests" id="btn1" href={`/view_requests/${item._id}`}>View Requests</Button></Col>
           <Col className="px-1"><DeleteItemButton item={item} /></Col>
         </Row>
       </Container>

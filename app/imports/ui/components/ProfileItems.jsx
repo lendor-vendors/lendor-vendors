@@ -25,8 +25,10 @@ const ProfileItems = ({ owner }) => {
     };
   }, []);
   return (ready ? (
-    <Container className="py-3">
-      <Row className="justify-content-center">
+    <Container>
+      <hr />
+      <h2 className="pt-3">All Items ({items.length})</h2>
+      <Row className="justify-content-center py-3">
         <Row xs={1} md={2} lg={5} className="g-3">
           {items.map((item, index) => <Col key={index}><ItemCard item={item} /></Col>)}
         </Row>

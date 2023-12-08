@@ -116,6 +116,16 @@ footer, footer a {
   height: auto;
 }
 
+input[type=radio] {
+  display: none;
+}
+
+.star {
+  cursor: pointer;
+  width: 2em;
+  height: auto;
+}
+
 .hover-dropdown:hover {
   display: block;
 }
