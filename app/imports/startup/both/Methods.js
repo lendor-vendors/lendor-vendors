@@ -28,6 +28,7 @@ Meteor.methods({
       from: Meteor.user().username,
       message: 'accept',
       itemId: itemId,
+      read: false,
     });
     toDenyRequests.forEach((toDenyRequest) => Meteor.call(
       denyRequestMethod,
@@ -44,6 +45,7 @@ Meteor.methods({
       from: Meteor.user().username,
       message: 'deny',
       itemId: requestId,
+      read: false,
     });
     Meteor.call('Notifications.markAsRead', { notificationId });
   },

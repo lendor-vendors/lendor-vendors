@@ -7,7 +7,6 @@ import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { BoxArrowRight, PencilSquare, PersonFill, PersonPlusFill } from 'react-bootstrap-icons';
 import { Profiles } from '../../api/profile/Profiles';
 import { Notifications } from '../../api/notification/Notifications';
-import NotificationDropdown from './NotificationDropdown';
 
 const NavBar = () => {
   const { currentUser } = useTracker(() => {
@@ -79,7 +78,6 @@ const NavBar = () => {
               </NavDropdown>
             ) : (
               <>
-                <NotificationDropdown />
                 <NavDropdown className="hover-dropdown" id="navbar-current-user" title={currentUser}>
                   <NavDropdown.Item
                     id="navbar-view-profile"

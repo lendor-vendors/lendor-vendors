@@ -13,7 +13,10 @@ const ViewNotifications = () => {
     const currentUser = Meteor.user();
     const notificationsSubscription = Meteor.subscribe(Notifications.toUserPublicationName);
     const rdy = notificationsSubscription.ready();
-    const foundNotifications = Notifications.collection.find({ to: currentUser?.username }).fetch();
+    const foundNotifications = Notifications.collection
+      .find({ to: currentUser?.username })
+      .fetch()
+      .sort((a, b) => b.timestamp - a.timestamp);
     return {
       notifications: foundNotifications,
       ready: rdy,

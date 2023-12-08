@@ -4,7 +4,7 @@ import { Alert, Button } from 'react-bootstrap';
 import { Meteor } from 'meteor/meteor';
 
 const Notification = ({ notification }) => {
-  const { _id, from, message, read } = notification;
+  const { _id, from, message, read, timestamp } = notification;
   const [isRead, setIsRead] = useState(read);
 
   const markAsRead = () => {
@@ -31,9 +31,12 @@ const Notification = ({ notification }) => {
     }
   };
 
+  const formattedTimestamp = `${(new Date(timestamp)).toLocaleDateString()}, ${(new Date(timestamp)).toLocaleTimeString()}`;
+
   return (
     <Alert variant={isRead ? 'light' : 'success'}>
-      {getNotificationMessage()}
+      <p>{formattedTimestamp}</p>
+      <p>{getNotificationMessage()}</p>
       {!isRead && (
         <Button variant="success" size="md" onClick={markAsRead}>
           Mark as Read
@@ -49,6 +52,7 @@ Notification.propTypes = {
     from: PropTypes.string.isRequired,
     message: PropTypes.string.isRequired,
     read: PropTypes.bool.isRequired,
+    timestamp: PropTypes.instanceOf(Date).isRequired,
   }).isRequired,
 };
 
