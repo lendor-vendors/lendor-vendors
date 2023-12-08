@@ -8,7 +8,7 @@ import DeleteItemButton from './DeleteItemButton';
 
 /** Renders a single row in the List item table. See pages/YourItems.jsx. */
 const ItemCard = ({ item }) => (
-  <Link id="cards-link" to={`/view_item/${item._id}`}>
+  <Link id="plain-link" to={`/view_item/${item._id}`}>
     <Card className="h-100 item-card">
       <Card.Header>
         <Card.Img src={item.image} alt={`${item.title} image`} style={{ width: '100%', height: '150px', objectFit: 'cover' }} />

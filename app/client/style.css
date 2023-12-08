@@ -65,12 +65,12 @@ footer, footer a {
   box-shadow: 6px 10px 12px 0 rgba(0,0,0,0.15);
 }
 
-#cards-link:hover{
+#plain-link:hover{
   text-decoration: none;
   color: blue;
 }
 
-#cards-link {
+#plain-link {
   text-decoration: none;
   color: black;
 }
