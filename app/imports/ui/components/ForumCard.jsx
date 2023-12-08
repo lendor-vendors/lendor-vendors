@@ -37,7 +37,7 @@ const ForumCard = ({ forumRequest, profile, currentUsername }) => (
         </div>
         <Container className="d-inline-block">
           <h6>Poster: {profile.name} {profile.email === currentUsername ? '(you)' : ''}</h6>
-          <h6>Posted On: {new Date(forumRequest.createdAt).toLocaleDateString()}</h6>
+          <h6>Posted On: {forumRequest.createdAt.toLocaleDateString()}</h6>
         </Container>
       </Link>
     </Card.Footer>
