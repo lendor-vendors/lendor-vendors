@@ -42,11 +42,12 @@ Meteor.methods({
     Requests.collection.update({ _id: requestId }, { $set: { status: 'denied' } });
     // send notification
     const requester = Requests.collection.findOne({ _id: requestId }).requester;
+    const itemId = Requests.collection.findOne({ _id: requestId }).itemId;
     const notificationId = Notifications.collection.insert({
       to: requester,
       from: Meteor.user().username,
       message: 'deny',
-      itemId: requestId,
+      itemId: itemId,
       read: false,
     });
     Meteor.call('Notifications.markAsRead', { notificationId });
@@ -58,7 +59,7 @@ Meteor.methods({
 
 Meteor.methods({
   'Notifications.markAsRead'({ notificationId }) {
-    Notifications.collection.update({ _id: notificationId }, { $set: { read: true } });
+    Notifications.collection.update({ _id: notificationId }, { $set: { read: false } });
   },
 });
 
