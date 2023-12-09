@@ -20,7 +20,7 @@ class ItemsCollection {
       owner: String,
       createdAt: {
         type: Date,
-        optional: true,
+        defaultValue: new Date(),
       },
     });
     // Attach the schema to the collection, so all attempts to insert a document are checked against schema.
