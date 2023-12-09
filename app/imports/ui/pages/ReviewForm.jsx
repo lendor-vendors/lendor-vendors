@@ -66,7 +66,7 @@ const ReviewForm = () => {
       return <NotFound />;
     }
     return (
-      <Container id="review-form-page" className="py-3">
+      <Container className="py-3">
         <Row className="justify-content-center">
           <Col xs={5}>
             <Col className="text-center"><h2>Rate {profile.name}</h2></Col>
@@ -93,8 +93,8 @@ const ReviewForm = () => {
                       </label>
                     );
                   })}
-                  <LongTextField id="review-user-comment" name="comment" />
-                  <SubmitField id="review-user-submit" value="Submit" />
+                  <LongTextField name="comment" />
+                  <SubmitField value="Submit" />
                   <ErrorsField />
                 </Card.Body>
               </Card>

@@ -110,27 +110,6 @@ class NavBar {
     await testController.click('#navbar-current-user');
     await testController.click('#navbar-view-profile');
   }
-
-  async gotoEditProfilePage(testController) {
-    const visible = await Selector('#basic-navbar-nav').visible;
-    if (!visible) {
-      await testController.click('button.navbar-toggler');
-    }
-    await testController.click('#navbar-current-user');
-    await testController.click('#navbar-edit-profile');
-  }
-
-  async gotoReviewPage(testController) {
-    const visible = await Selector('#basic-navbar-nav').visible;
-    if (!visible) {
-      await testController.click('button.navbar-toggler');
-    }
-    await this.gotoGalleryPage(testController);
-    await testController.click(Selector('.card'));
-    await testController.click('#mini-profile');
-    await testController.click('#review');
-  }
-
 }
 
 export const navBar = new NavBar();

@@ -53,18 +53,18 @@ const PostForumRequest = () => {
           <AutoForm ref={ref => { fRef = ref; }} schema={bridge} onSubmit={data => submit(data, fRef)}>
             <Card>
               <Card.Body>
-                <TextField id="post-forum-form-title" name="title" placeholder="Write a title" />
+                <TextField name="title" placeholder="Write a title" />
                 <Row>
                   <Col>
-                    <NumField id="post-forum-form-quantity" name="requestingQuantity" decimal={false} />
+                    <NumField name="requestingQuantity" decimal={false} />
                   </Col>
                   <Col>
-                    <SelectField id="post-forum-form-condition" name="requestingCondition" placeholder="Select a condition" />
+                    <SelectField name="requestingCondition" placeholder="Select a condition" />
                   </Col>
                 </Row>
                 <Row>
-                  <LongTextField id="post-forum-form-description" name="forumText" placeholder="Describe what you are looking for" />
-                  <SubmitField id="post-forum-form-submit" value="Post" />
+                  <LongTextField name="forumText" placeholder="Describe what you are looking for" />
+                  <SubmitField value="Post" />
                   <ErrorsField />
                 </Row>
               </Card.Body>

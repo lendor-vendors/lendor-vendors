@@ -83,7 +83,7 @@ const Forums = () => {
           <h2 className="text-center">Request Forums</h2>
         </Col>
         <Col className="text-end">
-          <Button id="post-forum" href="/post_forum_request" variant="success">Post a forum request</Button>
+          <Button href="/post_forum_request" variant="success">Post a forum request</Button>
         </Col>
       </Row>
       <Row className="d-flex justify-content-center">

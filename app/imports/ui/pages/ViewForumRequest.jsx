@@ -41,7 +41,7 @@ const ViewForumRequest = () => {
   if (ready) {
     if (forumRequest) {
       return (
-        <Container id="view-forum-request-page" className="py-3">
+        <Container className="py-3">
           <GoBackButton />
           <Row className="d-flex justify-content-center">
             <Col xs={10}>
