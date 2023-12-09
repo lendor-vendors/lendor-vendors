@@ -21,7 +21,6 @@ class ItemsCollection {
       createdAt: {
         type: Date,
         defaultValue: new Date(),
-        optional: true,
       },
     });
     // Attach the schema to the collection, so all attempts to insert a document are checked against schema.
