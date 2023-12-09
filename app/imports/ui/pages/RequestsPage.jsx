@@ -3,15 +3,12 @@ import { Button, Col, Container, Image, ListGroup, Row, Modal } from 'react-boot
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import swal from 'sweetalert';
-import { Link } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { Items } from '../../api/item/Items';
 import { Requests } from '../../api/request/Requests';
 import { Profiles } from '../../api/profile/Profiles';
-import ItemCard from '../components/ItemCard';
 import { acceptRequestMethod, cancelRequestMethod, denyRequestMethod } from '../../startup/both/Methods';
 import Tabs from '../components/Tabs';
-import Item from '../components/Item';
 
 /* Renders the EditStuff page for editing a single document. */
 const RequestsPage = () => {
@@ -19,7 +16,7 @@ const RequestsPage = () => {
   const [modalShow, setModalShow] = useState(false);
   const [modalContent, setModalContent] = useState({ type: '', data: {} });
   const [currentTab, setCurrentTab] = useState('Requests you made');
-  const [filters, setFilters] = useState(['']);
+  // const [filters, setFilters] = useState(['']);
 
   const { allFromRequests, allToRequests, ready } = useTracker(() => {
     // Get access to Stuff documents.
@@ -39,11 +36,6 @@ const RequestsPage = () => {
     };
   }, []);
   if (ready) {
-    const currentUserProfile = Profiles.collection.findOne({ email: currentUser?.username });
-    // const fromRequests = { pending: [], accepted: [], denied: [] };
-    // allFromRequests.forEach((fromRequest) => fromRequests[fromRequest.status].push(fromRequest));
-    // const toRequests = { pending: [], accepted: [], denied: [] };
-    // allToRequests.forEach((toRequest) => toRequests[toRequest.status].push(toRequest));
     const handleCancelConfirm = (fromRequest) => {
       Meteor.call(cancelRequestMethod, { requestId: fromRequest._id }, (error) => {
         if (error) {
@@ -188,7 +180,6 @@ const RequestsPage = () => {
       return '';
     };
     const toRequestItems = {};
-    // loop through toRequests. for each toRequest, map to its itemId in an object. In the mapping, map the itemId to an array containing each toRequest for it.
     allToRequests.forEach((toRequest) => {
       // eslint-disable-next-line no-prototype-builtins
       if (!toRequestItems.hasOwnProperty(toRequest.itemId)) {
