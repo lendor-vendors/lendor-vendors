@@ -1,21 +1,36 @@
 import { Col, Container, Row } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import Form from 'react-bootstrap/Form';
+import { Meteor } from 'meteor/meteor';
+import { useTracker } from 'meteor/react-meteor-data';
+import { Pagination } from '@mui/material';
 import React, { useState } from 'react';
 import Fuse from 'fuse.js';
 import ItemCard from './ItemCard';
 
 const ItemsList = ({ items }) => {
-  const fuseOptions = {
-    shouldSort: true,
-    keys: ['title', 'condition', 'quantity'],
-    threshold: 0.3,
-  };
-  const fuse = new Fuse(items, fuseOptions);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [cardsPerPage] = useState(10);
+  const lastIndex = currentPage * cardsPerPage;
+  const firstIndex = lastIndex - cardsPerPage;
   const [searchPattern, setSearchPattern] = useState('');
-  const fuseSearch = fuse.search(searchPattern);
+  const { theItems, allItems } = useTracker(() => {
+    const currentUser = Meteor.user();
+    const notOwnedItems = items.filter((item) => item.owner !== currentUser);
+    const filteredItems = searchPattern
+      ? new Fuse(notOwnedItems, { keys: ['title'], threshold: 0.3 }).search(searchPattern)
+      : notOwnedItems;
+    return {
+      allItems: filteredItems,
+      theItems: filteredItems.slice(firstIndex, lastIndex),
+    };
+  }, [currentPage, items, searchPattern]);
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
+  };
+  const totalFilteredPages = Math.ceil(allItems.length / cardsPerPage);
   return (
-    <Container id="gallery-page" className="py-3">
+    <Container className="py-3">
       <Row className="d-flex">
         <Container style={{ width: '40rem' }}>
           <Form>
@@ -31,12 +46,22 @@ const ItemsList = ({ items }) => {
         </Container>
         <Row xs={1} md={2} lg={3} xl={4} xxl={5} className="d-flex flex-wrap g-4 px-5">
           {searchPattern === '' ? (
-            items.map((item, index) => <Col style={{ maxWidth: '250px' }} key={index}><ItemCard item={item} /></Col>)
+            theItems.map((item, index) => <Col style={{ maxWidth: '250px' }} key={index}><ItemCard item={item} /></Col>)
           ) : (
-            fuseSearch.map((searchedObj, index) => <Col style={{ maxWidth: '250px' }} key={index}><ItemCard item={searchedObj.item} /></Col>)
+            theItems.map((searchedObj, index) => <Col style={{ maxWidth: '250px' }} key={index}><ItemCard item={searchedObj.item} /></Col>)
           )}
         </Row>
       </Row>
+      <Container className="d-flex justify-content-center">
+        <Pagination
+          count={totalFilteredPages}
+          page={currentPage}
+          onChange={handlePageChange}
+          color="standard"
+          size="large"
+          className="mt-3"
+        />
+      </Container>
     </Container>
   );
 };

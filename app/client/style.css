@@ -130,3 +130,7 @@ input[type=radio] {
   display: block;
 }
 
+.numButton {
+  background-color: white;
+}
+
