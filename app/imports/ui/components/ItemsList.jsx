@@ -9,14 +9,19 @@ import Fuse from 'fuse.js';
 import ItemCard from './ItemCard';
 
 const ItemsList = ({ items }) => {
+  // set up state variables for current page and cards per page for Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [cardsPerPage] = useState(10);
+  // calculate first and last index for Pagination to slice
   const lastIndex = currentPage * cardsPerPage;
   const firstIndex = lastIndex - cardsPerPage;
+  // set up state variable for search pattern, default empty string
   const [searchPattern, setSearchPattern] = useState('');
+  // get all items that are not owned by the current user
   const { theItems, allItems } = useTracker(() => {
     const currentUser = Meteor.user();
     const notOwnedItems = items.filter((item) => item.owner !== currentUser);
+    // filter items based on search pattern
     const filteredItems = searchPattern
       ? new Fuse(notOwnedItems, { keys: ['title'], threshold: 0.3 }).search(searchPattern)
       : notOwnedItems;
@@ -25,9 +30,11 @@ const ItemsList = ({ items }) => {
       theItems: filteredItems.slice(firstIndex, lastIndex),
     };
   }, [currentPage, items, searchPattern]);
+  // function to handle when page changes
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
   };
+  // calculate total pages for Pagination
   const totalFilteredPages = Math.ceil(allItems.length / cardsPerPage);
   return (
     <Container className="py-3">
@@ -53,6 +60,7 @@ const ItemsList = ({ items }) => {
         </Row>
       </Row>
       <Container className="d-flex justify-content-center">
+        {/* Pagination component from Material UI */}
         <Pagination
           count={totalFilteredPages}
           page={currentPage}

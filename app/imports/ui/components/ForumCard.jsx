@@ -54,18 +54,7 @@ ForumCard.propTypes = {
     forumText: PropTypes.string,
     status: PropTypes.string,
     _id: PropTypes.string,
-    createdAt: {
-      type: Date,
-      autoValue: function () {
-        if (this.isInsert) {
-          return new Date();
-        }
-        if (this.isUpsert) {
-          return { $setOnInsert: new Date() };
-        }
-        return this.unset();
-      },
-    },
+    createdAt: PropTypes.instanceOf(Date),
   }).isRequired,
   profile: PropTypes.shape({
     name: PropTypes.string,
