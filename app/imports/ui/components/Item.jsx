@@ -4,10 +4,12 @@ import PropTypes from 'prop-types';
 import { Button, Col, Container, Image, Row } from 'react-bootstrap';
 import DeleteItemButton from './DeleteItemButton';
 import MiniProfile from './MiniProfile';
+import GoBackButton from './GoBackButton';
 
 /* Renders the EditContact page for editing a single item. */
 const Item = ({ item, ownerProfile }) => (
   <Container id="view-item-page" className="py-3">
+    <GoBackButton />
     <Row className="justify-content-center">
       <Col>
         <Image className="img" src={item.image} width={500} style={{ objectFit: 'cover' }} />
