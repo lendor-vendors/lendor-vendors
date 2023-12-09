@@ -6,17 +6,16 @@ import { Link } from 'react-router-dom';
 /** Renders a single row in the List item table. See pages/YourItems.jsx. */
 const ForumCard = ({ forumRequest, profile, currentUsername }) => (
   <Card className="h-100">
-    <Link id="plain-link" to={`/view_forum_request/${forumRequest._id}`}>
-      <Card.Header>
+    <Card.Header>
+      <Link id="plain-link" to={`/view_forum_request/${forumRequest._id}`}>
         <Card.Title>
           {forumRequest.title}
         </Card.Title>
-        <Card.Subtitle>
-          Status: {forumRequest.status}
-        </Card.Subtitle>
-
-      </Card.Header>
-    </Link>
+      </Link>
+      <Card.Subtitle>
+        Status: {forumRequest.status}
+      </Card.Subtitle>
+    </Card.Header>
     <Card.Body>
       Requesting:
       <Row>

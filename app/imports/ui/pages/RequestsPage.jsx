@@ -18,9 +18,6 @@ const RequestsPage = () => {
   const currentUser = useTracker(() => Meteor.user());
   const [modalShow, setModalShow] = useState(false);
   const [modalContent, setModalContent] = useState({ type: '', data: {} });
-  const [fromRequestsTab, setFromRequestsTab] = useState('pending');
-  const [toRequestsTab, setToRequestsTab] = useState('pending');
-
   const [currentTab, setCurrentTab] = useState('Requests you made');
   const [filters, setFilters] = useState(['']);
 
@@ -61,15 +58,15 @@ const RequestsPage = () => {
       setModalShow(true);
       setModalContent({ type, data });
     };
-    const handleAcceptConfirm = (item, request, toDenyRequests) => {
+    const handleAcceptConfirm = (toAcceptRequest, requestedItem, toDenyRequestIds) => {
       Meteor.call(
         acceptRequestMethod,
         {
-          requestId: request._id,
-          requestQuantity: request.quantity,
-          itemId: item._id,
-          itemQuantity: item.quantity,
-          toDenyRequests: toDenyRequests,
+          requestId: toAcceptRequest._id,
+          requestQuantity: toAcceptRequest.quantity,
+          itemId: requestedItem._id,
+          itemQuantity: requestedItem.quantity,
+          toDenyRequestIds: toDenyRequestIds,
         },
         (error) => {
           if (error) {
@@ -81,10 +78,10 @@ const RequestsPage = () => {
       );
       setModalShow(false);
     };
-    const handleDenyConfirm = (request) => {
+    const handleDenyConfirm = (toDenyRequestId) => {
       Meteor.call(
         denyRequestMethod,
-        { requestId: request._id },
+        { requestId: toDenyRequestId },
         (error) => {
           if (error) {
             swal('Error', error.message, 'error');
@@ -111,18 +108,24 @@ const RequestsPage = () => {
               <Modal.Title>Are you sure you want to cancel your request?</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              Item: {requestedItem.title} <br />
-              Quantity: {fromRequest.quantity} <br />
-              Owner: <Link to={`/view_profile/${requestedItemOwnerProfile._id}`}>{requestedItemOwnerProfile.name}</Link>
+              Item: <a href={`/view_item/${requestedItem._id}`} id="plain-link" className="fst-italic d-inline">{requestedItem.title}</a><br />
+              Owner: <a href={`/view_item/${requestedItem._id}`} id="plain-link" className="fst-italic d-inline">{requestedItemOwnerProfile.name}</a><br />
+              Quantity: {fromRequest.quantity}
             </Modal.Body>
             <Modal.Footer>
-              <Button onClick={() => handleCancelConfirm(fromRequest)}>Yes</Button>
-              <Button onClick={() => setModalShow(false)}>No</Button>
+              <Button onClick={() => handleCancelConfirm(fromRequest)} variant="success">Yes</Button>
+              <Button onClick={() => setModalShow(false)} variant="danger">No</Button>
             </Modal.Footer>
           </Modal>
         );
       }
       if (type === 'accept') {
+        const { toAcceptRequest, requestedItem, requesterProfile } = data;
+        const toDenyRequests = allToRequests.filter((toRequest) => (
+          (toRequest.status === 'pending') &&
+          (requestedItem.quantity - toAcceptRequest.quantity < toRequest.quantity) &&
+          (toRequest._id !== toAcceptRequest._id)));
+        const toDenyRequestIds = toDenyRequests.map((toDenyRequest) => toDenyRequest._id);
         return (
           <Modal
             show={modalShow}
@@ -132,16 +135,35 @@ const RequestsPage = () => {
               <Modal.Title>Are you sure you want to accept this request?</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              something
+              Item: <a href={`/view_item/${requestedItem._id}`} id="plain-link" className="fst-italic d-inline">{requestedItem.title}</a><br />
+              Available quantity: {requestedItem.quantity}<br />
+              Requester: <a href={`/view_profile/${requesterProfile._id}`} id="plain-link" className="fst-italic d-inline">{requesterProfile.name}</a><br />
+              Requested quantity: {toAcceptRequest.quantity}
             </Modal.Body>
+            {toDenyRequests.length > 0 ? (
+              <Modal.Body>
+                These requests will be automatically denied:<br />
+                {toDenyRequests.map((toDenyRequest) => {
+                  const toDenyRequesterProfile = Profiles.collection.findOne({ email: toDenyRequest.requester });
+                  return (
+                    <>
+                      From: <a href={`/view_profile/${toDenyRequesterProfile._id}`} id="plain-link" className="fst-italic d-inline">{toDenyRequesterProfile.name}</a><br />
+                      Quantity: {toDenyRequest.quantity}<br />
+                      <div className="fst-italic">{toDenyRequest.requestedAt.toLocaleDateString()}</div>
+                    </>
+                  );
+                })}
+              </Modal.Body>
+            ) : ''}
             <Modal.Footer>
-              <Button>Yes</Button>
-              <Button onClick={() => setModalShow(false)}>No</Button>
+              <Button onClick={() => handleAcceptConfirm(toAcceptRequest, requestedItem, toDenyRequestIds)} variant="success">Yes</Button>
+              <Button onClick={() => setModalShow(false)} variant="danger">No</Button>
             </Modal.Footer>
           </Modal>
         );
       }
       if (type === 'deny') {
+        const { toDenyRequest, requestedItem, requesterProfile } = data;
         return (
           <Modal
             show={modalShow}
@@ -150,9 +172,15 @@ const RequestsPage = () => {
             <Modal.Header closeButton>
               <Modal.Title>Are you sure you want to deny this request?</Modal.Title>
             </Modal.Header>
+            <Modal.Body>
+              Item: <a href={`/view_item/${requestedItem._id}`} id="plain-link" className="fst-italic d-inline">{requestedItem.title}</a><br />
+              Available quantity: {requestedItem.quantity}<br />
+              Requester: <a href={`/view_item/${requestedItem._id}`} id="plain-link" className="fst-italic d-inline">{requesterProfile.name}</a><br />
+              Quantity: {toDenyRequest.quantity}
+            </Modal.Body>
             <Modal.Footer>
-              <Button>Yes</Button>
-              <Button onClick={() => setModalShow(false)}>No</Button>
+              <Button onClick={() => handleDenyConfirm(toDenyRequest._id)} variant="success">Yes</Button>
+              <Button onClick={() => setModalShow(false)} variant="danger">No</Button>
             </Modal.Footer>
           </Modal>
         );
@@ -183,37 +211,44 @@ const RequestsPage = () => {
                   </Col>
                   <Col className="d-flex flex-column overflow-y-auto" style={{ maxHeight: '15rem' }}>
                     <h5>
-                      Requests for your: <br />
-                      <a href={`/view_item/${requestedItemId}`} id="plain-link">{requestedItem.title}</a>
+                      <a href={`/view_item/${requestedItemId}`} id="plain-link">{requestedItem.title}</a><br />
+                      Available: {requestedItem.quantity}
                     </h5>
                     {toRequests.map((toRequest) => {
                       const requesterProfile = Profiles.collection.findOne({ email: toRequest.requester });
                       return (
                         <div className="d-flex justify-content-between text-break" key={toRequest._id}>
-                          <h6>
-                            <a href={`/view_profile/${requesterProfile._id}`} id="plain-link">From:<br />
-                              {requesterProfile.name}
-                            </a>
-                            <br />
-                            Quantity: {toRequest.quantity}
-                          </h6>
+                          <div>
+                            <p>
+                              From: <a href={`/view_profile/${requesterProfile._id}`} id="plain-link" className="fst-italic d-inline">{requesterProfile.name}</a><br />
+                              Quantity: {toRequest.quantity}<br />
+                              <div className="fst-italic">{toRequest.requestedAt.toLocaleDateString()}</div>
+                            </p>
+                          </div>
                           <div className="d-flex flex-column justify-content-center">
                             <div className="d-flex justify-content-end text-nowrap">
-                              <Button
-                                className="me-1"
-                                size="sm"
-                                variant="success"
-                                onClick={() => handleButtonClick({ type: 'accept', data: { toRequest } })}
-                              >
-                                Accept
-                              </Button>
-                              <Button
-                                size="sm"
-                                variant="danger"
-                                onClick={() => handleButtonClick({ type: 'deny', data: { toRequest } })}
-                              >
-                                Deny
-                              </Button>
+                              {// eslint-disable-next-line no-nested-ternary
+                                toRequest.status === 'pending' ? (
+                                  <>
+                                    <Button
+                                      className="me-1"
+                                      size="sm"
+                                      variant="success"
+                                      onClick={() => handleButtonClick({ type: 'accept', data: { toAcceptRequest: toRequest, requestedItem, requesterProfile } })}
+                                    >
+                                      Accept
+                                    </Button>
+                                    <Button
+                                      size="sm"
+                                      variant="danger"
+                                      onClick={() => handleButtonClick({ type: 'deny', data: { toDenyRequest: toRequest, requestedItem, requesterProfile } })}
+                                    >
+                                      Deny
+                                    </Button>
+                                  </>
+                                  // eslint-disable-next-line no-nested-ternary
+                                ) : <h6 className="fst-italic">{toRequest.status}</h6>
+                              }
                             </div>
                           </div>
                         </div>
@@ -238,11 +273,16 @@ const RequestsPage = () => {
                     <Image src={requestedItem.image} style={{ width: '100%', minHeight: '15rem', maxHeight: '15rem', objectFit: 'cover', objectPosition: 'center' }} />
                   </Col>
                   <Col className="d-flex flex-column">
-                    <h5><a href={`/view_item/${requestedItem._id}`} id="plain-link">{requestedItem.title}</a></h5>
-                    <h6><a href={`/view_profile/${requestedItemOwnerProfile._id}`} id="plain-link">Owner: {requestedItemOwnerProfile.name}</a></h6>
-                    <h6>Requested quantity: {fromRequest.quantity}</h6>
-                    <h6>Requested on: {fromRequest.requestedAt.toLocaleDateString()}</h6>
-                    <h6>Status: {fromRequest.status}</h6>
+                    <h5>
+                      <a href={`/view_item/${requestedItem._id}`} id="plain-link">{requestedItem.title}</a><br />
+                      Available: {requestedItem.quantity}
+                    </h5>
+                    <p>
+                      Owner: <a href={`/view_profile/${requestedItemOwnerProfile._id}`} id="plain-link" className="fst-italic d-inline">{requestedItemOwnerProfile.name}</a><br />
+                      Requested quantity: {fromRequest.quantity}<br />
+                      Requested on: <div className="fst-italic d-inline">{fromRequest.requestedAt.toLocaleDateString()}</div><br />
+                      Status: <h6 className="fst-italic d-inline">{fromRequest.status}</h6>
+                    </p>
                     {fromRequest.status === 'accepted' ? (
                       <h6 className="mt-auto text-break">Contact {requestedItemOwnerProfile.name} at: {requestedItemOwnerProfile.contactInfo}</h6>
                     ) : ''}
@@ -278,9 +318,15 @@ const RequestsPage = () => {
           </Col>
         </Row>
         <hr />
-        <Container className="d-flex justify-content-center">
-          {requestsList}
-        </Container>
+        <Row>
+          <Col />
+          <Col>
+            <Container className="d-flex justify-content-center">{requestsList}</Container>
+          </Col>
+          <Col className="text-end">
+            <Button>Filters</Button>
+          </Col>
+        </Row>
       </Container>
     );
   }
