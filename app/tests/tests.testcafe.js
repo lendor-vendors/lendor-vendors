@@ -12,6 +12,9 @@ import { viewItemPage } from './viewitem.page';
 import { viewProfilePage } from './viewprofile.page';
 import { editItemPage } from './edititem.page';
 import { viewRequestPage } from './viewrequest.page';
+import { editProfilePage } from './editProfile.page';
+import { reviewFormPage } from './reviewForm.page';
+import { forumsDetailsPage } from './forumsInfo.page';
 
 /* global fixture:false, test:false */
 
@@ -128,6 +131,76 @@ test('Test that view profile shows up and displays correct number of cards', asy
   await navBar.gotoViewProfilePage(testController);
   await viewProfilePage.isDisplayed(testController);
   await viewProfilePage.hasDefaultProfile(testController);
+  await navBar.logout(testController);
+  await landingPage.isDisplayed(testController);
+});
+
+test('Test that review form page shows up', async (testController) => {
+  await navBar.gotoSignInPage(testController);
+  await signinPage.signin(testController, credentials.username, credentials.password);
+  await navBar.gotoReviewPage(testController);
+  await reviewFormPage.isDisplayed(testController);
+  await navBar.logout(testController);
+  await landingPage.isDisplayed(testController);
+});
+
+test('Test that review form works', async (testController) => {
+  await navBar.gotoSignInPage(testController);
+  await signinPage.signin(testController, credentials.username, credentials.password);
+  await navBar.gotoReviewPage(testController);
+  await reviewFormPage.isDisplayed(testController);
+  await reviewFormPage.giveReview(testController);
+  await navBar.logout(testController);
+  await landingPage.isDisplayed(testController);
+});
+
+test('Test that edit profile page shows up', async (testController) => {
+  await navBar.gotoSignInPage(testController);
+  await signinPage.signin(testController, credentials.username, credentials.password);
+  await navBar.gotoEditProfilePage(testController);
+  await editProfilePage.isDisplayed(testController);
+  await navBar.logout(testController);
+  await landingPage.isDisplayed(testController);
+});
+
+test('Test that edit profile page shows up through the view profile page button', async (testController) => {
+  await navBar.gotoSignInPage(testController);
+  await signinPage.signin(testController, credentials.username, credentials.password);
+  await navBar.gotoViewProfilePage(testController);
+  await viewProfilePage.isDisplayed(testController);
+  await viewProfilePage.editProfile(testController);
+  await editProfilePage.isDisplayed(testController);
+  await navBar.logout(testController);
+  await landingPage.isDisplayed(testController);
+});
+
+test('Test that edit profile form works', async (testController) => {
+  await navBar.gotoSignInPage(testController);
+  await signinPage.signin(testController, credentials.username, credentials.password);
+  await navBar.gotoEditProfilePage(testController);
+  await editProfilePage.isDisplayed(testController);
+  await viewProfilePage.editProfile(testController);
+  await navBar.logout(testController);
+  await landingPage.isDisplayed(testController);
+});
+
+test('Test that post forum form works', async (testController) => {
+  await navBar.gotoSignInPage(testController);
+  await signinPage.signin(testController, credentials.username, credentials.password);
+  await navBar.gotoForumsPage(testController);
+  await forumsPage.isDisplayed(testController);
+  await forumsPage.postForum(testController);
+  await navBar.logout(testController);
+  await landingPage.isDisplayed(testController);
+});
+
+test('Test that view forum details page shows up', async (testController) => {
+  await navBar.gotoSignInPage(testController);
+  await signinPage.signin(testController, credentials.username, credentials.password);
+  await navBar.gotoForumsPage(testController);
+  await forumsPage.isDisplayed(testController);
+  await forumsPage.viewForum(testController);
+  await forumsDetailsPage.isDisplayed(testController);
   await navBar.logout(testController);
   await landingPage.isDisplayed(testController);
 });
