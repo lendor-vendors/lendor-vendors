@@ -9,7 +9,6 @@ import ItemsList from '../components/ItemsList';
 
 /* Renders a table containing all of the Stuff documents. Use <Contact> to render each row. */
 const Gallery = () => {
-  const currentUser = useTracker(() => Meteor.user());
   // useTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker
   const { ready, items } = useTracker(() => {
     // Note that this subscription will get cleaned up
@@ -19,7 +18,9 @@ const Gallery = () => {
     // Determine if the subscription is ready
     const rdy = subscription.ready();
     // Get the Item documents
-    const galleryItems = Items.collection.find({ owner: { $not: currentUser.username } }).fetch();
+    const currentUser = Meteor.user();
+    const username = currentUser?.username;
+    const galleryItems = Items.collection.find({ owner: { $not: username } }).fetch();
     return {
       items: galleryItems,
       ready: rdy,
@@ -30,7 +31,7 @@ const Gallery = () => {
     <Container id="gallery-page" className="py-3">
       <Row className="d-flex">
         <Col />
-        <Col md={7} className="text-center">
+        <Col className="text-center">
           <h2>Gallery</h2>
         </Col>
         <Col className="text-end">
