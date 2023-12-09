@@ -17,15 +17,7 @@ class RequestsCollection {
       requester: String,
       requestedAt: {
         type: Date,
-        autoValue: function () {
-          if (this.isInsert) {
-            return new Date();
-          }
-          if (this.isUpsert) {
-            return { $setOnInsert: new Date() };
-          }
-          return this.unset();
-        },
+        defaultValue: new Date(),
       },
       status: {
         type: String,

@@ -23,7 +23,7 @@ const Item = ({ item, ownerProfile }) => (
         <h6>Description:</h6>
         <p>{item.description}</p>
         <hr />
-        <h6>Posted on: {new Date(item.createdAt).toLocaleDateString()}</h6>
+        <h6>Posted on: {item.createdAt.toLocaleDateString()}</h6>
       </Col>
     </Row>
     {item.owner !== Meteor.user().username ? (
