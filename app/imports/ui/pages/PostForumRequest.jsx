@@ -62,9 +62,8 @@ const PostForumRequest = () => {
                     <SelectField id="post-forum-form-condition" name="requestingCondition" placeholder="Select a condition" />
                   </Col>
                 </Row>
-                <Row>
+                <Row className="mb-2">
                   <LongTextField id="post-forum-form-description" name="forumText" placeholder="Describe what you are looking for" />
-                  <SubmitField id="post-forum-form-submit" value="Post" />
                   <ErrorsField />
                 </Row>
                 <SubmitField value="Post" />
