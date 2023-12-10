@@ -24,6 +24,10 @@ class RequestsCollection {
         allowedValues: ['pending', 'accepted', 'denied'],
         defaultValue: 'pending',
       },
+      timestamp: {
+        type: Date,
+        defaultValue: new Date(),
+      },
     });
     // Attach the schema to the collection, so all attempts to insert a document are checked against schema.
     this.collection.attachSchema(this.schema);

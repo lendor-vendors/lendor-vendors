@@ -17,7 +17,7 @@ const NotificationDropDown = ({ notifications }) => {
         <BellFill />
       </Dropdown.Toggle>
       <Dropdown.Menu>
-        <Dropdown.Header>Recent Notifications</Dropdown.Header>
+        <Dropdown.Header style={{ color: 'black', fontSize: '16px' }}>Recent Notifications</Dropdown.Header>
         <Dropdown.Divider />
         <ListGroup>
           {notifications.map((notification) => (

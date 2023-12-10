@@ -19,6 +19,10 @@ class NotificationsCollection {
         type: Boolean,
         defaultValue: false,
       },
+      timestamp: {
+        type: Date,
+        defaultValue: new Date(),
+      },
       itemId: String,
     });
     // Attach the schema to the collection, so all attempts to insert a document are checked against schema.

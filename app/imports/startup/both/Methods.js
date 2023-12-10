@@ -31,6 +31,7 @@ Meteor.methods({
       message: 'accept',
       itemId: itemId,
       read: false,
+      timestamp: new Date(),
     });
     toDenyRequestIds.forEach((toDenyRequestId) => {
       Meteor.call(
@@ -50,6 +51,7 @@ Meteor.methods({
       message: 'deny',
       itemId: itemId,
       read: false,
+      timestamp: new Date(),
     });
   },
   'Requests.cancel'({ requestId }) {

@@ -17,7 +17,7 @@ const ViewNotifications = () => {
     const notificationsSubscription = Meteor.subscribe(Notifications.toUserPublicationName);
     const rdy = notificationsSubscription.ready();
     const foundNotifications = Notifications.collection
-      .find({ to: currentUser?.username })
+      .find({ to: currentUser?.username }, { sort: { timestamp: -1 } })
       .fetch();
     return {
       notifications: foundNotifications,
@@ -31,7 +31,6 @@ const ViewNotifications = () => {
   };
 
   if (ready) {
-    const sortedNotifications = notifications.sort((a, b) => a.createdAt - b.createdAt);
     return (
       <Container id="notification-page" className="py-3">
         <Row className="justify-content-center">
@@ -39,9 +38,9 @@ const ViewNotifications = () => {
             <Col className="text-center">
               <h2>Your Notifications</h2>
               <hr />
-              {sortedNotifications.length > 0 ? (
+              {notifications.length > 0 ? (
                 <div>
-                  {sortedNotifications.map((notification) => (
+                  {notifications.map((notification) => (
                     <Notification key={notification._id} notification={notification} />
                   ))}
                 </div>
