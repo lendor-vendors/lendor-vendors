@@ -48,32 +48,32 @@
     },
     {
       "name": "Elijah Smith",
-      "image": "https://github.com/philipmjohnson.png",
-      "rating": 10,
+      "image": "https://images.squarespace-cdn.com/content/v1/5c90ea00ca525b6d1d4d7509/1676226459078-ASMJWGT8B3C2HOS4W8VD/2022+D_Edwards0594_B.jpg?format=500w",
+      "rating": 0,
       "contactInfo": "elijah@foo.com/ElijahSmithContactInfo",
       "email": "elijah@foo.com",
       "password": "changeme"
     },
     {
       "name": "Harper Lee",
-      "image": "https://github.com/philipmjohnson.png",
-      "rating": 2.1,
+      "image": "https://tisch.nyu.edu/content/dam/tisch/performance-studies/Students/BA%20Photos/Capstone%202020/Hadar_Headshot.jpg.preset.square.jpeg",
+      "rating": 0,
       "contactInfo": "harper@foo.com/HarperLeeContactInfo",
       "email": "harper@foo.com",
       "password": "changeme"
     },
     {
       "name": "Elizabeth Bennet",
-      "image": "https://github.com/philipmjohnson.png",
-      "rating": 9.9,
-      "contactInfo": "elizabeth@foo.com/ElizabethBennetContactInfo",
+      "image": "https://archdesign.utk.edu/wp-content/uploads/2021/02/headshot_turner_caitlin-_square.jpg",
+      "rating": 0,
+      "contactInfo": "https://imageio.forbes.com/specials-images/imageserve/609946db7c398a0de6c94893/Mid-Adult-Female-Entrepreneur-With-Arms-Crossed-/960x0.jpg?height=473&width=711&fit=bounds",
       "email": "elizabeth@foo.com",
       "password": "changeme"
     },
     {
       "name": "Noah Jones",
-      "image": "https://github.com/philipmjohnson.png",
-      "rating": 8.2,
+      "image": "https://college.indiana.edu/images/about/diversity-inclusion/ashutosh-square-768x768.jpg",
+      "rating": 0,
       "contactInfo": "noah@foo.com/NoahJonesContactInfo",
       "email": "noah@foo.com",
       "password": "changeme",
@@ -81,32 +81,32 @@
     },
     {
       "name": "James Martin",
-      "image": "https://github.com/philipmjohnson.png",
-      "rating": 4.3,
+      "image": "https://production-next-images-cdn.thumbtack.com/i/487498694994599966/desktop/standard/400square-legacy",
+      "rating": 0,
       "contactInfo": "james@foo.com/JamesMartinContactInfo",
       "email": "james@foo.com",
       "password": "changeme"
     },
     {
       "name": "Will Wilson",
-      "image": "https://github.com/philipmjohnson.png",
-      "rating": 6.7,
+      "image": "https://cos.northeastern.edu/wp-content/uploads/2023/09/Headshot_Square_7-27-2023.jpg",
+      "rating": 0,
       "contactInfo": "will@foo.com/WillWilsonContactInfo",
       "email": "will@foo.com",
       "password": "changeme"
     },
     {
       "name": "Alex Lopez",
-      "image": "https://github.com/philipmjohnson.png",
-      "rating": 5.6,
+      "image": "https://tisch.nyu.edu/content/dam/tisch/app/marg.jpg.preset.square.jpeg?",
+      "rating": 0,
       "contactInfo": "alex@foo.com/AlexLopezContactInfo",
       "email": "alex@foo.com",
       "password": "changeme"
     },
     {
       "name": "Ben Davis",
-      "image": "https://github.com/philipmjohnson.png",
-      "rating": 7.8,
+      "image": "https://jsis.washington.edu/wordpress/wp-content/uploads/2019/05/Schrader-Headshot-Square-750x750.jpg",
+      "rating": 0,
       "contactInfo": "ben@foo.com/BenDavisContactInfo",
       "email": "ben@foo.com",
       "password": "changeme",
@@ -114,16 +114,16 @@
     },
     {
       "name": "Sarah Miller",
-      "image": "https://github.com/philipmjohnson.png",
-      "rating": 9.1,
+      "image": "https://rehab2perform.com/wp-content/uploads/bb-plugin/cache/Steph-new-large-scaled-square-ba451dd1d75a3087b04f093f2b2b9ff6-4zmty71bw0kx.jpg",
+      "rating": 0,
       "contactInfo": "sarah@foo.com/SarahMillerContactInfo",
       "email": "sarah@foo.com",
       "password": "changeme"
     },
     {
       "name": "Josh Wilson",
-      "image": "https://github.com/philipmjohnson.png",
-      "rating": 6.4,
+      "image": "https://arts.ufl.edu/site/assets/files/221973/january_2022_square_headshot.jpg",
+      "rating": 0,
       "contactInfo": "josh@foo.com/JoshWilsonContactInfo",
       "email": "josh@foo.com",
       "password": "changeme"
@@ -233,6 +233,198 @@
       "quantity": 1,
       "condition": "Excellent",
       "owner": "alex@foo.com"
+    },
+    {
+      "title": "Intro to Animal Science Textbook",
+      "image": "https://vst-coverimages.verbacompete.com/0fe12620-19ea-51c3-809e-9ec46e0d1e29.jpg",
+      "description": "I have a used copy of the textbook for Intro to Animal Science. I'm willing to lend it out for the semester.",
+      "quantity": 1,
+      "condition": "Acceptable",
+      "owner": "sarah@foo.com"
+    },
+    {
+      "title": "BARRACOON Book",
+      "image": "https://vst-coverimages.verbacompete.com/55b85759-e308-567d-971d-67fa21ce5263.jpg",
+      "description": "Book I bought for my AMST 150 class. Don't need it anymore",
+      "quantity": 1,
+      "condition": "Acceptable",
+      "owner": "kim@foo.com"
+    },
+    {
+      "title": "PHIL 101 Book",
+      "image": "https://vst-coverimages.verbacompete.com/c8d6dd49-85c2-566a-a2b8-4f9b312702f1.jpg",
+      "description": "One of the books I bought for my philisophy class. Don't need it anymore, but it's a good book",
+      "quantity": 1,
+      "condition": "Good",
+      "owner": "elijah@foo.com"
+    },
+    {
+      "title": "Computer Mouse",
+      "image": "https://i.dell.com/is/image/DellContent/content/dam/images/products/electronics-and-accessories/dell/pointing-devices/ms300/ms300-kbm-04-bk.psd?fmt=pjpg&pscan=auto&scl=1&wid=4141&hei=3475&qlt=100,1&resMode=sharp2&size=4141,3475&chrss=full&imwidth=5000",
+      "description": "Ended up not using it as much. Willing to give away for free",
+      "quantity": 1,
+      "condition": "Good",
+      "owner": "sarah@foo.com"
+    },
+    {
+      "title": "Foldable Laptop Stand",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbvqhujhweW6AD8UBcZYVQ2KS4nEQPmDUA8A&usqp=CAU",
+      "description": "Compact and easy to carry around. I don't need it anymore",
+      "quantity": 1,
+      "condition": "Excellent",
+      "owner": "will@foo.com"
+    },
+    {
+      "title": "Foldable Chairs",
+      "image": "https://static.zara.net/photos///2022/V/4/1/p/4206/073/052/2/w/1920/4206073052_6_2_1.jpg?ts=1649420975855",
+      "description": "Cute chairs. Getting rid of them because I am moving.",
+      "quantity": 3,
+      "condition": "Acceptable",
+      "owner": "harper@foo.com"
+    },
+    {
+      "title": "Cube shelf",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRieOgg7T9-fQiKE4YYvG1G3asjmarPb9Njg&usqp=CAU",
+      "description": "Trying to get rid of my furniture before I move. This is a cube shelf that I have.",
+      "quantity": 1,
+      "condition": "Good",
+      "owner": "elizabeth@foo.com"
+    },
+    {
+      "title": "Desk Organizers",
+      "image": "https://target.scene7.com/is/image/Target/GUEST_0d0d038d-86be-49f0-a447-ab481ae05a17?wid=488&hei=488&fmt=pjpeg",
+      "description": "Cleaning out my apartment.",
+      "quantity": 1,
+      "condition": "Excellent",
+      "owner": "kim@foo.com"
+    },
+    {
+      "title": "Cord Organizers",
+      "image": "https://pyxis.nymag.com/v1/imgs/dfd/064/719a82feeb33c2f3e51200294f11f2e83d.rsquare.w600.jpg",
+      "description": "Unopened cord organizers. Bought too much, willing to give away for free.",
+      "quantity": 3,
+      "condition": "Excellent",
+      "owner": "harper@foo.com"
+    },
+    {
+      "title": "Cord Organizers",
+      "image": "https://www.sfbags.com/cdn/shop/products/Brown-Set-of-4-Slate-3_1024x1024.jpg?v=1615399892",
+      "description": "Didn't use these as much as I thought I was going to. Willing to give away for free.",
+      "quantity": 2,
+      "condition": "Good",
+      "owner": "alex@foo.com"
+    },
+    {
+      "title": "Wireless Mouse",
+      "image": "https://i5.walmartimages.com/seo/onn-Wireless-Computer-Mouse-with-Nano-Receiver-1600-DPI-White_a55ee343-e7b5-4597-a28c-a8bb4fd97422.b78cdea1aeec694e2db3478113004578.jpeg",
+      "description": "Bought a new one because I forgot my mouse at home one time. Trying to get rid of the extra one",
+      "quantity": 1,
+      "condition": "Good",
+      "owner": "ben@foo.com"
+    }
+  ],
+  "defaultReviews": [
+    {
+      "reviewee": "elijah@foo.com",
+      "reviewer": "kim@foo.com",
+      "rating": 5,
+      "comment": "Great person to borrow from. Would recommend."
+    },
+    {
+      "reviewee": "will@foo.com",
+      "reviewer": "alex@foo.com",
+      "rating": 3,
+      "comment": "Item was is good condition, just had some miscommunication."
+    },
+    {
+      "reviewee": "admin@foo.com",
+      "reviewer": "kim@foo.com",
+      "rating": 5,
+      "comment": "Definitely Recommend."
+    },
+    {
+      "reviewee": "ben@foo.com",
+      "reviewer": "john@foo.com",
+      "rating": 4,
+      "comment": "Pretty smooth communication. The item I borrowed was in good condition."
+    },
+    {
+      "reviewee": "john@foo.com",
+      "reviewer": "kim@foo.com",
+      "rating": 2,
+      "comment": "Took a long time to respond to my messages, but the item was in good condition."
+    },
+    {
+      "reviewee": "james@foo.com",
+      "reviewer": "john@foo.com",
+      "rating": 3,
+      "comment": "Had an alright experience borrowing."
+    },
+    {
+      "reviewee": "elizabeth@foo.com",
+      "reviewer": "james@foo.com",
+      "rating": 1,
+      "comment": "The item I borrowed was already broken when I got it."
+    },
+    {
+      "reviewee": "sarah@foo.com",
+      "reviewer": "harper@foo.com",
+      "rating": 2,
+      "comment": "Nice person, but the item was very damaged when I got it, I coudln't even use it"
+    },
+    {
+      "reviewee": "noah@foo.com",
+      "reviewer": "elizabeth@foo.com",
+      "rating": 5,
+      "comment": "Amazing experience. I borrowed a text book so I did not have to spend money buying it myself."
+    },
+    {
+      "reviewee": "josh@foo.com",
+      "reviewer": "will@foo.com",
+      "rating": 3,
+      "comment": "The item I borrowed was in good condition, but Josh was not very responsive."
+    },
+    {
+      "reviewee": "alex@foo.com",
+      "reviewer": "ben@foo.com",
+      "rating": 2,
+      "comment": "So much miscommunication and the item was in bad condition."
+    },
+    {
+      "reviewee": "harper@foo.com",
+      "reviewer": "sarah@foo.com",
+      "rating": 4,
+      "comment": "Loved borrowing and interacting. Smooth experience."
+    },
+    {
+      "reviewee": "john@foo.com",
+      "reviewer": "elizabeth@foo.com",
+      "rating": 1,
+      "comment": "Took so long to respond, ended up cancelling my request"
+    },
+    {
+      "reviewee": "alex@foo.com",
+      "reviewer": "kim@foo.com",
+      "rating": 5,
+      "comment": "Quick responses and answered all my questions before the meet up."
+    },
+    {
+      "reviewee": "kim@foo.com",
+      "reviewer": "elijah@foo.com",
+      "rating": 3,
+      "comment": "Took some time to get back to me, but overall good person to borrow from."
+    },
+    {
+      "reviewee": "harper@foo.com",
+      "reviewer": "ben@foo.com",
+      "rating": 1,
+      "comment": "Didn't even respond to my messages."
+    },
+    {
+      "reviewee": "elizabeth@foo.com",
+      "reviewer": "john@foo.com",
+      "rating": 4,
+      "comment": "Overall, process was smooth."
     }
   ]
 }
