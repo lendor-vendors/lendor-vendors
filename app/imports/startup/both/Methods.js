@@ -56,8 +56,9 @@ Meteor.methods({
 const removeItemMethod = 'Items.remove';
 
 Meteor.methods({
-  'Items.remove'({ itemId }) {
-    Items.collection.remove({ _id: itemId });
+  'Items.remove'({ toRemoveItemId }) {
+    Requests.collection.remove({ itemId: toRemoveItemId });
+    Items.collection.remove({ _id: toRemoveItemId });
   },
 });
 
