@@ -20,7 +20,7 @@ import { forumsDetailsPage } from './forumsInfo.page';
 
 /** Credentials for one of the sample users defined in settings.development.json. */
 const credentials = { username: 'john@foo.com', password: 'changeme' };
-const itemInfo = { title: 'keyboard', Image: 'https://meletrix.com/cdn/shop/products/1_cdbe2228-08f5-4bd6-b32e-5ead50ef7bdd.jpg?v=1680462885&width=2048', Description: 'old keyboard', quantity: '1' };
+const itemInfo = { title: 'keyboard', Description: 'old keyboard', quantity: '1' };
 
 fixture('meteor-application-template-react localhost test with default db')
   .page('http://localhost:3000');
@@ -56,7 +56,7 @@ test('Test that post item works', async (testController) => {
   await navBar.isLoggedIn(testController, credentials.username);
   await navBar.gotoPostItemPage(testController);
   await postItemPage.isDisplayed(testController);
-  await postItemPage.postItem(testController, itemInfo.title, itemInfo.Image, itemInfo.Description, itemInfo.quantity);
+  await postItemPage.postItem(testController, itemInfo.title, itemInfo.Description, itemInfo.quantity);
   await navBar.gotoYourItemsPage(testController);
   await navBar.logout(testController);
   await landingPage.isDisplayed(testController);

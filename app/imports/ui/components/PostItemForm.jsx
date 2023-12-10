@@ -28,7 +28,7 @@ const ImageUpload = ({ onChange }) => {
     <div className="ImageField">
       <div>Upload an image</div>
       <label htmlFor="file-input">
-        <Button component="label" variant="contained" startIcon={<CloudUploadFill/>}>
+        <Button id="file-upload" component="label" variant="contained" startIcon={<CloudUploadFill />}>
           Upload file
           <input
             accept="image/*"
