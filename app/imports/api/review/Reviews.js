@@ -16,7 +16,7 @@ class ReviewsCollection {
       reviewer: { type: String, required: false },
       rating: { type: Number, min: 0, max: 5, required: false },
       comment: { type: String, required: false },
-      timeStamp: { type: Date, required: false },
+      timeStamp: { type: Date, defaultValue: new Date(), required: false },
     });
     // Attach the schema to the collection, so all attempts to insert a document are checked against schema.
     this.collection.attachSchema(this.schema);

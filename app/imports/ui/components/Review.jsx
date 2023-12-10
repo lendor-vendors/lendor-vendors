@@ -41,7 +41,7 @@ const Review = ({ review }) => {
         </Link>
       </div>
       <Row><p>{review.comment}</p></Row>
-      <Row><h6>Reviewed on: {review.timeStamp.toLocaleDateString('en-US')}</h6></Row>
+      <Row><h6>Reviewed on: {review.timeStamp.toLocaleDateString()}</h6></Row>
       <hr />
     </Container>
   ) : <LoadingSpinner />);
@@ -51,7 +51,7 @@ const Review = ({ review }) => {
 Review.propTypes = {
   review: PropTypes.shape({
     reviewer: PropTypes.string,
-    rating: PropTypes.string,
+    rating: PropTypes.number,
     comment: PropTypes.string,
     timeStamp: PropTypes.instanceOf(Date),
   }).isRequired,
