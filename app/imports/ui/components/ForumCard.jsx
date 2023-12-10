@@ -6,17 +6,16 @@ import { Link } from 'react-router-dom';
 /** Renders a single row in the List item table. See pages/YourItems.jsx. */
 const ForumCard = ({ forumRequest, profile, currentUsername }) => (
   <Card className="h-100">
-    <Link id="cards-link" to={`/view_forum_request/${forumRequest._id}`}>
-      <Card.Header>
+    <Card.Header>
+      <Link id="plain-link" to={`/view_forum_request/${forumRequest._id}`}>
         <Card.Title>
           {forumRequest.title}
         </Card.Title>
-        <Card.Subtitle>
-          Status: {forumRequest.status}
-        </Card.Subtitle>
-
-      </Card.Header>
-    </Link>
+      </Link>
+      <Card.Subtitle>
+        Status: {forumRequest.status}
+      </Card.Subtitle>
+    </Card.Header>
     <Card.Body>
       Requesting:
       <Row>
@@ -37,7 +36,7 @@ const ForumCard = ({ forumRequest, profile, currentUsername }) => (
         </div>
         <Container className="d-inline-block">
           <h6>Poster: {profile.name} {profile.email === currentUsername ? '(you)' : ''}</h6>
-          <h6>Posted On: {new Date(forumRequest.createdAt).toLocaleDateString()}</h6>
+          <h6>Posted On: {forumRequest.createdAt.toLocaleDateString()}</h6>
         </Container>
       </Link>
     </Card.Footer>
@@ -54,18 +53,7 @@ ForumCard.propTypes = {
     forumText: PropTypes.string,
     status: PropTypes.string,
     _id: PropTypes.string,
-    createdAt: {
-      type: Date,
-      autoValue: function () {
-        if (this.isInsert) {
-          return new Date();
-        }
-        if (this.isUpsert) {
-          return { $setOnInsert: new Date() };
-        }
-        return this.unset();
-      },
-    },
+    createdAt: PropTypes.instanceOf(Date),
   }).isRequired,
   profile: PropTypes.shape({
     name: PropTypes.string,

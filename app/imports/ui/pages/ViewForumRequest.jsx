@@ -12,8 +12,9 @@ import NotFound from './NotFound';
 import { ForumRequests } from '../../api/forumRequest/ForumRequests';
 import { resolveForumRequestMethod } from '../../startup/both/Methods';
 import DeleteForumRequestButton from '../components/DeleteForumRequestButton';
+import GoBackButton from '../components/GoBackButton';
 
-const ViewItem = () => {
+const ViewForumRequest = () => {
   // Get the itemID from the URL field. See imports/ui/layouts/App.jsx for the route containing :_id.
   const { _id } = useParams();
   const currentUser = useTracker(() => Meteor.user());
@@ -41,6 +42,7 @@ const ViewItem = () => {
     if (forumRequest) {
       return (
         <Container className="py-3">
+          <GoBackButton />
           <Row className="d-flex justify-content-center">
             <Col xs={10}>
               <Card>
@@ -144,4 +146,4 @@ const ViewItem = () => {
   return <LoadingSpinner />;
 };
 
-export default ViewItem;
+export default ViewForumRequest;

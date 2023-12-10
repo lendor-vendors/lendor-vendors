@@ -65,12 +65,12 @@ footer, footer a {
   box-shadow: 6px 10px 12px 0 rgba(0,0,0,0.15);
 }
 
-#cards-link:hover{
-  text-decoration: none;
+#plain-link:hover{
+  text-decoration: underline;
   color: blue;
 }
 
-#cards-link {
+#plain-link {
   text-decoration: none;
   color: black;
 }
@@ -116,7 +116,21 @@ footer, footer a {
   height: auto;
 }
 
+input[type=radio] {
+  display: none;
+}
+
+.star {
+  cursor: pointer;
+  width: 2em;
+  height: auto;
+}
+
 .hover-dropdown:hover {
   display: block;
+}
+
+.numButton {
+  background-color: white;
 }
 

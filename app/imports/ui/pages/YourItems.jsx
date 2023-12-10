@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Meteor } from 'meteor/meteor';
-import { Col, Container, Row } from 'react-bootstrap';
+import { Button } from '@mui/material';
+import { Card, Col, Container, Modal, Row } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
-import Fuse from 'fuse.js';
-import Form from 'react-bootstrap/Form';
 import LoadingSpinner from '../components/LoadingSpinner';
-import ItemCard from '../components/ItemCard';
 import { Items } from '../../api/item/Items';
+import ItemsList from '../components/ItemsList';
+import PostItemForm from '../components/PostItemForm';
 
 /* Renders a table containing all of the ItemCard documents. Use <ItemCard> to render each row. */
 const YourItems = () => {
@@ -25,41 +25,29 @@ const YourItems = () => {
       ready: rdy,
     };
   }, []);
-  const fuseOptions = {
-    shouldSort: true,
-    keys: ['title', 'condition', 'quantity'],
-    threshold: 0.3,
-  };
-  const fuse = new Fuse(items, fuseOptions);
-  const [searchPattern, setSearchPattern] = useState('');
-  const fuseSearch = fuse.search(searchPattern);
+  const [postModalShow, setPostModalShow] = useState(false);
   return (ready ? (
     <Container id="your-items-page" className="py-3">
-      <Row className="justify-content-center">
-        <Col md={7}>
-          <Col className="text-center">
-            <h2>Your Items</h2>
-          </Col>
+      <Row className="d-flex">
+        <Col />
+        <Col md={7} className="text-center">
+          <h2>Your Items</h2>
         </Col>
-        <Container style={{ width: '50%' }}>
-          <Form>
-            <Form.Group>
-              <Form.Control
-                placeholder="Search for an item"
-                onChange={(event) => {
-                  setSearchPattern(event.target.value);
-                }}
-              />
-            </Form.Group>
-          </Form>
-        </Container>
-        <Row xs={1} md={2} lg={3} xl={4} xxl={5} className="d-flex flex-wrap justify-content-center g-4 px-5">
-          {searchPattern === '' ? (
-            items.map((item, index) => <Col style={{ maxWidth: '250px' }} key={index}><ItemCard item={item} /></Col>)
-          ) : (
-            fuseSearch.map((searchedObj, index) => <Col style={{ maxWidth: '250px' }} key={index}><ItemCard item={searchedObj.item} /></Col>)
-          )}
-        </Row>
+        <Col className="text-end">
+          <Button variant="contained" color="success" style={{ backgroundColor: '#198754' }} onClick={() => setPostModalShow(true)}>Post an item</Button>
+          <Modal
+            show={postModalShow}
+            onHide={() => setPostModalShow(false)}
+          >
+            <Card>
+              <Card.Body>
+                <Col className="text-center"><h2>Post Item</h2></Col>
+                <PostItemForm />
+              </Card.Body>
+            </Card>
+          </Modal>
+        </Col>
+        <ItemsList items={items} />
       </Row>
     </Container>
   ) : <LoadingSpinner />);
