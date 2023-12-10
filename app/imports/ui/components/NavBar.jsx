@@ -6,12 +6,21 @@ import { Roles } from 'meteor/alanning:roles';
 import { Container, Image, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { BoxArrowRight, PencilSquare, PersonFill, PersonPlusFill } from 'react-bootstrap-icons';
 import { Profiles } from '../../api/profile/Profiles';
+import { Notifications } from '../../api/notification/Notifications';
+import NotificationDropDown from './NotificationDropDown';
 
 const NavBar = () => {
-  // useTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker
-  const { currentUser } = useTracker(() => ({
-    currentUser: Meteor.user() ? Meteor.user().username : '',
-  }), []);
+  const { currentUser, unreadNotifications } = useTracker(() => {
+    const user = Meteor.user();
+    Meteor.subscribe(Notifications.toUserPublicationName);
+
+    return {
+      currentUser: user ? user.username : '',
+      unreadNotifications: Notifications.collection
+        .find({ to: user?.username, read: false }, { sort: { createdAt: -1 }, limit: 3 })
+        .fetch(),
+    };
+  });
   function getProfilePromise() {
     return new Promise((resolve) => {
       const subscription = Meteor.subscribe(Profiles.userPublicationName);
@@ -69,43 +78,46 @@ const NavBar = () => {
                 </NavDropdown.Item>
               </NavDropdown>
             ) : (
-              <NavDropdown className="hover-dropdown" id="navbar-current-user" title={currentUser}>
-                <NavDropdown.Item
-                  id="navbar-view-profile"
-                  onClick={() => {
-                    getProfile().then((profile) => {
-                      if (profile) {
-                        navigate(`/view_profile/${profile._id}`);
-                      } else {
-                        console.log('Profile not found.');
-                      }
-                    });
-                  }}
-                >
-                  <PersonFill />{' '}Your Profile
-                </NavDropdown.Item>
-                <NavDropdown.Item
-                  id="navbar-edit-profile"
-                  onClick={() => {
-                    console.log('CURRENT USER: ', currentUser);
-                    getProfile().then((profile) => {
-                      if (profile) {
-                        navigate(`/edit_profile/${profile._id}`);
-                      } else {
-                        console.log('Profile not found.');
-                      }
-                    });
-                  }}
-                >
-                  <PencilSquare /> Edit Profile
-                </NavDropdown.Item>
-                <NavDropdown.Item id="navbar-sign-out" as={NavLink} to="/signout">
-                  <BoxArrowRight />
-                  {' '}
-                  Sign
-                  out
-                </NavDropdown.Item>
-              </NavDropdown>
+              <>
+                <NotificationDropDown notifications={unreadNotifications} />
+                <NavDropdown className="hover-dropdown" id="navbar-current-user" title={currentUser}>
+                  <NavDropdown.Item
+                    id="navbar-view-profile"
+                    onClick={() => {
+                      getProfile().then((profile) => {
+                        if (profile) {
+                          navigate(`/view_profile/${profile._id}`);
+                        } else {
+                          console.log('Profile not found.');
+                        }
+                      });
+                    }}
+                  >
+                    <PersonFill />{' '}Your Profile
+                  </NavDropdown.Item>
+                  <NavDropdown.Item
+                    id="navbar-edit-profile"
+                    onClick={() => {
+                      console.log('CURRENT USER: ', currentUser);
+                      getProfile().then((profile) => {
+                        if (profile) {
+                          navigate(`/edit_profile/${profile._id}`);
+                        } else {
+                          console.log('Profile not found.');
+                        }
+                      });
+                    }}
+                  >
+                    <PencilSquare /> Edit Profile
+                  </NavDropdown.Item>
+                  <NavDropdown.Item id="navbar-sign-out" as={NavLink} to="/signout">
+                    <BoxArrowRight />
+                    {' '}
+                    Sign
+                    out
+                  </NavDropdown.Item>
+                </NavDropdown>
+              </>
             )}
           </Nav>
         </Navbar.Collapse>

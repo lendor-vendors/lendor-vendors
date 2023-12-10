@@ -30,6 +30,8 @@ Meteor.methods({
       from: Meteor.user().username,
       message: 'accept',
       itemId: itemId,
+      read: false,
+      timestamp: new Date(),
     });
     toDenyRequestIds.forEach((toDenyRequestId) => {
       Meteor.call(
@@ -39,17 +41,32 @@ Meteor.methods({
     });
   },
   'Requests.deny'({ requestId }) {
-    Requests.collection.update({ _id: requestId }, { $set: { status: 'denied' } });
     const requester = Requests.collection.findOne({ _id: requestId }).requester;
+    const itemId = Requests.collection.findOne({ _id: requestId }).itemId;
+    Requests.collection.update({ _id: requestId }, { $set: { status: 'denied' } });
+    // send notification
     Notifications.collection.insert({
       to: requester,
       from: Meteor.user().username,
       message: 'deny',
-      itemId: requestId,
+      itemId: itemId,
+      read: false,
+      timestamp: new Date(),
     });
   },
   'Requests.cancel'({ requestId }) {
     Requests.collection.remove({ _id: requestId });
+  },
+});
+
+const markAsReadMethod = 'Notifications.markAsRead';
+
+Meteor.methods({
+  'Notifications.markAsRead'({ notificationId }) {
+    Notifications.collection.update(
+      { _id: notificationId },
+      { $set: { read: true } },
+    );
   },
 });
 
@@ -110,4 +127,4 @@ Meteor.methods({
   },
 });
 
-export { acceptRequestMethod, denyRequestMethod, cancelRequestMethod, removeItemMethod, resolveForumRequestMethod, removeForumRequestMethod, insertReviewMethod, updateProfileMethod };
+export { acceptRequestMethod, denyRequestMethod, cancelRequestMethod, removeItemMethod, resolveForumRequestMethod, removeForumRequestMethod, insertReviewMethod, updateProfileMethod, markAsReadMethod };
