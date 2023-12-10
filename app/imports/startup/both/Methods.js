@@ -57,12 +57,14 @@ Meteor.methods({
   },
 });
 
+const markAsReadMethod = 'Notifications.markAsRead';
+
 Meteor.methods({
-  'Notifications.markAsRead'({ notificationId, userId }) {
-    const notification = Notifications.collection.findOne({ _id: notificationId, to: userId, read: false });
-    if (notification) {
-      Notifications.collection.update({ _id: notificationId }, { $set: { read: true } });
-    }
+  'Notifications.markAsRead'({ notificationId }) {
+    Notifications.collection.update(
+      { _id: notificationId },
+      { $set: { read: true } },
+    );
   },
 });
 
@@ -122,4 +124,4 @@ Meteor.methods({
   },
 });
 
-export { acceptRequestMethod, denyRequestMethod, cancelRequestMethod, removeItemMethod, resolveForumRequestMethod, removeForumRequestMethod, insertReviewMethod, updateProfileMethod };
+export { acceptRequestMethod, denyRequestMethod, cancelRequestMethod, removeItemMethod, resolveForumRequestMethod, removeForumRequestMethod, insertReviewMethod, updateProfileMethod, markAsReadMethod };
