@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import swal from 'sweetalert';
 import { Card, Col, Container, Image, Row } from 'react-bootstrap';
 import { AutoForm, ErrorsField, LongTextField, NumField, SelectField, SubmitField, TextField } from 'uniforms-bootstrap5';
@@ -9,11 +9,13 @@ import { useParams } from 'react-router';
 import { Items } from '../../api/item/Items';
 import LoadingSpinner from '../components/LoadingSpinner';
 import NotFound from './NotFound';
+import ImageField from '../components/ImageField';
 
 const bridge = new SimpleSchema2Bridge(Items.schema);
 
 /* Renders the EditItem page for editing a single document. */
 const EditItem = () => {
+  const [uploadedImage, setUploadedImage] = useState(null);
   // Get the documentID from the URL field. See imports/ui/layouts/App.jsx for the route containing :_id.
   const { _id } = useParams();
   // console.log('EditItem', _id);
@@ -34,7 +36,7 @@ const EditItem = () => {
   // On successful submit, insert the data.
   const submit = (data) => {
     const { title, image, description, quantity, condition } = data;
-    Items.collection.update(_id, { $set: { title, image, description, quantity, condition } }, (error) => (error ?
+    Items.collection.update(_id, { $set: { title, image: uploadedImage || image, description, quantity, condition } }, (error) => (error ?
       swal('Error', error.message, 'error') :
       swal('Success', 'Item updated successfully', 'success')));
   };
@@ -55,7 +57,7 @@ const EditItem = () => {
               <Card>
                 <Card.Body>
                   <TextField id="edit-item-form-name" name="title" />
-                  <TextField name="image" />
+                  <ImageField name="image" onChange={setUploadedImage} />
                   <LongTextField name="description" />
                   <NumField name="quantity" decimal={false} />
                   <SelectField name="condition" />
