@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Form from 'react-bootstrap/Form';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
-import { Button, Pagination } from '@mui/material';
+import { Pagination } from '@mui/material';
 import React, { useState } from 'react';
 import Fuse from 'fuse.js';
 import { CaretDownFill } from 'react-bootstrap-icons';
