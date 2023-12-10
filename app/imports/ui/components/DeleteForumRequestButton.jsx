@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Button, Modal } from 'react-bootstrap';
+import { Button } from '@mui/material';
+import { Modal } from 'react-bootstrap';
 import { Meteor } from 'meteor/meteor';
 import PropTypes from 'prop-types';
 import { removeForumRequestMethod } from '../../startup/both/Methods';
@@ -10,7 +11,8 @@ const DeleteForumRequestButton = ({ forumRequest }) => {
     <>
       <Button
         id="btn1"
-        variant="danger"
+        variant="contained"
+        color="error"
         onClick={() => setShowModal(true)}
       >Delete Post
       </Button>

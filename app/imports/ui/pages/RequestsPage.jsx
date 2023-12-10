@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
-import { Button, Col, Container, Image, ListGroup, Row, Modal } from 'react-bootstrap';
+import React, { useEffect, useRef, useState } from 'react';
+import { Col, Container, Image, ListGroup, Row, Modal } from 'react-bootstrap';
+import { Button } from '@mui/material';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import swal from 'sweetalert';
+import { useLocation } from 'react-router';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { Items } from '../../api/item/Items';
 import { Requests } from '../../api/request/Requests';
@@ -35,6 +37,18 @@ const RequestsPage = () => {
       ready: rdy,
     };
   }, []);
+  const elementRef = useRef(null);
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const scrollToElementId = params.get('item');
+  useEffect(() => {
+    if (scrollToElementId) {
+      setCurrentTab('Requests for your items');
+      if (ready && elementRef.current) {
+        elementRef.current.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  }, [ready]);
   if (ready) {
     const handleCancelConfirm = (fromRequest) => {
       Meteor.call(cancelRequestMethod, { requestId: fromRequest._id }, (error) => {
@@ -105,8 +119,8 @@ const RequestsPage = () => {
               Quantity: {fromRequest.quantity}
             </Modal.Body>
             <Modal.Footer>
-              <Button onClick={() => handleCancelConfirm(fromRequest)} variant="success">Yes</Button>
-              <Button onClick={() => setModalShow(false)} variant="danger">No</Button>
+              <Button onClick={() => handleCancelConfirm(fromRequest)} style={{ backgroundColor: '#198754' }} variant="contained" className="me-2">Yes</Button>
+              <Button onClick={() => setModalShow(false)} color="error" variant="contained">No</Button>
             </Modal.Footer>
           </Modal>
         );
@@ -148,8 +162,8 @@ const RequestsPage = () => {
               </Modal.Body>
             ) : ''}
             <Modal.Footer>
-              <Button onClick={() => handleAcceptConfirm(toAcceptRequest, requestedItem, toDenyRequestIds)} variant="success">Yes</Button>
-              <Button onClick={() => setModalShow(false)} variant="danger">No</Button>
+              <Button onClick={() => handleAcceptConfirm(toAcceptRequest, requestedItem, toDenyRequestIds)} style={{ backgroundColor: '#198754' }} variant="contained" className="me-2">Yes</Button>
+              <Button onClick={() => setModalShow(false)} color="error" variant="contained">No</Button>
             </Modal.Footer>
           </Modal>
         );
@@ -171,8 +185,8 @@ const RequestsPage = () => {
               Quantity: {toDenyRequest.quantity}
             </Modal.Body>
             <Modal.Footer>
-              <Button onClick={() => handleDenyConfirm(toDenyRequest._id)} variant="success">Yes</Button>
-              <Button onClick={() => setModalShow(false)} variant="danger">No</Button>
+              <Button onClick={() => handleDenyConfirm(toDenyRequest._id)} style={{ backgroundColor: '#198754' }} variant="contained" className="me-2">Yes</Button>
+              <Button onClick={() => setModalShow(false)} color="error" variant="contained">No</Button>
             </Modal.Footer>
           </Modal>
         );
@@ -195,7 +209,7 @@ const RequestsPage = () => {
             const requestedItem = Items.collection.findOne({ _id: requestedItemId });
             const toRequests = toRequestItems[requestedItemId];
             return (
-              <ListGroup.Item style={{ height: '16rem', maxHeight: '16rem' }} key={requestedItemId}>
+              <ListGroup.Item style={{ height: '16rem', maxHeight: '16rem' }} key={requestedItemId} ref={requestedItemId === scrollToElementId ? elementRef : undefined}>
                 <Row xs={2}>
                   <Col>
                     <Image src={requestedItem.image} style={{ width: '100%', minHeight: '15rem', maxHeight: '15rem', objectFit: 'cover', objectPosition: 'center' }} />
@@ -210,11 +224,10 @@ const RequestsPage = () => {
                       return (
                         <div className="d-flex justify-content-between text-break" key={toRequest._id}>
                           <div>
-                            <p>
-                              From: <a href={`/view_profile/${requesterProfile._id}`} id="plain-link" className="fst-italic d-inline">{requesterProfile.name}</a><br />
-                              Quantity: {toRequest.quantity}<br />
-                              <div className="fst-italic">{toRequest.requestedAt.toLocaleDateString()}</div>
-                            </p>
+                            From: <a href={`/view_profile/${requesterProfile._id}`} id="plain-link" className="fst-italic d-inline">{requesterProfile.name}</a><br />
+                            Quantity: {toRequest.quantity}<br />
+                            <div className="fst-italic">{toRequest.requestedAt.toLocaleDateString()}</div>
+                            <br />
                           </div>
                           <div className="d-flex flex-column justify-content-center">
                             <div className="d-flex justify-content-end text-nowrap">
@@ -223,15 +236,17 @@ const RequestsPage = () => {
                                   <>
                                     <Button
                                       className="me-1"
-                                      size="sm"
-                                      variant="success"
+                                      size="small"
+                                      style={{ backgroundColor: '#198754' }}
+                                      variant="contained"
                                       onClick={() => handleButtonClick({ type: 'accept', data: { toAcceptRequest: toRequest, requestedItem, requesterProfile } })}
                                     >
                                       Accept
                                     </Button>
                                     <Button
-                                      size="sm"
-                                      variant="danger"
+                                      size="small"
+                                      color="error"
+                                      variant="contained"
                                       onClick={() => handleButtonClick({ type: 'deny', data: { toDenyRequest: toRequest, requestedItem, requesterProfile } })}
                                     >
                                       Deny
@@ -279,7 +294,7 @@ const RequestsPage = () => {
                     ) : ''}
                     {fromRequest.status === 'pending' ? (
                       <div style={{ position: 'absolute', bottom: 5, right: 5 }}>
-                        <Button onClick={() => handleButtonClick({ type: 'cancel', data: { fromRequest, requestedItem, requestedItemOwnerProfile } })} variant="danger">Cancel</Button>
+                        <Button onClick={() => handleButtonClick({ type: 'cancel', data: { fromRequest, requestedItem, requestedItemOwnerProfile } })} color="error" variant="contained">Cancel</Button>
                       </div>
                     ) : ''}
                   </Col>
@@ -303,6 +318,7 @@ const RequestsPage = () => {
             <Container style={{ maxWidth: '44rem' }}>
               <Tabs
                 tabNames={['Requests you made', 'Requests for your items']}
+                initialTab={currentTab}
                 sendCurrentTab={receiveCurrentTab}
               />
             </Container>
@@ -310,12 +326,10 @@ const RequestsPage = () => {
         </Row>
         <hr />
         <Row>
-          <Col />
           <Col>
-            <Container className="d-flex justify-content-center">{requestsList}</Container>
-          </Col>
-          <Col className="text-end">
-            <Button>Filters</Button>
+            <Container className="d-flex justify-content-center">
+              {requestsList}
+            </Container>
           </Col>
         </Row>
       </Container>

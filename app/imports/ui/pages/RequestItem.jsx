@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, Col, Container, Row } from 'react-bootstrap';
-import { AutoForm, ErrorsField, NumField, SubmitField } from 'uniforms-bootstrap5';
+import { AutoForm, ErrorsField, NumField, SubmitField } from 'uniforms-mui';
 import swal from 'sweetalert';
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
@@ -18,6 +18,7 @@ import { Notifications } from '../../api/notification/Notifications';
 const RequestItem = () => {
   // Get the documentID from the URL field. See imports/ui/layouts/App.jsx for the route containing :_id.
   const { _id } = useParams();
+  const currentUser = useTracker(() => Meteor.user());
   const { item, ownerProfile, requesterProfile, hasRequested, ready } = useTracker(() => {
     // Get access to Stuff documents.
     const itemsSubscription = Meteor.subscribe(Items.adminPublicationName);
@@ -28,7 +29,7 @@ const RequestItem = () => {
     // Get the document
     const foundItem = Items.collection.findOne({ _id: _id });
     const foundOwnerProfile = Profiles.collection.findOne({ email: foundItem?.owner });
-    const foundRequesterProfile = Profiles.collection.findOne({ email: Meteor.user()?.username });
+    const foundRequesterProfile = Profiles.collection.findOne({ email: currentUser?.username });
     // If there exists a request from this user for this item, then they have requested this item already
     const foundHasRequested = Requests.collection.find({ itemId: _id, status: 'pending' }).fetch().length > 0;
     return {
@@ -77,7 +78,7 @@ const RequestItem = () => {
         </Container>
       );
     }
-    return item.owner === Meteor.user().username ? (
+    return item.owner === currentUser?.username ? (
       <Container className="py-3 text-center">
         <h1>You own this item.</h1>
       </Container>
@@ -85,7 +86,7 @@ const RequestItem = () => {
       <Container className="py-3">
         <Row className="justify-content-center">
           <Col xs={4}>
-            <Col className="text-center"><h2>Request {item.title}</h2></Col>
+            <Col className="text-center"><h2>Request <a href={`/view_item/${item._id}`} id="plain-link">{item.title}</a></h2></Col>
             <AutoForm validate="onChange" schema={bridge} onSubmit={data => submit(data)}>
               <Card>
                 {requesterProfile.contactInfo ? (
@@ -98,7 +99,7 @@ const RequestItem = () => {
                         Your contact info: <br />
                         {requesterProfile.contactInfo}
                       </h6>
-                      Not correct? <a href="/edit_profile">Edit your profile</a> to update your contact information.
+                      Not correct? <a href={`/edit_profile/${requesterProfile._id}`}>Edit your profile</a> to update your contact information.
                     </Card.Body>
                     <Card.Body>
                       By requesting this item, you agree to have your contact information be automatically sent to {ownerProfile.name} if they accept your request.
@@ -115,11 +116,7 @@ const RequestItem = () => {
                   </>
                 ) : (
                   <Card.Body>
-                    {
-                      // TODO: link this anchor to EditProfile when it's done
-                    }
-                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                    You have no contact info! Please <a href="/edit_profile">edit your profile</a> and add your contact information before requesting an item.
+                    You have no contact info! Please <a href={`/edit_profile/${requesterProfile._id}`}>edit your profile</a> and add your contact information before requesting an item.
                   </Card.Body>
                 )}
                 <ErrorsField />

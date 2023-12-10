@@ -3,26 +3,14 @@ import { Accounts } from 'meteor/accounts-base';
 import { Roles } from 'meteor/alanning:roles';
 import { Profiles } from '../../api/profile/Profiles';
 import { Items } from '../../api/item/Items';
-import { Stuffs } from '../../api/stuff/Stuff.js';
-// import { Reviews } from '../../api/review/Reviews';
+import { Reviews } from '../../api/review/Reviews';
+import { insertReviewMethod } from '../both/Methods.js';
 
 /* eslint-disable no-console */
 
 // Initialize the database with a default data document.
 Meteor.users.allow({ update: () => true });
 Meteor.users.deny({ update: () => false });
-const addData = (data) => {
-  console.log(`  Adding: ${data.name} (${data.owner})`);
-  Stuffs.collection.insert(data);
-};
-
-// Initialize the StuffsCollection if empty.
-if (Stuffs.collection.find().count() === 0) {
-  if (Meteor.settings.defaultData) {
-    console.log('Creating default data.');
-    Meteor.settings.defaultData.forEach(data => addData(data));
-  }
-}
 
 /* eslint-disable no-console */
 // Create user account used for logging in and out
@@ -52,10 +40,10 @@ const addItem = (item) => {
   Items.collection.insert(item);
 };
 
-/* const addReview = (review) => {
+const addReview = (review) => {
   console.log(`Inserting review for ${review.reviewee} by reviewer ${review.reviewer}`);
-  Reviews.collection.insert(review);
-}; */
+  Meteor.call(insertReviewMethod, review);
+};
 
 // When running app for first time, pass a settings file to set up a default user account.
 // Create default profiles and add default items
@@ -65,8 +53,8 @@ if (Meteor.users.find().count() === 0) {
     Meteor.settings.defaultProfiles.map(profile => createProfile(profile));
     console.log('Creating the default item(s)');
     Meteor.settings.defaultItems.forEach((item) => addItem(item));
-    // console.log('Creating the default reviews');
-    // Meteor.settings.defaultReviews.forEach((review) => addReview(review));
+    console.log('Creating the default reviews');
+    Meteor.settings.defaultReviews.forEach((review) => addReview(review));
   } else {
     console.log('Cannot initialize the database!  Please invoke meteor with a settings file.');
   }
