@@ -24,6 +24,9 @@ const DeleteForumRequestButton = ({ forumRequest }) => {
         </Modal.Header>
         <Modal.Footer>
           <Button
+            className="me-2"
+            style={{ backgroundColor: '#198754' }}
+            variant="contained"
             href="/forums"
             onClick={() => {
               Meteor.call(removeForumRequestMethod, { forumRequestId: forumRequest._id });
@@ -31,7 +34,7 @@ const DeleteForumRequestButton = ({ forumRequest }) => {
           >
             Yes
           </Button>
-          <Button onClick={() => setShowModal(false)}>No</Button>
+          <Button color="error" variant="contained" onClick={() => setShowModal(false)}>No</Button>
         </Modal.Footer>
       </Modal>
     </>
