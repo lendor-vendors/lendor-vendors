@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, Col, Container, Row } from 'react-bootstrap';
-import { AutoForm, ErrorsField, LongTextField, NumField, SelectField, SubmitField, TextField } from 'uniforms-bootstrap5';
+import { AutoForm, ErrorsField, LongTextField, NumField, SelectField, SubmitField, TextField } from 'uniforms-mui';
 import swal from 'sweetalert';
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
@@ -53,8 +53,8 @@ const PostForumRequest = () => {
           <AutoForm ref={ref => { fRef = ref; }} schema={bridge} onSubmit={data => submit(data, fRef)}>
             <Card>
               <Card.Body>
-                <TextField id="post-forum-form-title" name="title" placeholder="Write a title" />
-                <Row>
+                <TextField id="post-forum-form-title" name="title" placeholder="Write a title" className="mb-2" />
+                <Row className="mb-2">
                   <Col>
                     <NumField id="post-forum-form-quantity" name="requestingQuantity" decimal={false} />
                   </Col>
@@ -67,6 +67,7 @@ const PostForumRequest = () => {
                   <SubmitField id="post-forum-form-submit" value="Post" />
                   <ErrorsField />
                 </Row>
+                <SubmitField value="Post" />
               </Card.Body>
             </Card>
           </AutoForm>

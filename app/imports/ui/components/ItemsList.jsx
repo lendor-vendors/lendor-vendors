@@ -6,7 +6,9 @@ import { useTracker } from 'meteor/react-meteor-data';
 import { Pagination } from '@mui/material';
 import React, { useState } from 'react';
 import Fuse from 'fuse.js';
+import { CaretDownFill } from 'react-bootstrap-icons';
 import ItemCard from './ItemCard';
+import CustomDropdownToggle from './CustomDropdownToggle';
 
 const ItemsList = ({ items }) => {
   // set up state variables for current page and cards per page for Pagination
@@ -61,9 +63,7 @@ const ItemsList = ({ items }) => {
           </Form>
         </Container>
         <Dropdown className="d-flex justify-content-end">
-          <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-            Sort Date By: {sortOrder === -1 ? 'Descending' : 'Ascending'}
-          </Dropdown.Toggle>
+          <Dropdown.Toggle as={CustomDropdownToggle}>Sort Date By: {sortOrder === -1 ? 'Descending' : 'Ascending'}<CaretDownFill /></Dropdown.Toggle>
           <Dropdown.Menu>
             <Dropdown.Item onClick={() => handleSortOrderChange(1)}>Ascending</Dropdown.Item>
             <Dropdown.Item onClick={() => handleSortOrderChange(-1)}>Descending</Dropdown.Item>

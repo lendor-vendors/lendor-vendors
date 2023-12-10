@@ -4,7 +4,7 @@ import { Meteor } from 'meteor/meteor';
 import { Alert, Card, Col, Container, Row } from 'react-bootstrap';
 import SimpleSchema from 'simpl-schema';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
-import { AutoForm, ErrorsField, SubmitField, TextField } from 'uniforms-bootstrap5';
+import { AutoForm, ErrorsField, SubmitField, TextField } from 'uniforms-mui';
 
 /**
  * Signin page overrides the form’s submit event and call Meteor’s loginWithPassword().
@@ -47,18 +47,18 @@ const SignIn = () => {
           <Col className="text-center">
             <h2>Login to your account</h2>
           </Col>
-          <AutoForm schema={bridge} onSubmit={data => submit(data)}>
+          <AutoForm schema={bridge} onSubmit={data => submit(data)} buttonProps={{ value: 'Custom Text' }}>
             <Card>
               <Card.Body>
-                <TextField id="signin-form-email" name="email" placeholder="E-mail address" />
+                <TextField id="signin-form-email" name="email" placeholder="E-mail address" className="mb-2" />
                 <TextField id="signin-form-password" name="password" placeholder="Password" type="password" />
-                <ErrorsField />
-                <SubmitField id="signin-form-submit" />
+                <ErrorsField className="mb-2" />
+                <SubmitField id="signin-form-submit" value="post" className="mt-2" />
               </Card.Body>
             </Card>
           </AutoForm>
           <Alert variant="light">
-            <Link to="/signup">Click here to Register</Link>
+            <Link to="/signup" className="text-white">Click here to Register</Link>
           </Alert>
           {error === '' ? (
             ''
