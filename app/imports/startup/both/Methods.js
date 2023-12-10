@@ -25,7 +25,7 @@ Meteor.methods({
     Items.collection.update({ _id: itemId }, { $set: { quantity: updatedQuantity } });
     // send notification
     const requester = Requests.collection.findOne({ _id: requestId }).requester;
-    const notificationId = Notifications.collection.insert({
+    Notifications.collection.insert({
       to: requester,
       from: Meteor.user().username,
       message: 'accept',
@@ -37,22 +37,20 @@ Meteor.methods({
         denyRequestMethod,
         { requestId: toDenyRequestId },
       );
-      Meteor.call('Notifications.markAsRead', { notificationId });
     });
   },
   'Requests.deny'({ requestId }) {
-    Requests.collection.update({ _id: requestId }, { $set: { status: 'denied' } });
-    // send notification
     const requester = Requests.collection.findOne({ _id: requestId }).requester;
     const itemId = Requests.collection.findOne({ _id: requestId }).itemId;
-    const notificationId = Notifications.collection.insert({
+    Requests.collection.update({ _id: requestId }, { $set: { status: 'denied' } });
+    // send notification
+    Notifications.collection.insert({
       to: requester,
       from: Meteor.user().username,
       message: 'deny',
       itemId: itemId,
       read: false,
     });
-    Meteor.call('Notifications.markAsRead', { notificationId });
   },
   'Requests.cancel'({ requestId }) {
     Requests.collection.remove({ _id: requestId });
@@ -60,8 +58,11 @@ Meteor.methods({
 });
 
 Meteor.methods({
-  'Notifications.markAsRead'({ notificationId }) {
-    Notifications.collection.update({ _id: notificationId }, { $set: { read: false } });
+  'Notifications.markAsRead'({ notificationId, userId }) {
+    const notification = Notifications.collection.findOne({ _id: notificationId, to: userId, read: false });
+    if (notification) {
+      Notifications.collection.update({ _id: notificationId }, { $set: { read: true } });
+    }
   },
 });
 

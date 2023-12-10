@@ -15,8 +15,7 @@ const ViewNotifications = () => {
     const rdy = notificationsSubscription.ready();
     const foundNotifications = Notifications.collection
       .find({ to: currentUser?.username })
-      .fetch()
-      .sort((a, b) => b.timestamp - a.timestamp);
+      .fetch();
     return {
       notifications: foundNotifications,
       ready: rdy,

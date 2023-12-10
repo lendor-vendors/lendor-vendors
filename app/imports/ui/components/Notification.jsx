@@ -10,8 +10,13 @@ const Notification = ({ notification }) => {
 
   const markAsRead = () => {
     if (!isRead) {
-      Meteor.call('Notifications.markAsRead', { notificationId: _id });
-      setIsRead(true);
+      Meteor.call('Notifications.markAsRead', { notificationId: _id, userId: Meteor.userId() }, (error) => {
+        if (error) {
+          console.error('Error marking notification as read:', error.reason);
+        } else {
+          setIsRead(true);
+        }
+      });
     }
   };
 
@@ -23,9 +28,9 @@ const Notification = ({ notification }) => {
           <Col>
             {`${from} has `}
             <span style={{ fontWeight: 'bold', color: 'blue' }}>requested</span>
-            {' to borrow an item.'}
+            {' to borrow an item. '}
           </Col>
-          <Link to={`/view_requests/${itemId}`}>View Request</Link>
+          <Link to="/requests">View Request</Link>
           <hr />
         </div>
       );
@@ -35,7 +40,7 @@ const Notification = ({ notification }) => {
           <Col>
             {`${from} has `}
             <span style={{ fontWeight: 'bold', color: 'green' }}>accepted</span>
-            {' your request to borrow an item.'}
+            {' your request to borrow an item'}
           </Col>
           <Col><Link to={`/view_item/${itemId}`}>View item</Link></Col>
           <hr />
