@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, Col, Container, Image, Row } from 'react-bootstrap';
 import { AutoForm, ErrorsField, SubmitField, TextField } from 'uniforms-bootstrap5';
 import { Meteor } from 'meteor/meteor';
@@ -10,6 +10,7 @@ import { updateProfileMethod } from '../../startup/both/Methods';
 import { Profiles } from '../../api/profile/Profiles';
 import LoadingSpinner from '../components/LoadingSpinner';
 import NotFound from './NotFound';
+import ImageField from '../components/ImageField';
 
 const editProfileSchema = new SimpleSchema({
   _id: String,
@@ -45,6 +46,7 @@ const bridge = new SimpleSchema2Bridge(editProfileSchema);
 
 /* Renders the EditItem page for editing a single document. */
 const EditProfile = () => {
+  const [uploadedImage, setUploadedImage] = useState(null);
   // Get the documentID from the URL field. See imports/ui/layouts/App.jsx for the route containing :_id.
   const { _id } = useParams();
   // console.log('EditItem', _id);
@@ -66,7 +68,7 @@ const EditProfile = () => {
   const submit = (data) => {
     const { name, image, contactInfo, email } = data;
     const oldEmail = profile.email;
-    Meteor.call(updateProfileMethod, { profileId: _id, name, image, contactInfo, email, oldEmail });
+    Meteor.call(updateProfileMethod, { profileId: _id, name, image: uploadedImage || image, contactInfo, email, oldEmail });
   };
 
   if (ready) {
@@ -85,7 +87,7 @@ const EditProfile = () => {
               <Card>
                 <Card.Body>
                   <TextField id="edit-profile-name" name="name" />
-                  <TextField name="image" />
+                  <ImageField name="image" onChange={setUploadedImage} />
                   <TextField name="contactInfo" />
                   <TextField name="email" />
                   <SubmitField id="edit-profile-submit" value="Submit" />
