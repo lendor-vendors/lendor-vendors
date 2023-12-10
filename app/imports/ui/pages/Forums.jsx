@@ -3,11 +3,27 @@ import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Pagination, Button } from '@mui/material';
 import { Col, Container, Dropdown, Row } from 'react-bootstrap';
+import { CaretDownFill } from 'react-bootstrap-icons';
+import PropTypes from 'prop-types';
 import { ForumRequests } from '../../api/forumRequest/ForumRequests';
 import LoadingSpinner from '../components/LoadingSpinner';
 import Tabs from '../components/Tabs';
 import ForumCard from '../components/ForumCard';
 import { Profiles } from '../../api/profile/Profiles';
+
+const CustomDropdownToggle = React.forwardRef(({ onClick, children }, ref) => (
+  <Button
+    variant="contained"
+    onClick={(e) => {
+      e.preventDefault();
+      onClick(e);
+    }}
+    ref={ref}
+    style={{ backgroundColor: '#198754' }}
+  >
+    {children}
+  </Button>
+));
 
 const Forums = () => {
   // get current user
@@ -75,6 +91,7 @@ const Forums = () => {
       return 0;
     }
   };
+
   return (ready ? (
     <Container id="forums-page" className="py-3">
       <Row className="d-flex pb-3">
@@ -99,7 +116,7 @@ const Forums = () => {
       <Row className="pb-3">
         <Col className="text-end">
           <Dropdown>
-            <Dropdown.Toggle variant="success">{currentFilter.charAt(0).toUpperCase() + currentFilter.slice(1)}</Dropdown.Toggle>
+            <Dropdown.Toggle as={CustomDropdownToggle}>{currentFilter.charAt(0).toUpperCase() + currentFilter.slice(1)}&nbsp;<CaretDownFill /></Dropdown.Toggle>
             <Dropdown.Menu>
               {Object.keys(filterOptions).map((filterKey) => (
                 <Dropdown.Item
@@ -159,6 +176,16 @@ const Forums = () => {
       </Container>
     </Container>
   ) : <LoadingSpinner />);
+};
+
+CustomDropdownToggle.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  children: PropTypes.array,
+};
+
+CustomDropdownToggle.defaultProps = {
+  children: [''],
 };
 
 export default Forums;

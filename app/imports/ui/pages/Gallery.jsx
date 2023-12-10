@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Meteor } from 'meteor/meteor';
-import { Button, Card, Col, Container, Modal, Row } from 'react-bootstrap';
+import { Card, Col, Container, Modal, Row } from 'react-bootstrap';
+import { Button } from '@mui/material';
 import { useTracker } from 'meteor/react-meteor-data';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { Items } from '../../api/item/Items';
@@ -35,7 +36,7 @@ const Gallery = () => {
           <h2>Gallery</h2>
         </Col>
         <Col className="text-end">
-          <Button variant="success" onClick={() => setPostModalShow(true)}>Post an item</Button>
+          <Button style={{ backgroundColor: '#198754' }} variant="contained" onClick={() => setPostModalShow(true)}>Post an item</Button>
           <Modal
             show={postModalShow}
             onHide={() => setPostModalShow(false)}

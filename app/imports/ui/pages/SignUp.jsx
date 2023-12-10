@@ -5,7 +5,7 @@ import { Accounts } from 'meteor/accounts-base';
 import { Alert, Card, Col, Container, Row } from 'react-bootstrap';
 import SimpleSchema from 'simpl-schema';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
-import { AutoForm, ErrorsField, SubmitField, TextField } from 'uniforms-bootstrap5';
+import { AutoForm, ErrorsField, SubmitField, TextField } from 'uniforms-mui';
 import Form from 'react-bootstrap/Form';
 import { Profiles } from '../../api/profile/Profiles';
 
@@ -52,9 +52,9 @@ const SignUp = ({ location }) => {
           <AutoForm schema={bridge} onSubmit={(data) => submit(data)}>
             <Card>
               <Card.Body>
-                <TextField id="signup-form-name" name="name" placeholder="Enter your name" />
-                <TextField id="signup-form-email" name="email" placeholder="E-mail address" />
-                <TextField id="signup-form-password" name="password" placeholder="Password" type="password" />
+                <TextField id="signup-form-name" name="name" placeholder="Enter your name" className="mb-2" />
+                <TextField id="signup-form-email" name="email" placeholder="E-mail address" className="mb-2" />
+                <TextField id="signup-form-password" name="password" placeholder="Password" type="password" className="mb-2" />
                 <ErrorsField />
                 <Form.Text>
                   <h3>Terms of Service</h3>
@@ -70,7 +70,7 @@ const SignUp = ({ location }) => {
           </AutoForm>
 
           <Alert id="hasAccount" variant="light">
-            Already have an account? Login <Link to="/signin">here</Link>
+            Already have an account? Login <Link to="/signin" className="text-white">here</Link>
           </Alert>
 
           {error === '' ? (

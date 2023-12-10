@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Button, Col, Container, Image, ListGroup, Row, Modal } from 'react-bootstrap';
+import { Col, Container, Image, ListGroup, Row, Modal } from 'react-bootstrap';
+import { Button } from '@mui/material';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import swal from 'sweetalert';
@@ -118,8 +119,8 @@ const RequestsPage = () => {
               Quantity: {fromRequest.quantity}
             </Modal.Body>
             <Modal.Footer>
-              <Button onClick={() => handleCancelConfirm(fromRequest)} variant="success">Yes</Button>
-              <Button onClick={() => setModalShow(false)} variant="danger">No</Button>
+              <Button onClick={() => handleCancelConfirm(fromRequest)} style={{ backgroundColor: '#198754' }} variant="contained" className="me-2">Yes</Button>
+              <Button onClick={() => setModalShow(false)} color="error" variant="contained">No</Button>
             </Modal.Footer>
           </Modal>
         );
@@ -161,8 +162,8 @@ const RequestsPage = () => {
               </Modal.Body>
             ) : ''}
             <Modal.Footer>
-              <Button onClick={() => handleAcceptConfirm(toAcceptRequest, requestedItem, toDenyRequestIds)} variant="success">Yes</Button>
-              <Button onClick={() => setModalShow(false)} variant="danger">No</Button>
+              <Button onClick={() => handleAcceptConfirm(toAcceptRequest, requestedItem, toDenyRequestIds)} style={{ backgroundColor: '#198754' }} variant="contained" className="me-2">Yes</Button>
+              <Button onClick={() => setModalShow(false)} color="error" variant="contained">No</Button>
             </Modal.Footer>
           </Modal>
         );
@@ -184,8 +185,8 @@ const RequestsPage = () => {
               Quantity: {toDenyRequest.quantity}
             </Modal.Body>
             <Modal.Footer>
-              <Button onClick={() => handleDenyConfirm(toDenyRequest._id)} variant="success">Yes</Button>
-              <Button onClick={() => setModalShow(false)} variant="danger">No</Button>
+              <Button onClick={() => handleDenyConfirm(toDenyRequest._id)} style={{ backgroundColor: '#198754' }} variant="contained" className="me-2">Yes</Button>
+              <Button onClick={() => setModalShow(false)} color="error" variant="contained">No</Button>
             </Modal.Footer>
           </Modal>
         );
@@ -223,11 +224,10 @@ const RequestsPage = () => {
                       return (
                         <div className="d-flex justify-content-between text-break" key={toRequest._id}>
                           <div>
-                            <p>
-                              From: <a href={`/view_profile/${requesterProfile._id}`} id="plain-link" className="fst-italic d-inline">{requesterProfile.name}</a><br />
-                              Quantity: {toRequest.quantity}<br />
-                              <div className="fst-italic">{toRequest.requestedAt.toLocaleDateString()}</div>
-                            </p>
+                            From: <a href={`/view_profile/${requesterProfile._id}`} id="plain-link" className="fst-italic d-inline">{requesterProfile.name}</a><br />
+                            Quantity: {toRequest.quantity}<br />
+                            <div className="fst-italic">{toRequest.requestedAt.toLocaleDateString()}</div>
+                            <br />
                           </div>
                           <div className="d-flex flex-column justify-content-center">
                             <div className="d-flex justify-content-end text-nowrap">
@@ -236,15 +236,17 @@ const RequestsPage = () => {
                                   <>
                                     <Button
                                       className="me-1"
-                                      size="sm"
-                                      variant="success"
+                                      size="small"
+                                      style={{ backgroundColor: '#198754' }}
+                                      variant="contained"
                                       onClick={() => handleButtonClick({ type: 'accept', data: { toAcceptRequest: toRequest, requestedItem, requesterProfile } })}
                                     >
                                       Accept
                                     </Button>
                                     <Button
-                                      size="sm"
-                                      variant="danger"
+                                      size="small"
+                                      color="error"
+                                      variant="contained"
                                       onClick={() => handleButtonClick({ type: 'deny', data: { toDenyRequest: toRequest, requestedItem, requesterProfile } })}
                                     >
                                       Deny
@@ -292,7 +294,7 @@ const RequestsPage = () => {
                     ) : ''}
                     {fromRequest.status === 'pending' ? (
                       <div style={{ position: 'absolute', bottom: 5, right: 5 }}>
-                        <Button onClick={() => handleButtonClick({ type: 'cancel', data: { fromRequest, requestedItem, requestedItemOwnerProfile } })} variant="danger">Cancel</Button>
+                        <Button onClick={() => handleButtonClick({ type: 'cancel', data: { fromRequest, requestedItem, requestedItemOwnerProfile } })} color="error" variant="contained">Cancel</Button>
                       </div>
                     ) : ''}
                   </Col>
