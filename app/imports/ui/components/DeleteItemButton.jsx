@@ -22,20 +22,29 @@ const DeleteItemButton = ({ item }) => {
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header>
           <Modal.Title>
-            Are you sure you want to delete {item.title}?
+            Are you sure you want to delete {item.title}? This will remove all requests for this item.
           </Modal.Title>
         </Modal.Header>
         <Modal.Footer>
           <Button
+            className="me-2"
+            style={{ backgroundColor: '#198754' }}
+            variant="contained"
             href="/your_items"
             title="Confirm"
             onClick={() => {
-              Meteor.call(removeItemMethod, { itemId: item._id });
+              Meteor.call(removeItemMethod, { toRemoveItemId: item._id });
             }}
           >
             Yes
           </Button>
-          <Button onClick={() => setShowModal(false)}>No</Button>
+          <Button
+            color="error"
+            variant="contained"
+            onClick={() => setShowModal(false)}
+          >
+            No
+          </Button>
         </Modal.Footer>
       </Modal>
     </>

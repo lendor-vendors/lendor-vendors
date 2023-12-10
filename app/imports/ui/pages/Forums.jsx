@@ -4,26 +4,12 @@ import { useTracker } from 'meteor/react-meteor-data';
 import { Pagination, Button } from '@mui/material';
 import { Col, Container, Dropdown, Row } from 'react-bootstrap';
 import { CaretDownFill } from 'react-bootstrap-icons';
-import PropTypes from 'prop-types';
 import { ForumRequests } from '../../api/forumRequest/ForumRequests';
 import LoadingSpinner from '../components/LoadingSpinner';
 import Tabs from '../components/Tabs';
 import ForumCard from '../components/ForumCard';
 import { Profiles } from '../../api/profile/Profiles';
-
-const CustomDropdownToggle = React.forwardRef(({ onClick, children }, ref) => (
-  <Button
-    variant="contained"
-    onClick={(e) => {
-      e.preventDefault();
-      onClick(e);
-    }}
-    ref={ref}
-    style={{ backgroundColor: '#198754' }}
-  >
-    {children}
-  </Button>
-));
+import CustomDropdownToggle from '../components/CustomDropdownToggle';
 
 const Forums = () => {
   // get current user
@@ -176,16 +162,6 @@ const Forums = () => {
       </Container>
     </Container>
   ) : <LoadingSpinner />);
-};
-
-CustomDropdownToggle.propTypes = {
-  onClick: PropTypes.func.isRequired,
-  // eslint-disable-next-line react/forbid-prop-types
-  children: PropTypes.array,
-};
-
-CustomDropdownToggle.defaultProps = {
-  children: [''],
 };
 
 export default Forums;
