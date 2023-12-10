@@ -41,7 +41,6 @@ const RequestsPage = () => {
   const params = new URLSearchParams(location.search);
   const scrollToElementId = params.get('item');
   useEffect(() => {
-    console.log('called useEffect', elementRef.current);
     if (scrollToElementId) {
       setCurrentTab('Requests for your items');
       if (ready && elementRef.current) {
@@ -325,19 +324,10 @@ const RequestsPage = () => {
         </Row>
         <hr />
         <Row>
-          <Col />
           <Col>
             <Container className="d-flex justify-content-center">
               {requestsList}
             </Container>
-          </Col>
-          <Col className="text-end">
-            <Button onClick={() => {
-              elementRef.current.scrollIntoView();
-              console.log(elementRef);
-            }}
-            >Filters
-            </Button>
           </Col>
         </Row>
       </Container>
