@@ -6,7 +6,6 @@ import { Meteor } from 'meteor/meteor';
 import PropTypes from 'prop-types';
 import { removeItemMethod } from '../../startup/both/Methods';
 
-
 const DeleteItemButton = ({ item }) => {
   const [showModal, setShowModal] = useState(false);
   return (
