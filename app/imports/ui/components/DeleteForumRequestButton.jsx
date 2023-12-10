@@ -12,6 +12,7 @@ const DeleteForumRequestButton = ({ forumRequest }) => {
       <Button
         id="btn1"
         variant="contained"
+        color="error"
         onClick={() => setShowModal(true)}
       >Delete Post
       </Button>
