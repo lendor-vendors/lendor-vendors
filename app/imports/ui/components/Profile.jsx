@@ -24,7 +24,7 @@ const Profile = ({ profile }) => (
             {profile.email !== Meteor.user().username ? (
               <Button variant="contained" startIcon={<Star />} href={`/review/${profile._id}`}>Leave a Review</Button>
             ) : (
-              <Button variant="contained" startIcon={<PencilSquare />} id="review" href={`/editProfile/${profile._id}`}>Edit Profile</Button>
+              <Button variant="contained" startIcon={<PencilSquare />} id="review" href={`/edit_profile/${profile._id}`}>Edit Profile</Button>
             )}
           </h1>
         </Row>
