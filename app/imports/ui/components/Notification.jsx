@@ -69,6 +69,7 @@ const Notification = ({ notification }) => {
             {' has '}
             <span style={{ fontWeight: 'bold', color: 'green' }}>accepted</span>
             {' your request to borrow an item'}
+            <h6 className="mt-auto text-break">Contact {username} at: {userProfile.contactInfo}</h6>
           </Col>
           <Col><Link to={`/view_item/${itemId}`}>View item</Link></Col>
           <hr />

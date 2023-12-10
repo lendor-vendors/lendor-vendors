@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Dropdown, ListGroup } from 'react-bootstrap';
 import { BellFill } from 'react-bootstrap-icons';
-import Notification from './Notification';
+import NotificationDropDownNotification from './NotificationDropDownNotification';
 
 const NotificationDropDown = ({ notifications }) => {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -13,19 +13,20 @@ const NotificationDropDown = ({ notifications }) => {
 
   return (
     <Dropdown show={showDropdown} onToggle={handleToggleDropdown}>
-      <Dropdown.Toggle id="notifications-icon-nav" className="secondary">
+      <Dropdown.Toggle style={{ background: 'transparent', border: 'none' }}>
         <BellFill />
       </Dropdown.Toggle>
       <Dropdown.Menu>
-        <Dropdown.Header>Notifications</Dropdown.Header>
+        <Dropdown.Header>Recent Notifications</Dropdown.Header>
+        <Dropdown.Divider />
         <ListGroup>
           {notifications.map((notification) => (
             <ListGroup.Item key={notification._id}>
-              <Notification notification={notification} />
+              <NotificationDropDownNotification notification={notification} />
             </ListGroup.Item>
           ))}
         </ListGroup>
-        {notifications.length === 0 && <Dropdown.Item>No unread notifications</Dropdown.Item>}
+        {notifications.length === 0 && <Dropdown.Header>No unread notifications</Dropdown.Header>}
         <Dropdown.Divider />
         <Dropdown.Item href="/notifications">View All Notifications</Dropdown.Item>
       </Dropdown.Menu>
