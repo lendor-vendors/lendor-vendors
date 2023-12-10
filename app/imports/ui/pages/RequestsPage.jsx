@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Button, Col, Container, Image, ListGroup, Row, Modal } from 'react-bootstrap';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import swal from 'sweetalert';
+import { useLocation } from 'react-router';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { Items } from '../../api/item/Items';
 import { Requests } from '../../api/request/Requests';
@@ -35,6 +36,19 @@ const RequestsPage = () => {
       ready: rdy,
     };
   }, []);
+  const elementRef = useRef(null);
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const scrollToElementId = params.get('item');
+  useEffect(() => {
+    console.log('called useEffect', elementRef.current);
+    if (scrollToElementId) {
+      setCurrentTab('Requests for your items');
+      if (ready && elementRef.current) {
+        elementRef.current.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  }, [ready]);
   if (ready) {
     const handleCancelConfirm = (fromRequest) => {
       Meteor.call(cancelRequestMethod, { requestId: fromRequest._id }, (error) => {
@@ -195,7 +209,7 @@ const RequestsPage = () => {
             const requestedItem = Items.collection.findOne({ _id: requestedItemId });
             const toRequests = toRequestItems[requestedItemId];
             return (
-              <ListGroup.Item style={{ height: '16rem', maxHeight: '16rem' }} key={requestedItemId}>
+              <ListGroup.Item style={{ height: '16rem', maxHeight: '16rem' }} key={requestedItemId} ref={requestedItemId === scrollToElementId ? elementRef : undefined}>
                 <Row xs={2}>
                   <Col>
                     <Image src={requestedItem.image} style={{ width: '100%', minHeight: '15rem', maxHeight: '15rem', objectFit: 'cover', objectPosition: 'center' }} />
@@ -303,6 +317,7 @@ const RequestsPage = () => {
             <Container style={{ maxWidth: '44rem' }}>
               <Tabs
                 tabNames={['Requests you made', 'Requests for your items']}
+                initialTab={currentTab}
                 sendCurrentTab={receiveCurrentTab}
               />
             </Container>
@@ -312,10 +327,17 @@ const RequestsPage = () => {
         <Row>
           <Col />
           <Col>
-            <Container className="d-flex justify-content-center">{requestsList}</Container>
+            <Container className="d-flex justify-content-center">
+              {requestsList}
+            </Container>
           </Col>
           <Col className="text-end">
-            <Button>Filters</Button>
+            <Button onClick={() => {
+              elementRef.current.scrollIntoView();
+              console.log(elementRef);
+            }}
+            >Filters
+            </Button>
           </Col>
         </Row>
       </Container>
