@@ -5,6 +5,10 @@ import swal from 'sweetalert';
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import SimpleSchema from 'simpl-schema';
+import { Button } from '@mui/material';
+import { CloudUploadFill } from 'react-bootstrap-icons';
+import { connectField } from 'uniforms';
+import PropTypes from 'prop-types';
 import { Items } from '../../api/item/Items';
 
 // Create a schema to specify the structure of the data to appear in the form.
@@ -18,6 +22,37 @@ const formSchema = new SimpleSchema({
 
 const bridge = new SimpleSchema2Bridge(formSchema);
 
+const Image = ({ onChange, value }) => (
+  <div className="ImageField">
+    <div>Upload an image</div>
+    <label htmlFor="file-input">
+      <Button component="label" variant="contained" startIcon={<CloudUploadFill />}>
+        Upload file
+        <input
+          accept="image/*"
+          id="file-input"
+          onChange={({ target: { files } }) => {
+            if (files && files[0]) {
+              onChange(URL.createObjectURL(files[0]));
+            }
+          }}
+          style={{ display: 'none' }}
+          type="file"
+        />
+      </Button>
+    </label>
+    <br />
+    {value ? (
+      <img
+        className="my-2"
+        alt=""
+        src={value || ''}
+        style={{ width: '150px', height: '150px' }}
+      />
+    ) : ''}
+  </div>
+);
+const ImageField = connectField(Image);
 const PostItem = () => {
   const navigate = useNavigate();
   // On submit, insert the data.
@@ -44,7 +79,7 @@ const PostItem = () => {
   return (
     <AutoForm ref={ref => { fRef = ref; }} schema={bridge} onSubmit={data => submit(data, fRef)}>
       <TextField id="post-item-form-name" name="title" />
-      <TextField id="post-item-form-image" name="image" />
+      <ImageField name="image" />
       <LongTextField id="post-item-form-description" name="description" />
       <NumField id="post-item-form-quantity" name="quantity" decimal={false} />
       <SelectField id="post-item-form-condition" name="condition" />
@@ -52,6 +87,14 @@ const PostItem = () => {
       <ErrorsField />
     </AutoForm>
   );
+};
+
+Image.propTypes = {
+  onChange: PropTypes.func.isRequired,
+  value: PropTypes.string,
+};
+Image.defaultProps = {
+  value: null,
 };
 
 export default PostItem;
