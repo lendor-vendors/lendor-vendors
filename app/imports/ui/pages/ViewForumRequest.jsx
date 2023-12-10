@@ -5,7 +5,8 @@ import { useTracker } from 'meteor/react-meteor-data';
 import { useParams } from 'react-router';
 import swal from 'sweetalert';
 import { Link } from 'react-router-dom';
-import { Button, Card, Col, Container, Image, Modal, Row } from 'react-bootstrap';
+import { Card, Col, Container, Image, Modal, Row } from 'react-bootstrap';
+import { Button } from '@mui/material';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { Profiles } from '../../api/profile/Profiles';
 import NotFound from './NotFound';
@@ -21,7 +22,7 @@ const ViewForumRequest = () => {
   const [showModal, setShowModal] = useState(false);
   // console.log('EditContact', _id);
   // useTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker
-  const { forumRequest, posterProfile, ready } = useTracker(() => {
+  const { forumRequest, posterProfile, currentUserProfile, ready } = useTracker(() => {
     // Get access to Stuff items.
     const forumRequestsSubscription = Meteor.subscribe(ForumRequests.userPublicationName);
     const profilesSubscription = Meteor.subscribe(Profiles.userPublicationName);
@@ -30,9 +31,11 @@ const ViewForumRequest = () => {
     // Get the item
     const foundForumRequest = ForumRequests.collection.findOne(_id);
     const foundPosterProfile = Profiles.collection.findOne({ email: foundForumRequest?.poster });
+    const foundCurrentUserProfile = Profiles.collection.findOne({ email: currentUser?.username });
     return {
       forumRequest: foundForumRequest,
       posterProfile: foundPosterProfile,
+      currentUserProfile: foundCurrentUserProfile,
       ready: rdy,
     };
   }, [_id]);
@@ -86,9 +89,9 @@ const ViewForumRequest = () => {
                           <DeleteForumRequestButton forumRequest={forumRequest} />
                         ) : ''}
                         {forumRequest.poster === currentUser?.username ? (
-                          <Button className="ms-2" variant="success" disabled={forumRequest.status === 'resolved'} onClick={() => setShowModal(true)}>Mark as resolved</Button>
+                          <Button className="ms-2" style={{ backgroundColor: '#198754' }} variant="contained" disabled={forumRequest.status === 'resolved'} onClick={() => setShowModal(true)}>Mark as resolved</Button>
                         ) : (
-                          <Button variant="success" disabled={forumRequest.status === 'resolved'} onClick={() => setShowModal(true)}>Fulfill</Button>
+                          <Button style={{ backgroundColor: '#198754' }} variant="contained" disabled={forumRequest.status === 'resolved'} onClick={() => setShowModal(true)}>Fulfill</Button>
                         )}
                         <Modal
                           show={showModal}
@@ -104,6 +107,9 @@ const ViewForumRequest = () => {
                               <Modal.Body>You won&apos;t be able to set it back to &quot;unresolved&quot; after.</Modal.Body>
                               <Modal.Footer>
                                 <Button
+                                  className="me-2"
+                                  style={{ backgroundColor: '#198754' }}
+                                  variant="contained"
                                   onClick={() => {
                                     Meteor.call(resolveForumRequestMethod, { forumRequestId: forumRequest._id }, (error) => {
                                       if (error) {
@@ -117,16 +123,29 @@ const ViewForumRequest = () => {
                                 >
                                   Yes
                                 </Button>
-                                <Button onClick={() => setShowModal(false)}>No</Button>
+                                <Button color="error" variant="contained" onClick={() => setShowModal(false)}>No</Button>
                               </Modal.Footer>
                             </>
                           ) : (
                             <>
-                              <Modal.Header>Are you sure you want to fulfill this request?</Modal.Header>
-                              <Modal.Body>Fulfilling this request</Modal.Body>
+                              <Modal.Header>
+                                <Modal.Title>
+                                  Are you sure you want to fulfill this request?
+                                </Modal.Title>
+                              </Modal.Header>
+                              <Modal.Body>
+                                <h6>
+                                  Your contact info: <br />
+                                  {currentUserProfile.contactInfo}
+                                </h6>
+                                Not correct? <a href={`/edit_profile/${currentUserProfile._id}`}>Edit your profile</a> to update your contact information.
+                              </Modal.Body>
+                              <Modal.Body>
+                                By offering to fulfill this request, you agree to have your contact information be automatically sent to {posterProfile.name}.
+                              </Modal.Body>
                               <Modal.Footer>
-                                <Button>Yes</Button>
-                                <Button onClick={() => setShowModal(false)}>No</Button>
+                                <Button className="me-2" style={{ backgroundColor: '#198754' }} variant="contained">Yes</Button>
+                                <Button color="error" variant="contained" onClick={() => setShowModal(false)}>No</Button>
                               </Modal.Footer>
                             </>
                           )}
