@@ -64,7 +64,7 @@ const PostForumRequest = () => {
                 </Row>
                 <Row className="mb-2">
                   <Col>
-                    <LongTextField name="forumText" placeholder="Describe what you are looking for"/>
+                    <LongTextField name="forumText" placeholder="Describe what you are looking for" />
                     <ErrorsField />
                   </Col>
                 </Row>
