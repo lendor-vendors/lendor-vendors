@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { Button, Modal } from 'react-bootstrap';
+import { Button } from '@mui/material';
+import { Modal } from 'react-bootstrap';
+import { Trash } from 'react-bootstrap-icons';
 import { Meteor } from 'meteor/meteor';
 import PropTypes from 'prop-types';
 import { removeItemMethod } from '../../startup/both/Methods';
@@ -11,7 +13,9 @@ const DeleteItemButton = ({ item }) => {
       <Button
         id="btn1"
         title="Delete"
-        variant="danger"
+        color="error"
+        variant="contained"
+        startIcon={<Trash />}
         onClick={() => setShowModal(true)}
       >Delete Post
       </Button>
