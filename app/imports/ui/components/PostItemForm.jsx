@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AutoForm, ErrorsField, LongTextField, NumField, SelectField, SubmitField, TextField } from 'uniforms-bootstrap5';
+import { AutoForm, ErrorsField, LongTextField, NumField, SelectField, SubmitField, TextField } from 'uniforms-mui';
 import swal from 'sweetalert';
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
@@ -28,7 +28,7 @@ const ImageUpload = ({ onChange }) => {
     <div className="ImageField">
       <div>Upload an image</div>
       <label htmlFor="file-input">
-        <Button component="label" variant="contained" startIcon={<CloudUploadFill/>}>
+        <Button component="label" variant="contained" startIcon={<CloudUploadFill />}>
           Upload file
           <input
             accept="image/*"
@@ -88,11 +88,11 @@ const PostItemForm = () => {
   let fRef = null;
   return (
     <AutoForm ref={ref => { fRef = ref; }} schema={bridge} onSubmit={data => submit(data, fRef)}>
-      <TextField id="post-item-form-name" name="title" />
+      <TextField id="post-item-form-name" name="title" className="mb-3" />
       <ImageField name="image" onChange={setUploadedImage} />
-      <LongTextField id="post-item-form-description" name="description" />
-      <NumField id="post-item-form-quantity" name="quantity" decimal={false} />
-      <SelectField id="post-item-form-condition" name="condition" />
+      <LongTextField id="post-item-form-description" name="description" className="mb-2" />
+      <NumField id="post-item-form-quantity" name="quantity" decimal={false} className="mb-2" />
+      <SelectField id="post-item-form-condition" name="condition" className="mb-2" />
       <SubmitField id="post-item-form-submit" value="Post" />
       <ErrorsField />
     </AutoForm>

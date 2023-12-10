@@ -34,7 +34,7 @@ const YourItems = () => {
           <h2>Your Items</h2>
         </Col>
         <Col className="text-end">
-          <Button variant="contained" color="success" style={{ backgroundColor: '#198754' }} onClick={() => setPostModalShow(true)}>Post an item</Button>
+          <Button variant="contained" style={{ backgroundColor: '#198754' }} onClick={() => setPostModalShow(true)}>Post an item</Button>
           <Modal
             show={postModalShow}
             onHide={() => setPostModalShow(false)}
