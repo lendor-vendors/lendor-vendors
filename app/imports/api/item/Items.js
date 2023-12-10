@@ -20,15 +20,7 @@ class ItemsCollection {
       owner: String,
       createdAt: {
         type: Date,
-        optional: true,
-        autoValue: function () {
-          if (this.isInsert) {
-            return new Date();
-          } if (this.isUpsert) {
-            return { $setOnInsert: new Date() };
-          }
-          return this.unset();
-        },
+        defaultValue: new Date(),
       },
     });
     // Attach the schema to the collection, so all attempts to insert a document are checked against schema.

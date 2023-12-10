@@ -19,7 +19,7 @@ const insertReviewMethod = 'Reviews.insert';
  * updated situation specified by the user.
  */
 Meteor.methods({
-  'Requests.accept'({ requestId, requestQuantity, itemId, itemQuantity, toDenyRequests }) {
+  'Requests.accept'({ requestId, requestQuantity, itemId, itemQuantity, toDenyRequestIds }) {
     Requests.collection.update({ _id: requestId }, { $set: { status: 'accepted' } });
     const updatedQuantity = itemQuantity - requestQuantity;
     Items.collection.update({ _id: itemId }, { $set: { quantity: updatedQuantity } });
@@ -31,11 +31,12 @@ Meteor.methods({
       message: 'accept',
       itemId: itemId,
     });
-    toDenyRequests.forEach((toDenyRequest) => Meteor.call(
-      denyRequestMethod,
-      { requestId: toDenyRequest._id },
-    ));
-
+    toDenyRequestIds.forEach((toDenyRequestId) => {
+      Meteor.call(
+        denyRequestMethod,
+        { requestId: toDenyRequestId },
+      );
+    });
   },
   'Requests.deny'({ requestId }) {
     Requests.collection.update({ _id: requestId }, { $set: { status: 'denied' } });

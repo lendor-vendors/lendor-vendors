@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
-import { Pagination } from '@mui/material';
-import { Button, Col, Container, Dropdown, Row } from 'react-bootstrap';
+import { Pagination, Button } from '@mui/material';
+import { Col, Container, Dropdown, Row } from 'react-bootstrap';
 import { ForumRequests } from '../../api/forumRequest/ForumRequests';
 import LoadingSpinner from '../components/LoadingSpinner';
 import Tabs from '../components/Tabs';
@@ -83,7 +83,7 @@ const Forums = () => {
           <h2 className="text-center">Request Forums</h2>
         </Col>
         <Col className="text-end">
-          <Button id="post-forum" href="/post_forum_request" variant="success">Post a forum request</Button>
+          <Button href="/post_forum_request" variant="contained" color="success" style={{ backgroundColor: '#198754' }}>Post a forum request</Button>
         </Col>
       </Row>
       <Row className="d-flex justify-content-center">

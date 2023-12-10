@@ -1,4 +1,4 @@
-import { Col, Container, Row } from 'react-bootstrap';
+import { Col, Container, Row, Dropdown } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import Form from 'react-bootstrap/Form';
 import { Meteor } from 'meteor/meteor';
@@ -17,22 +17,31 @@ const ItemsList = ({ items }) => {
   const firstIndex = lastIndex - cardsPerPage;
   // set up state variable for search pattern, default empty string
   const [searchPattern, setSearchPattern] = useState('');
+  // set up state for sortOrder
+  const [sortOrder, setSortOrder] = useState(1);
   // get all items that are not owned by the current user
   const { theItems, allItems } = useTracker(() => {
     const currentUser = Meteor.user();
     const notOwnedItems = items.filter((item) => item.owner !== currentUser);
+    // apply sorting based on sortOrder
+    const sortedItems = notOwnedItems.sort((a, b) => (sortOrder === -1 ? b.createdAt - a.createdAt : a.createdAt - b.createdAt));
     // filter items based on search pattern
     const filteredItems = searchPattern
-      ? new Fuse(notOwnedItems, { keys: ['title'], threshold: 0.3 }).search(searchPattern)
+      ? new Fuse(sortedItems, { keys: ['title'], threshold: 0.3 }).search(searchPattern)
       : notOwnedItems;
     return {
       allItems: filteredItems,
       theItems: filteredItems.slice(firstIndex, lastIndex),
     };
-  }, [currentPage, items, searchPattern]);
+  }, [currentPage, items, searchPattern, sortOrder]);
   // function to handle when page changes
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
+  };
+
+  // function to handle when sortOrder changes
+  const handleSortOrderChange = (order) => {
+    setSortOrder(order);
   };
   // calculate total pages for Pagination
   const totalFilteredPages = Math.ceil(allItems.length / cardsPerPage);
@@ -51,6 +60,15 @@ const ItemsList = ({ items }) => {
             </Form.Group>
           </Form>
         </Container>
+        <Dropdown className="d-flex justify-content-end">
+          <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+            Sort Date By: {sortOrder === -1 ? 'Descending' : 'Ascending'}
+          </Dropdown.Toggle>
+          <Dropdown.Menu>
+            <Dropdown.Item onClick={() => handleSortOrderChange(1)}>Ascending</Dropdown.Item>
+            <Dropdown.Item onClick={() => handleSortOrderChange(-1)}>Descending</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
         <Row xs={1} md={2} lg={3} xl={4} xxl={5} className="d-flex flex-wrap g-4 px-5">
           {searchPattern === '' ? (
             theItems.map((item, index) => <Col style={{ maxWidth: '250px' }} key={index}><ItemCard item={item} /></Col>)

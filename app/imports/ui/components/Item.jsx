@@ -1,7 +1,9 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import PropTypes from 'prop-types';
-import { Button, Col, Container, Image, Row } from 'react-bootstrap';
+import { Button } from '@mui/material';
+import { FlagFill, PencilSquare, PlusCircle } from 'react-bootstrap-icons';
+import { Col, Container, Image, Row } from 'react-bootstrap';
 import DeleteItemButton from './DeleteItemButton';
 import MiniProfile from './MiniProfile';
 import GoBackButton from './GoBackButton';
@@ -25,22 +27,22 @@ const Item = ({ item, ownerProfile }) => (
         <h6>Description:</h6>
         <p>{item.description}</p>
         <hr />
-        <h6>Posted on: {new Date(item.createdAt).toLocaleDateString()}</h6>
+        <h6>Posted on: {item.createdAt.toLocaleDateString()}</h6>
       </Col>
     </Row>
     {item.owner !== Meteor.user().username ? (
       <Container>
         <Row className="float-end">
           <Col>
-            <Button id="button-addon1 button-text" href={`/request/${item._id}`}>Request To Borrow</Button>
+            <Button variant="contained" startIcon={<PlusCircle />} id="button-addon1 button-text" href={`/request/${item._id}`}>Request To Borrow</Button>
           </Col>
         </Row>
       </Container>
     ) : (
       <Container className="d-flex justify-content-end">
         <Row>
-          <Col className="px-1"><Button title="Edit" id="btn1" href={`/edit/${item._id}`}>Edit</Button></Col>
-          <Col className="px-1"><Button title="View Requests" id="btn1" href={`/view_requests/${item._id}`}>View Requests</Button></Col>
+          <Col className="px-1"><Button title="Edit" id="btn1" variant="contained" startIcon={<PencilSquare />} href={`/edit/${item._id}`}>Edit</Button></Col>
+          <Col className="px-1"><Button title="View Requests" variant="contained" startIcon={<FlagFill />} id="btn1" href={`/view_requests/${item._id}`}>View Requests</Button></Col>
           <Col className="px-1"><DeleteItemButton item={item} /></Col>
         </Row>
       </Container>

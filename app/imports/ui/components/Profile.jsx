@@ -1,8 +1,9 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import PropTypes from 'prop-types';
-import { Button, Col, Container, Image, Row } from 'react-bootstrap';
-import { Star } from 'react-bootstrap-icons';
+import { Button } from '@mui/material';
+import { Col, Container, Image, Row } from 'react-bootstrap';
+import { PencilSquare, Star } from 'react-bootstrap-icons';
 import ProfileItems from './ProfileItems';
 import ProfileReviews from './ProfileReviews';
 
@@ -21,9 +22,9 @@ const Profile = ({ profile }) => (
           <h1 style={{ fontSize: '2rem' }}><Star className="pb-1" /> {profile.rating.toFixed(1)} </h1>
           <h1>
             {profile.email !== Meteor.user().username ? (
-              <Button id="review" href={`/review/${profile._id}`}>Leave a Review</Button>
+              <Button variant="contained" startIcon={<Star />} href={`/review/${profile._id}`}>Leave a Review</Button>
             ) : (
-              <Button id="editProfile" href={`/edit_profile/${profile._id}`}>Edit Profile</Button>
+              <Button variant="contained" startIcon={<PencilSquare />} id="review" href={`/edit_profile/${profile._id}`}>Edit Profile</Button>
             )}
           </h1>
         </Row>
