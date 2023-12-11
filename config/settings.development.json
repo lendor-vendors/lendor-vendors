@@ -426,5 +426,75 @@
       "rating": 4,
       "comment": "Overall, process was smooth."
     }
+  ],
+  "defaultForums": [
+    {
+      "title": "Earbuds",
+      "poster": "john@foo.com",
+      "requestingQuantity": 1,
+      "requestingCondition": "Good",
+      "forumText": "Looking to borrow earbuds for the semester. I lost mine and don't want to buy a new pair.",
+      "status": "unresolved"
+    },
+    {
+      "title": "Video Camera",
+      "poster": "sarah@foo.com",
+      "requestingQuantity": 1,
+      "requestingCondition": "Acceptable",
+      "forumText": "Need one for one my classes",
+      "status": "unresolved"
+    },
+    {
+      "title": "Speakers",
+      "poster": "will@foo.com",
+      "requestingQuantity": 2,
+      "requestingCondition": "Good",
+      "status": "unresolved"
+    },
+    {
+      "title": "Iphone charger",
+      "poster": "alex@foo.com",
+      "requestingQuantity": 1,
+      "requestingCondition": "Good",
+      "status": "resolved"
+    },
+    {
+      "title": "Portable Charger",
+      "poster": "ben@foo.com",
+      "requestingQuantity": 1,
+      "requestingCondition": "Acceptable",
+      "forumText": "Going on a trip and need a portable charger. If anyone is willing to lend me one, that would be great!",
+      "status": "unresolved"
+    },
+    {
+      "title": "Headphones",
+      "poster": "james@foo.com",
+      "requestingQuantity": 1,
+      "requestingCondition": "Good",
+      "status": "resolved"
+    },
+    {
+      "title": "Camera",
+      "poster": "elijah@foo.com",
+      "requestingQuantity": 1,
+      "requestingCondition": "Acceptable",
+      "status": "unresolved"
+    },
+    {
+      "title": "Bluetooth Mouse",
+      "poster": "elizabeth@foo.com",
+      "requestingQuantity": 1,
+      "requestingCondition": "Acceptable",
+      "forumText": "Looking for a mouse I can borrow for the semester.",
+      "status": "unresolved"
+    },
+    {
+      "title": "Chem 161 Lab Book",
+      "poster": "will@foo.com",
+      "requestingQuantity": 1,
+      "requestingCondition": "Acceptable",
+      "forumText": "Looking for a lab book I can borrow for the semester.",
+      "status": "unresolved"
+    }
   ]
 }

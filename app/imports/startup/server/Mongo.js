@@ -3,8 +3,8 @@ import { Accounts } from 'meteor/accounts-base';
 import { Roles } from 'meteor/alanning:roles';
 import { Profiles } from '../../api/profile/Profiles';
 import { Items } from '../../api/item/Items';
-import { Reviews } from '../../api/review/Reviews';
 import { insertReviewMethod } from '../both/Methods.js';
+import { ForumRequests } from '../../api/forumRequest/ForumRequests';
 
 /* eslint-disable no-console */
 
@@ -45,6 +45,11 @@ const addReview = (review) => {
   Meteor.call(insertReviewMethod, review);
 };
 
+const addForum = (forum) => {
+  console.log(`Inserting forum ${forum.title}`);
+  ForumRequests.collection.insert(forum);
+};
+
 // When running app for first time, pass a settings file to set up a default user account.
 // Create default profiles and add default items
 if (Meteor.users.find().count() === 0) {
@@ -55,6 +60,8 @@ if (Meteor.users.find().count() === 0) {
     Meteor.settings.defaultItems.forEach((item) => addItem(item));
     console.log('Creating the default reviews');
     Meteor.settings.defaultReviews.forEach((review) => addReview(review));
+    console.log('Creating the default forum requests');
+    Meteor.settings.defaultForums.forEach((forum) => addForum(forum));
   } else {
     console.log('Cannot initialize the database!  Please invoke meteor with a settings file.');
   }
