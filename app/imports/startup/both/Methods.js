@@ -12,11 +12,6 @@ const acceptRequestMethod = 'Requests.accept';
 const denyRequestMethod = 'Requests.deny';
 const cancelRequestMethod = 'Requests.cancel';
 
-/**
- * The server-side Profiles.update Meteor Method is called by the client-side Home page after pushing the update button.
- * Its purpose is to update the Profiles, ProfilesInterests, and ProfilesProjects collections to reflect the
- * updated situation specified by the user.
- */
 Meteor.methods({
   'Requests.accept'({ requestId, requestQuantity, itemId, itemQuantity, toDenyRequestIds }) {
     Requests.collection.update({ _id: requestId }, { $set: { status: 'accepted' } });
@@ -29,6 +24,8 @@ Meteor.methods({
       from: Meteor.user().username,
       message: 'accept',
       data: itemId,
+      read: false,
+      timestamp: new Date(),
     });
     toDenyRequestIds.forEach((toDenyRequestId) => {
       Meteor.call(
@@ -37,18 +34,33 @@ Meteor.methods({
       );
     });
   },
-  'Requests.deny'({ requestId, itemId }) {
-    Requests.collection.update({ _id: requestId }, { $set: { status: 'denied' } });
+  'Requests.deny'({ requestId }) {
     const requester = Requests.collection.findOne({ _id: requestId }).requester;
+    const itemId = Requests.collection.findOne({ _id: requestId }).itemId;
+    Requests.collection.update({ _id: requestId }, { $set: { status: 'denied' } });
+    // send notification
     Notifications.collection.insert({
       to: requester,
       from: Meteor.user().username,
       message: 'deny',
       data: itemId,
+      read: false,
+      timestamp: new Date(),
     });
   },
   'Requests.cancel'({ requestId }) {
     Requests.collection.remove({ _id: requestId });
+  },
+});
+
+const markAsReadMethod = 'Notifications.markAsRead';
+
+Meteor.methods({
+  'Notifications.markAsRead'({ notificationId }) {
+    Notifications.collection.update(
+      { _id: notificationId },
+      { $set: { read: true } },
+    );
   },
 });
 
@@ -100,7 +112,14 @@ const removeForumRequestMethod = 'ForumRequests.remove';
 
 Meteor.methods({
   'ForumRequests.fulfill'({ to, from, forumId }) {
-    Notifications.collection.insert({ to, from, message: 'fulfill', data: forumId });
+    Notifications.collection.insert({
+      to,
+      from,
+      message: 'fulfill',
+      data: forumId,
+      read: false,
+      timestamp: new Date(),
+    });
   },
   'ForumRequests.resolve'({ forumRequestId }) {
     ForumRequests.collection.update({ _id: forumRequestId }, { $set: { status: 'resolved' } });
@@ -110,10 +129,4 @@ Meteor.methods({
   },
 });
 
-Meteor.methods({
-  'Test.method'() {
-    throw new Meteor.Error('test');
-  },
-});
-
-export { acceptRequestMethod, denyRequestMethod, cancelRequestMethod, fulfillForumRequestMethod, insertReviewMethod, removeItemMethod, resolveForumRequestMethod, removeForumRequestMethod, updateProfileMethod };
+export { acceptRequestMethod, denyRequestMethod, cancelRequestMethod, fulfillForumRequestMethod, insertReviewMethod, markAsReadMethod, removeItemMethod, resolveForumRequestMethod, removeForumRequestMethod, updateProfileMethod };

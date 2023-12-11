@@ -1,53 +1,137 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useTracker } from 'meteor/react-meteor-data';
+import { Alert, Button, Col } from 'react-bootstrap';
 import { Meteor } from 'meteor/meteor';
-import { Alert } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import { Tracker } from 'meteor/tracker';
 import { Profiles } from '../../api/profile/Profiles';
 
 const Notification = ({ notification }) => {
-  const { from, message, data } = notification;
-  const { fromProfile, ready } = useTracker(() => {
-    // Get access to Stuff documents.
-    const profilesSubscription = Meteor.subscribe(Profiles.userPublicationName);
-    // Determine if the subscription is ready
-    const rdy = profilesSubscription.ready();
-    // Get the document
-    const foundFromProfile = Profiles.collection.findOne({ email: from });
-    return {
-      fromProfile: foundFromProfile,
-      ready: rdy,
+  const { _id, from, message, read, data } = notification;
+  const [isRead, setIsRead] = useState(read);
+  const [username, setUsername] = useState(from);
+  const [userProfile, setUserProfile] = useState({});
+
+  useEffect(() => {
+    const profileHandle = Meteor.subscribe(Profiles.userPublicationName);
+
+    const trackerHandle = Tracker.autorun(() => {
+      if (profileHandle.ready()) {
+        const profile = Profiles.collection.findOne({ email: from });
+        if (profile) {
+          setUserProfile(profile);
+          setUsername(profile.name);
+        }
+        console.log('profile:', profile);
+      }
+    });
+    return () => {
+      trackerHandle.stop();
     };
-  }, []);
+  }, [from]);
+
+  const markAsRead = () => {
+    if (!isRead) {
+      Meteor.call('Notifications.markAsRead', { notificationId: _id, userId: Meteor.userId() }, (error) => {
+        if (error) {
+          console.error('Error marking notification as read:', error.reason);
+        } else {
+          setIsRead(true);
+        }
+      });
+    }
+  };
+
   const getNotificationMessage = () => {
     switch (message) {
     case 'request':
-      return <><a href={`/view_profile/${fromProfile._id}`}>{fromProfile.name}</a> has requested to borrow your <a href={`/view_item/${data}`}>item.</a> Accept or deny this request <a href={`/requests?item=${data}`}>here.</a></>;
+      return (
+        <div>
+          <Col>
+            <Link to={`/view_profile/${userProfile._id}`} style={{ color: 'black', fontStyle: 'italic' }}>
+              {username}
+            </Link>
+            {' has '}
+            <span style={{ fontWeight: 'bold', color: 'blue' }}>requested</span>
+            {' to borrow an '}
+            <a href={`/view_item/${data}`} style={{ color: 'black', fontStyle: 'italic' }}>item.</a>
+          </Col>
+          <Link to={`/requests?item=${data}`}>View Request</Link>
+          <hr />
+        </div>
+      );
     case 'accept':
-      return <><a href={`/view_profile/${fromProfile._id}`}>{fromProfile.name}</a> has accepted your request to borrow their <a href={`/view_item/${data}`}>item.</a> Contact them at: {fromProfile.contactInfo}</>;
+      return (
+        <div>
+          <Col>
+            <Link to={`/view_profile/${userProfile._id}`} style={{ color: 'black', fontStyle: 'italic' }}>
+              {username}
+            </Link>
+            {' has '}
+            <span style={{ fontWeight: 'bold', color: 'green' }}>accepted</span>
+            {' your request to borrow an item'}
+            <h6 className="mt-auto text-break">Contact {username} at: {userProfile.contactInfo}</h6>
+          </Col>
+          <Col><Link to={`/view_item/${data}`}>View item</Link></Col>
+          <hr />
+        </div>
+      );
     case 'deny':
-      return <><a href={`/view_profile/${fromProfile._id}`}>{fromProfile.name}</a> has denied your request to borrow their <a href={`/view_item/${data}`}>item.</a></>;
-    case 'delete':
-      return 'An admin has deleted an item.';
+      return (
+        <div>
+          <Col>
+            <Link to={`/view_profile/${userProfile._id}`} style={{ color: 'black', fontStyle: 'italic' }}>
+              {username}
+            </Link>
+            {' has '}
+            <span style={{ fontWeight: 'bold', color: 'red' }}>denied</span>
+            {' your request to borrow an item.'}
+          </Col>
+          <Col><Link to={`/view_item/${data}`}>View item</Link></Col>
+          <hr />
+        </div>
+      );
     case 'fulfill':
-      return <><a href={`/view_profile/${fromProfile._id}`}>{fromProfile.name}</a> has offered to fulfill your <a href={`view_forum_request/${data}`}>forum request.</a> Contact them at: {fromProfile.contactInfo}</>;
+      return (
+        <div>
+          <Col>
+            <Link to={`/view_profile/${userProfile._id}`} style={{ color: 'black', fontStyle: 'italic' }}>
+              {username}
+            </Link>
+            {' has '}
+            <span style={{ fontWeight: 'bold', color: 'green' }}>offered</span>
+            {' to fulfill your '}
+            <Link to={`/view_forum_request/${data}`} style={{ color: 'black', fontStyle: 'italic' }}>forum request.</Link>
+          </Col>
+          <Col>
+            Contact {username} at: {userProfile.contactInfo}
+          </Col>
+        </div>
+      );
     default:
       return 'Unknown notification type.';
     }
   };
 
-  return ready ? (
-    <Alert variant="success">
-      {getNotificationMessage()}
+  return (
+    <Alert variant={isRead ? 'light' : 'success'}>
+      <p>{getNotificationMessage()}</p>
+      {!isRead && (
+        <Button variant="success" size="md" onClick={markAsRead}>
+          Mark as Read
+        </Button>
+      )}
     </Alert>
-  ) : '';
+  );
 };
 
 Notification.propTypes = {
   notification: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
     from: PropTypes.string.isRequired,
     message: PropTypes.string.isRequired,
-    data: PropTypes.string,
+    data: PropTypes.string.isRequired,
+    read: PropTypes.bool.isRequired,
   }).isRequired,
 };
 
