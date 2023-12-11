@@ -73,7 +73,7 @@ const RequestItem = () => {
     }
     if (hasRequested) {
       return (
-        <Container className="py-3 text-center">
+        <Container id="make-request-page" className="py-3 text-center">
           <h1>You have requested this item.</h1>
         </Container>
       );
@@ -83,7 +83,7 @@ const RequestItem = () => {
         <h1>You own this item.</h1>
       </Container>
     ) : (
-      <Container className="py-3">
+      <Container id="make-request-page" className="py-3">
         <Row className="justify-content-center">
           <Col xs={4}>
             <Col className="text-center"><h2>Request <a href={`/view_item/${item._id}`} id="plain-link">{item.title}</a></h2></Col>
@@ -111,7 +111,7 @@ const RequestItem = () => {
                         min={1}
                         max={item.quantity}
                       />
-                      <SubmitField value="Submit" />
+                      <SubmitField id="request-form-submit" value="Submit" />
                     </Card.Body>
                   </>
                 ) : (

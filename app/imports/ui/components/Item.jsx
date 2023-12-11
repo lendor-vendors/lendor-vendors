@@ -34,7 +34,7 @@ const Item = ({ item, ownerProfile }) => (
       <Container>
         <Row className="float-end">
           <Col>
-            <Button variant="contained" startIcon={<PlusCircle />} id="button-addon1 button-text" href={`/request/${item._id}`}>Request To Borrow</Button>
+            <Button variant="contained" startIcon={<PlusCircle />} id="btn1" href={`/request/${item._id}`}>Request To Borrow</Button>
           </Col>
         </Row>
       </Container>
@@ -43,7 +43,7 @@ const Item = ({ item, ownerProfile }) => (
         <Row>
           <Col className="px-1"><Button title="Edit" id="btn1" variant="contained" startIcon={<PencilSquare />} href={`/edit/${item._id}`}>Edit</Button></Col>
           <Col className="px-1"><Button title="View Requests" variant="contained" startIcon={<FlagFill />} id="btn1" href={`/requests?item=${item._id}`}>View Requests</Button></Col>
-          <Col className="px-1"><DeleteItemButton item={item} /></Col>
+          <Col className="px-1"><DeleteItemButton id="btn1" item={item} /></Col>
         </Row>
       </Container>
     )}

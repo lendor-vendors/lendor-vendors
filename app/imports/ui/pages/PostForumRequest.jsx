@@ -66,7 +66,7 @@ const PostForumRequest = () => {
                   <LongTextField id="post-forum-form-description" name="forumText" placeholder="Describe what you are looking for" />
                   <ErrorsField />
                 </Row>
-                <SubmitField value="Post" />
+                <SubmitField id="post-forum-form-submit" value="Post" />
               </Card.Body>
             </Card>
           </AutoForm>

@@ -1,8 +1,8 @@
 import { Selector } from 'testcafe';
 
-class LandingPage {
+class MakeRequestpage {
   constructor() {
-    this.pageId = '#landing-page';
+    this.pageId = '#make-request-page';
     this.pageSelector = Selector(this.pageId);
   }
 
@@ -10,6 +10,11 @@ class LandingPage {
   async isDisplayed(testController) {
     await testController.expect(this.pageSelector.exists).ok();
   }
+
+  async makeRequest(testController) {
+    await testController.click('#request-form-submit');
+    await testController.click(Selector('.swal-button--confirm'));
+  }
 }
 
-export const landingPage = new LandingPage();
+export const makeRequestPage = new MakeRequestpage();

@@ -21,11 +21,12 @@ class ForumsPage {
     await testController.typeText('#post-forum-form-title', 'Test Forum');
     await testController.typeText('#post-forum-form-quantity', '1');
     const conditionSelect = Selector('#post-forum-form-condition');
-    const conditionOption = conditionSelect().find('option');
     await testController.click(conditionSelect);
-    await testController.click(conditionOption.withText('Good'));
+    const conditionOption = 'Good';
+    const conditionOptionSelector = Selector('li').withText(conditionOption);
+    await testController.click(conditionOptionSelector);
     await testController.typeText('#post-forum-form-description', 'Test Forum Description');
-    await testController.click('#post-forum-form-submit input.btn.btn-primary');
+    await testController.click('#post-forum-form-submit');
     await testController.click(Selector('.swal-button--confirm'));
     await navBar.gotoForumsPage(testController);
     const cardCount = Selector('.card').count;

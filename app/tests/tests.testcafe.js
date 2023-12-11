@@ -11,10 +11,10 @@ import { notificationPage } from './notifications.page';
 import { viewItemPage } from './viewitem.page';
 import { viewProfilePage } from './viewprofile.page';
 import { editItemPage } from './edititem.page';
-import { viewRequestPage } from './viewrequest.page';
 import { editProfilePage } from './editProfile.page';
 import { reviewFormPage } from './reviewForm.page';
 import { forumsDetailsPage } from './forumsInfo.page';
+import { makeRequestPage } from './request.page';
 
 /* global fixture:false, test:false */
 
@@ -74,6 +74,18 @@ test('Test that edit item form works', async (testController) => {
   await landingPage.isDisplayed(testController);
 });
 
+test('Test that deleting item works', async (testController) => {
+  await navBar.gotoSignInPage(testController);
+  await signinPage.signin(testController, credentials.username, credentials.password);
+  await navBar.isLoggedIn(testController, credentials.username);
+  await navBar.gotoYourItemsPage(testController);
+  await yourItemsPage.isDisplayed(testController);
+  await yourItemsPage.clickItem(testController);
+  await viewItemPage.deleteItem(testController);
+  await navBar.logout(testController);
+  await landingPage.isDisplayed(testController);
+});
+
 test('Test that requests page shows up', async (testController) => {
   await navBar.gotoSignInPage(testController);
   await signinPage.signin(testController, credentials.username, credentials.password);
@@ -82,6 +94,31 @@ test('Test that requests page shows up', async (testController) => {
   await requestsPage.isDisplayed(testController);
   await navBar.logout(testController);
   await landingPage.isDisplayed(testController);
+});
+
+test('Test that request page shows up by going through view item page', async (testController) => {
+  await navBar.gotoSignInPage(testController);
+  await signinPage.signin(testController, credentials.username, credentials.password);
+  await navBar.isLoggedIn(testController, credentials.username);
+  await navBar.gotoYourItemsPage(testController);
+  await yourItemsPage.isDisplayed(testController);
+  await yourItemsPage.clickItem(testController);
+  await viewItemPage.isDisplayed(testController);
+  await viewItemPage.viewRequest(testController);
+  await requestsPage.isDisplayed(testController);
+});
+
+test('Test making a request works', async (testController) => {
+  await navBar.gotoSignInPage(testController);
+  await signinPage.signin(testController, credentials.username, credentials.password);
+  await navBar.isLoggedIn(testController, credentials.username);
+  await navBar.gotoGalleryPage(testController);
+  await galleryPage.isDisplayed(testController);
+  await galleryPage.clickItem(testController);
+  await viewItemPage.isDisplayed(testController);
+  await viewItemPage.makeRequest(testController);
+  await makeRequestPage.isDisplayed(testController);
+  await makeRequestPage.makeRequest(testController);
 });
 
 test('Test that forums page shows up', async (testController) => {
@@ -118,9 +155,12 @@ test('Test that view item page shows up', async (testController) => {
 test('Test that view request page shows up', async (testController) => {
   await navBar.gotoSignInPage(testController);
   await signinPage.signin(testController, credentials.username, credentials.password);
+  await navBar.isLoggedIn(testController, credentials.username);
   await navBar.gotoYourItemsPage(testController);
+  await yourItemsPage.clickItem(testController);
+  await viewItemPage.isDisplayed(testController);
   await viewItemPage.viewRequest(testController);
-  await viewRequestPage.isDisplayed(testController);
+  await requestsPage.isDisplayed(testController);
   await navBar.logout(testController);
   await landingPage.isDisplayed(testController);
 });
@@ -168,7 +208,7 @@ test('Test that edit profile page shows up through the view profile page button'
   await signinPage.signin(testController, credentials.username, credentials.password);
   await navBar.gotoViewProfilePage(testController);
   await viewProfilePage.isDisplayed(testController);
-  await viewProfilePage.editProfile(testController);
+  await viewProfilePage.clickEditProfile(testController);
   await editProfilePage.isDisplayed(testController);
   await navBar.logout(testController);
   await landingPage.isDisplayed(testController);

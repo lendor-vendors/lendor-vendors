@@ -128,7 +128,7 @@ class NavBar {
     await this.gotoGalleryPage(testController);
     await testController.click(Selector('.card'));
     await testController.click('#mini-profile');
-    await testController.click('#review');
+    await testController.click('#btn1');
   }
 
 }

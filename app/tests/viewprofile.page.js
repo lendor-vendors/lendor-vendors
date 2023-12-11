@@ -16,6 +16,10 @@ class ViewProfilePage {
     await testController.expect(cardCount).gte(2);
   }
 
+  async clickEditProfile(testController) {
+    await testController.click('#btn1');
+  }
+
   async editProfile(testController) {
     await testController.selectText('#edit-profile-name');
     await testController.pressKey('delete');
