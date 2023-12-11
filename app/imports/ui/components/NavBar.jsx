@@ -1,8 +1,7 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
-import { NavLink, useNavigate } from 'react-router-dom';
-import { Roles } from 'meteor/alanning:roles';
+import { NavLink } from 'react-router-dom';
 import { Container, Image, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { BoxArrowRight, PencilSquare, PersonFill, PersonPlusFill } from 'react-bootstrap-icons';
 import { Profiles } from '../../api/profile/Profiles';
@@ -57,7 +56,7 @@ const NavBar = () => {
               </NavDropdown>
             ) : (
               <>
-                <Container className="pt-2"><NotificationDropDown notifications={unreadNotifications}/></Container>
+                <Container className="pt-2"><NotificationDropDown notifications={unreadNotifications} /></Container>
                 <NavDropdown
                   className="hover-dropdown"
                   id="navbar-current-user"

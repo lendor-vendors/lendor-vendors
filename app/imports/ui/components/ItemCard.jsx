@@ -1,10 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Roles } from 'meteor/alanning:roles';
-import { Meteor } from 'meteor/meteor';
-import { Card, Col, Container, Row } from 'react-bootstrap';
+import { Card, } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import DeleteItemButton from './DeleteItemButton';
 
 /** Renders a single row in the List item table. See pages/YourItems.jsx. */
 const ItemCard = ({ item }) => (
