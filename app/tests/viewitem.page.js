@@ -14,16 +14,25 @@ class ViewItemPage {
   async editItem(testController) {
     await testController.click(Selector('.card'));
     const buttons = Selector('#btn1');
-    await testController.click(buttons.withText('Edit'));
+    await testController.click(buttons.withText('EDIT'));
     await testController.typeText('#edit-item-form-name', 's');
     await testController.click('#edit-item-form-submit input.btn.btn-primary');
     await testController.click(Selector('.swal-button--confirm'));
   }
 
   async viewRequest(testController) {
-    await testController.click(Selector('.card'));
     const buttons = Selector('#btn1');
-    await testController.click(buttons.withText('View Requests'));
+    await testController.click(buttons.withText('VIEW REQUESTS'));
+  }
+
+  async makeRequest(testController) {
+    await testController.click('#btn1');
+  }
+
+  async deleteItem(testController) {
+    const buttons = Selector('#btn1');
+    await testController.click(buttons.withText('DELETE POST'));
+    await testController.click(('#yes-delete'));
   }
 }
 

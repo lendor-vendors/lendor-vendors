@@ -46,14 +46,16 @@ const ProfileReviews = ({ email }) => {
         <Row className="justify-content-center">
           {displayedReviews.map((review, index) => <Row key={index}><Review review={review} /></Row>)}
         </Row>
-        <Pagination
-          count={Math.ceil(reviews.length / cardsPerPage)}
-          page={currentPage}
-          onChange={handlePageChange}
-          color="standard"
-          size="large"
-          className="mt-3"
-        />
+        <Container className="d-flex justify-content-center ">
+          <Pagination
+            count={Math.ceil(reviews.length / cardsPerPage)}
+            page={currentPage}
+            onChange={handlePageChange}
+            color="standard"
+            size="large"
+            className="mt-3"
+          />
+        </Container>
       </Container>
     ) : <LoadingSpinner />);
   }

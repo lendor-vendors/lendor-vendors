@@ -76,7 +76,7 @@ const EditProfile = () => {
       return <NotFound />;
     }
     return (
-      <Container className="py-3">
+      <Container id="edit-profile-page" className="py-3">
         <Row className="justify-content-center">
           <Col>
             <Image className="img" src={profile.image} width={500} style={{ objectFit: 'cover' }} />
@@ -86,11 +86,11 @@ const EditProfile = () => {
             <AutoForm schema={bridge} onSubmit={data => submit(data)} model={profile}>
               <Card>
                 <Card.Body>
-                  <TextField name="name" />
+                  <TextField id="edit-profile-name" name="name" />
                   <ImageField name="image" onChange={setUploadedImage} />
                   <TextField name="contactInfo" />
                   <TextField name="email" />
-                  <SubmitField value="Submit" />
+                  <SubmitField id="edit-profile-submit" value="Submit" />
                   <ErrorsField />
                 </Card.Body>
               </Card>

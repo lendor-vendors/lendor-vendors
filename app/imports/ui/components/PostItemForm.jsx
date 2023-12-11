@@ -18,7 +18,6 @@ const formSchema = new SimpleSchema({
 });
 
 const bridge = new SimpleSchema2Bridge(formSchema);
-
 const PostItemForm = () => {
   const navigate = useNavigate();
   const [uploadedImage, setUploadedImage] = useState(null);
