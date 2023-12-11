@@ -129,4 +129,13 @@ Meteor.methods({
   },
 });
 
-export { acceptRequestMethod, denyRequestMethod, cancelRequestMethod, fulfillForumRequestMethod, insertReviewMethod, markAsReadMethod, removeItemMethod, resolveForumRequestMethod, removeForumRequestMethod, updateProfileMethod };
+const insertRequestMethod = 'Requests.insert';
+
+Meteor.methods({
+  'Requests.insert'({ itemId, quantity, requester }) {
+    Requests.collection.insert({ itemId, quantity, requester, status: 'pending' });
+    Notifications.collection.insert({ to: 'john@foo.com', from: requester, message: 'request', data: itemId, read: false, timestamp: new Date() });
+  },
+});
+
+export { insertRequestMethod, acceptRequestMethod, denyRequestMethod, cancelRequestMethod, fulfillForumRequestMethod, insertReviewMethod, markAsReadMethod, removeItemMethod, resolveForumRequestMethod, removeForumRequestMethod, updateProfileMethod };
