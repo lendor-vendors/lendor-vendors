@@ -63,7 +63,7 @@ const ItemsList = ({ items }) => {
           </Form>
         </Container>
         <Dropdown className="d-flex justify-content-end">
-          <Dropdown.Toggle as={CustomDropdownToggle}>Sort Date By: {sortOrder === -1 ? 'Descending' : 'Ascending'}<CaretDownFill /></Dropdown.Toggle>
+          <Dropdown.Toggle as={CustomDropdownToggle}>Sort Date By: {sortOrder === -1 ? 'Descending' : 'Ascending'}&nbsp;<CaretDownFill /></Dropdown.Toggle>
           <Dropdown.Menu>
             <Dropdown.Item onClick={() => handleSortOrderChange(1)}>Ascending</Dropdown.Item>
             <Dropdown.Item onClick={() => handleSortOrderChange(-1)}>Descending</Dropdown.Item>

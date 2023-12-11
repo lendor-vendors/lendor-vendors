@@ -7,7 +7,7 @@ import { Tracker } from 'meteor/tracker';
 import { Profiles } from '../../api/profile/Profiles';
 
 const Notification = ({ notification }) => {
-  const { _id, from, message, read, itemId } = notification;
+  const { _id, from, message, read, data } = notification;
   const [isRead, setIsRead] = useState(read);
   const [username, setUsername] = useState(from);
   const [userProfile, setUserProfile] = useState({});
@@ -53,9 +53,10 @@ const Notification = ({ notification }) => {
             </Link>
             {' has '}
             <span style={{ fontWeight: 'bold', color: 'blue' }}>requested</span>
-            {' to borrow an item. '}
+            {' to borrow an '}
+            <a href={`/view_item/${data}`} style={{ color: 'black', fontStyle: 'italic' }}>item.</a>
           </Col>
-          <Link to="/requests">View Request</Link>
+          <Link to={`/requests?item=${data}`}>View Request</Link>
           <hr />
         </div>
       );
@@ -71,7 +72,7 @@ const Notification = ({ notification }) => {
             {' your request to borrow an item'}
             <h6 className="mt-auto text-break">Contact {username} at: {userProfile.contactInfo}</h6>
           </Col>
-          <Col><Link to={`/view_item/${itemId}`}>View item</Link></Col>
+          <Col><Link to={`/view_item/${data}`}>View item</Link></Col>
           <hr />
         </div>
       );
@@ -86,8 +87,25 @@ const Notification = ({ notification }) => {
             <span style={{ fontWeight: 'bold', color: 'red' }}>denied</span>
             {' your request to borrow an item.'}
           </Col>
-          <Col><Link to={`/view_item/${itemId}`}>View item</Link></Col>
+          <Col><Link to={`/view_item/${data}`}>View item</Link></Col>
           <hr />
+        </div>
+      );
+    case 'fulfill':
+      return (
+        <div>
+          <Col>
+            <Link to={`/view_profile/${userProfile._id}`} style={{ color: 'black', fontStyle: 'italic' }}>
+              {username}
+            </Link>
+            {' has '}
+            <span style={{ fontWeight: 'bold', color: 'green' }}>offered</span>
+            {' to fulfill your '}
+            <Link to={`/view_forum_request/${data}`} style={{ color: 'black', fontStyle: 'italic' }}>forum request.</Link>
+          </Col>
+          <Col>
+            Contact {username} at: {userProfile.contactInfo}
+          </Col>
         </div>
       );
     default:
@@ -112,8 +130,8 @@ Notification.propTypes = {
     _id: PropTypes.string.isRequired,
     from: PropTypes.string.isRequired,
     message: PropTypes.string.isRequired,
+    data: PropTypes.string.isRequired,
     read: PropTypes.bool.isRequired,
-    itemId: PropTypes.string,
   }).isRequired,
 };
 

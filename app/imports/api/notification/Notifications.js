@@ -15,6 +15,7 @@ class NotificationsCollection {
       to: String,
       from: String,
       message: String,
+      data: String,
       read: {
         type: Boolean,
         defaultValue: false,
@@ -23,7 +24,6 @@ class NotificationsCollection {
         type: Date,
         defaultValue: new Date(),
       },
-      itemId: String,
     });
     // Attach the schema to the collection, so all attempts to insert a document are checked against schema.
     this.collection.attachSchema(this.schema);

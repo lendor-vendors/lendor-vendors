@@ -54,7 +54,7 @@ const RequestItem = () => {
             to: item.owner,
             from: requester,
             message: 'request',
-            itemId: _id,
+            data: _id,
           });
           swal('Success', 'Item requested successfully', 'success');
         }

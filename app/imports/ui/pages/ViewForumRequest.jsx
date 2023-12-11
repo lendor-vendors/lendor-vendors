@@ -11,7 +11,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import { Profiles } from '../../api/profile/Profiles';
 import NotFound from './NotFound';
 import { ForumRequests } from '../../api/forumRequest/ForumRequests';
-import { resolveForumRequestMethod } from '../../startup/both/Methods';
+import { fulfillForumRequestMethod, resolveForumRequestMethod } from '../../startup/both/Methods';
 import DeleteForumRequestButton from '../components/DeleteForumRequestButton';
 import GoBackButton from '../components/GoBackButton';
 
@@ -144,7 +144,27 @@ const ViewForumRequest = () => {
                                 By offering to fulfill this request, you agree to have your contact information be automatically sent to {posterProfile.name}.
                               </Modal.Body>
                               <Modal.Footer>
-                                <Button className="me-2" style={{ backgroundColor: '#198754' }} variant="contained">Yes</Button>
+                                <Button
+                                  onClick={() => {
+                                    Meteor.call(
+                                      fulfillForumRequestMethod,
+                                      { to: posterProfile.email, from: currentUser.username, forumId: _id },
+                                      (error) => {
+                                        if (error) {
+                                          swal('Error', error.message, 'error');
+                                        } else {
+                                          swal('Success', 'Fulfill offer sent', 'success');
+                                        }
+                                      },
+                                    );
+                                    setShowModal(false);
+                                  }}
+                                  className="me-2"
+                                  style={{ backgroundColor: '#198754' }}
+                                  variant="contained"
+                                >
+                                  Yes
+                                </Button>
                                 <Button color="error" variant="contained" onClick={() => setShowModal(false)}>No</Button>
                               </Modal.Footer>
                             </>

@@ -11,13 +11,7 @@ import { Reviews } from '../../api/review/Reviews';
 const acceptRequestMethod = 'Requests.accept';
 const denyRequestMethod = 'Requests.deny';
 const cancelRequestMethod = 'Requests.cancel';
-const insertReviewMethod = 'Reviews.insert';
 
-/**
- * The server-side Profiles.update Meteor Method is called by the client-side Home page after pushing the update button.
- * Its purpose is to update the Profiles, ProfilesInterests, and ProfilesProjects collections to reflect the
- * updated situation specified by the user.
- */
 Meteor.methods({
   'Requests.accept'({ requestId, requestQuantity, itemId, itemQuantity, toDenyRequestIds }) {
     Requests.collection.update({ _id: requestId }, { $set: { status: 'accepted' } });
@@ -29,7 +23,7 @@ Meteor.methods({
       to: requester,
       from: Meteor.user().username,
       message: 'accept',
-      itemId: itemId,
+      data: itemId,
       read: false,
       timestamp: new Date(),
     });
@@ -49,7 +43,7 @@ Meteor.methods({
       to: requester,
       from: Meteor.user().username,
       message: 'deny',
-      itemId: itemId,
+      data: itemId,
       read: false,
       timestamp: new Date(),
     });
@@ -95,6 +89,8 @@ Meteor.methods({
   },
 });
 
+const insertReviewMethod = 'Reviews.insert';
+
 Meteor.methods({
   'Reviews.insert'({ reviewee, reviewer, rating, comment, timeStamp }) {
     console.log('Called Reviews.insert with reviewee: ', reviewee, ' reviewer: ', reviewer, ' rating: ', rating, ' comment: ', comment, ' timeStamp: ', timeStamp);
@@ -109,16 +105,22 @@ Meteor.methods({
   },
 });
 
-Meteor.methods({
-  'Test.method'() {
-    throw new Meteor.Error('test');
-  },
-});
+const fulfillForumRequestMethod = 'ForumRequests.fulfill';
 
 const resolveForumRequestMethod = 'ForumRequests.resolve';
 const removeForumRequestMethod = 'ForumRequests.remove';
 
 Meteor.methods({
+  'ForumRequests.fulfill'({ to, from, forumId }) {
+    Notifications.collection.insert({
+      to,
+      from,
+      message: 'fulfill',
+      data: forumId,
+      read: false,
+      timestamp: new Date(),
+    });
+  },
   'ForumRequests.resolve'({ forumRequestId }) {
     ForumRequests.collection.update({ _id: forumRequestId }, { $set: { status: 'resolved' } });
   },
@@ -127,4 +129,4 @@ Meteor.methods({
   },
 });
 
-export { acceptRequestMethod, denyRequestMethod, cancelRequestMethod, removeItemMethod, resolveForumRequestMethod, removeForumRequestMethod, insertReviewMethod, updateProfileMethod, markAsReadMethod };
+export { acceptRequestMethod, denyRequestMethod, cancelRequestMethod, fulfillForumRequestMethod, insertReviewMethod, markAsReadMethod, removeItemMethod, resolveForumRequestMethod, removeForumRequestMethod, updateProfileMethod };
