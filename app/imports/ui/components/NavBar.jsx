@@ -37,7 +37,7 @@ const NavBar = () => {
     <Navbar bg="dark navbar-dark" expand="lg">
       <Container>
         <Navbar.Brand as={NavLink} to="/">
-          <h2><Image src="\images\logo.png" alt="shrimp" className="shrimp" /> Lendor Vendors</h2>
+          <h2><Image src="\images\logo.svg" className="shrimp" /> Lendor Vendors</h2>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
