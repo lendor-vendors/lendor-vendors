@@ -22,9 +22,9 @@ const Profile = ({ profile }) => (
           <h1 style={{ fontSize: '2rem' }}><Star className="pb-1" /> {profile.rating.toFixed(1)} </h1>
           <h1>
             {profile.email !== Meteor.user().username ? (
-              <Button variant="contained" startIcon={<Star />} href={`/review/${profile._id}`}>Leave a Review</Button>
+              <Button id="btn1" variant="contained" startIcon={<Star />} href={`/review/${profile._id}`}>Leave a Review</Button>
             ) : (
-              <Button variant="contained" startIcon={<PencilSquare />} id="review" href={`/edit_profile/${profile._id}`}>Edit Profile</Button>
+              <Button id="btn1" variant="contained" startIcon={<PencilSquare />} href={`/edit_profile/${profile._id}`}>Edit Profile</Button>
             )}
           </h1>
         </Row>

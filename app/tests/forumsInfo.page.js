@@ -1,8 +1,8 @@
 import { Selector } from 'testcafe';
 
-class ViewRequestPage {
+class ForumsDetailsPage {
   constructor() {
-    this.pageId = '#view-request-page';
+    this.pageId = '#view-forum-request-page';
     this.pageSelector = Selector(this.pageId);
   }
 
@@ -12,4 +12,4 @@ class ViewRequestPage {
   }
 }
 
-export const viewRequestPage = new ViewRequestPage();
+export const forumsDetailsPage = new ForumsDetailsPage();

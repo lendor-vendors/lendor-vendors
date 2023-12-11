@@ -16,6 +16,11 @@ class GalleryPage {
     const cardCount = Selector('.card').count;
     await testController.expect(cardCount).gte(3);
   }
+
+  /** Clicks on the first item in the gallery. */
+  async clickItem(testController) {
+    await testController.click(Selector('.card'));
+  }
 }
 
 export const galleryPage = new GalleryPage();

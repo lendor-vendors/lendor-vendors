@@ -13,17 +13,18 @@ class PostItemPage {
   }
 
   /** Fills out and submits the form to post item, and checks to see correct number of items in your items page */
-  async postItem(testController, title, image, description, quantity) {
+  async postItem(testController, title, description, quantity) {
     await this.isDisplayed(testController);
     await testController.typeText('#post-item-form-name', title);
-    await testController.typeText('#post-item-form-image', image);
+    await testController.setFilesToUpload('#file-input', ['keyboard.jpeg']);
     await testController.typeText('#post-item-form-description', description);
     await testController.typeText('#post-item-form-quantity', quantity);
     const conditionSelect = Selector('#post-item-form-condition');
-    const conditionOption = conditionSelect().find('option');
     await testController.click(conditionSelect);
-    await testController.click(conditionOption.withText('Good'));
-    await testController.click('#post-item-form-submit input.btn.btn-primary');
+    const conditionOption = 'Good';
+    const conditionOptionSelector = Selector('li').withText(conditionOption);
+    await testController.click(conditionOptionSelector);
+    await testController.click('#post-item-form-submit');
     await testController.click(Selector('.swal-button--confirm'));
     await navBar.gotoYourItemsPage(testController);
     const cardCount = Selector('.card').count;

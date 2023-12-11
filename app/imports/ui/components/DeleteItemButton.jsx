@@ -27,6 +27,7 @@ const DeleteItemButton = ({ item }) => {
         </Modal.Header>
         <Modal.Footer>
           <Button
+            id="yes-delete"
             className="me-2"
             style={{ backgroundColor: '#198754' }}
             variant="contained"
@@ -39,6 +40,7 @@ const DeleteItemButton = ({ item }) => {
             Yes
           </Button>
           <Button
+            id="no-delete"
             color="error"
             variant="contained"
             onClick={() => setShowModal(false)}

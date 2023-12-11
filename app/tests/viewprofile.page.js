@@ -15,6 +15,18 @@ class ViewProfilePage {
     const cardCount = Selector('.card').count;
     await testController.expect(cardCount).gte(2);
   }
+
+  async clickEditProfile(testController) {
+    await testController.click('#btn1');
+  }
+
+  async editProfile(testController) {
+    await testController.selectText('#edit-profile-name');
+    await testController.pressKey('delete');
+    await testController.typeText('#edit-profile-name', 'Philip Johnson');
+    await testController.click('#edit-profile-submit input.btn.btn-primary');
+    await testController.click(Selector('.swal-button--confirm'));
+  }
 }
 
 export const viewProfilePage = new ViewProfilePage();

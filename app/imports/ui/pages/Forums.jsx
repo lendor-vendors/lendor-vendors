@@ -86,7 +86,7 @@ const Forums = () => {
           <h2 className="text-center">Request Forums</h2>
         </Col>
         <Col className="text-end">
-          <Button href="/post_forum_request" variant="contained" color="success" style={{ backgroundColor: '#198754' }}>Post a forum request</Button>
+          <Button id="post-forum" href="/post_forum_request" variant="contained" color="success" style={{ backgroundColor: '#198754' }}>Post a forum request</Button>
         </Col>
       </Row>
       <Row className="d-flex justify-content-center">
