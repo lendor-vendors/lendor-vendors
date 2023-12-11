@@ -36,7 +36,11 @@ const createProfile = ({ name, image, rating, contactInfo, email, password, role
 
 const addItem = (item) => {
   console.log(`Inserting ${item.title}, owner ${item.owner}`);
-  Items.collection.insert(item);
+  const newItem = {
+    ...item,
+    createdAt: new Date().toISOString(),
+  };
+  Items.collection.insert(newItem);
 };
 
 const addReview = (review) => {
