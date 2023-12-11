@@ -3,7 +3,6 @@ import { Accounts } from 'meteor/accounts-base';
 import { Roles } from 'meteor/alanning:roles';
 import { Profiles } from '../../api/profile/Profiles';
 import { Items } from '../../api/item/Items';
-import { Reviews } from '../../api/review/Reviews';
 import { insertReviewMethod } from '../both/Methods.js';
 
 /* eslint-disable no-console */

@@ -11,7 +11,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import { Profiles } from '../../api/profile/Profiles';
 import NotFound from './NotFound';
 import { ForumRequests } from '../../api/forumRequest/ForumRequests';
-import { denyRequestMethod, fulfillForumRequestMethod, resolveForumRequestMethod } from '../../startup/both/Methods';
+import { fulfillForumRequestMethod, resolveForumRequestMethod } from '../../startup/both/Methods';
 import DeleteForumRequestButton from '../components/DeleteForumRequestButton';
 import GoBackButton from '../components/GoBackButton';
 
@@ -163,7 +163,8 @@ const ViewForumRequest = () => {
                                   style={{ backgroundColor: '#198754' }}
                                   variant="contained"
                                 >
-                                  Yes</Button>
+                                  Yes
+                                </Button>
                                 <Button color="error" variant="contained" onClick={() => setShowModal(false)}>No</Button>
                               </Modal.Footer>
                             </>
