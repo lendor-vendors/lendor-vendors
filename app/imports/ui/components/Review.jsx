@@ -36,7 +36,11 @@ const Review = ({ review }) => {
         <Link to={`/view_profile/${profile._id}`} id="mini-profile">
           <div className="d-inline-block container">
             <h6>{profile.name}</h6>
-            <h6>Rating: <Star className="pb-1" /> {review.rating}</h6>
+            {review.rating === null ? (
+              <h6>Rating: <Star className="pb-1" /> 0</h6>
+            ) : (
+              <h6>Rating: <Star className="pb-1" /> {review.rating}</h6>
+            )}
           </div>
         </Link>
       </div>

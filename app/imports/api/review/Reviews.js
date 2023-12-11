@@ -14,7 +14,7 @@ class ReviewsCollection {
     this.schema = new SimpleSchema({
       reviewee: { type: String, required: false },
       reviewer: { type: String, required: false },
-      rating: { type: Number, min: 0, max: 5, required: false },
+      rating: { type: Number, min: 0, max: 5, defaultValue: 0, required: false },
       comment: { type: String, required: false },
       timeStamp: { type: Date, defaultValue: new Date(), required: false },
     });

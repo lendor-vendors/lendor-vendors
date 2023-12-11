@@ -32,7 +32,8 @@ const SignUp = ({ location }) => {
     });
     Profiles.collection.insert({
       name: name,
-      rating: 5.0,
+      image: '/images/defaultPFP.png',
+      rating: 0.0,
       email: email,
     });
   };
