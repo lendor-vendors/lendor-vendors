@@ -227,7 +227,8 @@ const RequestsPage = () => {
                             From: <a href={`/view_profile/${requesterProfile._id}`} id="plain-link" className="fst-italic d-inline">{requesterProfile.name}</a><br />
                             Quantity: {toRequest.quantity}<br />
                             <div className="fst-italic">{toRequest.requestedAt.toLocaleDateString()}</div>
-                            <br />
+                            Contact {requesterProfile.name} at:<br />
+                            {requesterProfile.contactInfo}<br />
                           </div>
                           <div className="d-flex flex-column justify-content-center">
                             <div className="d-flex justify-content-end text-nowrap">

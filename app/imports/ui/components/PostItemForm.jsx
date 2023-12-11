@@ -5,8 +5,11 @@ import swal from 'sweetalert';
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import SimpleSchema from 'simpl-schema';
+import { useTracker } from 'meteor/react-meteor-data';
 import { Items } from '../../api/item/Items';
 import ImageField from './ImageField';
+import { Profiles } from '../../api/profile/Profiles';
+import LoadingSpinner from './LoadingSpinner';
 
 // Create a schema to specify the structure of the data to appear in the form.
 const formSchema = new SimpleSchema({
@@ -21,10 +24,20 @@ const bridge = new SimpleSchema2Bridge(formSchema);
 const PostItemForm = () => {
   const navigate = useNavigate();
   const [uploadedImage, setUploadedImage] = useState(null);
+  const currentUser = useTracker(() => Meteor.user());
+  const { poster, ready } = useTracker(() => {
+    const profilesSubscription = Meteor.subscribe(Profiles.userPublicationName);
+    const rdy = profilesSubscription.ready();
+    const foundposter = Profiles.collection.findOne({ email: currentUser?.username });
+    return {
+      poster: foundposter,
+      ready: rdy,
+    };
+  });
   // On submit, insert the data.
   const submit = (data, formRef) => {
     const { title, description, quantity, condition } = data;
-    const owner = Meteor.user().username;
+    const owner = currentUser?.username;
     const createdAt = new Date().toISOString();
     const insertedId = Items.collection.insert(
       { title, image: uploadedImage, description, quantity, condition, owner, createdAt },
@@ -42,17 +55,20 @@ const PostItemForm = () => {
 
   // Render the form. Use Uniforms: https://github.com/vazco/uniforms
   let fRef = null;
-  return (
-    <AutoForm ref={ref => { fRef = ref; }} schema={bridge} onSubmit={data => submit(data, fRef)}>
-      <TextField id="post-item-form-name" name="title" className="mb-3" />
-      <ImageField name="image" onChange={setUploadedImage} />
-      <LongTextField id="post-item-form-description" name="description" className="mb-2" />
-      <NumField id="post-item-form-quantity" name="quantity" decimal={false} className="mb-2" />
-      <SelectField id="post-item-form-condition" name="condition" className="mb-2" />
-      <SubmitField id="post-item-form-submit" value="Post" />
-      <ErrorsField />
-    </AutoForm>
-  );
+  if (ready) {
+    return (poster.contactInfo && poster.contactInfo !== '') ? (
+      <AutoForm ref={ref => { fRef = ref; }} schema={bridge} onSubmit={data => submit(data, fRef)}>
+        <TextField id="post-item-form-name" name="title" className="mb-3" />
+        <ImageField name="image" onChange={setUploadedImage} />
+        <LongTextField id="post-item-form-description" name="description" className="mb-2" />
+        <NumField id="post-item-form-quantity" name="quantity" decimal={false} className="mb-2" />
+        <SelectField id="post-item-form-condition" name="condition" className="mb-2" />
+        <SubmitField id="post-item-form-submit" value="Post" />
+        <ErrorsField />
+      </AutoForm>
+    ) : <p>You have no contact info! Please <a href={`/edit_profile/${poster._id}`}>edit your profile</a> and add your contact information before posting an item.</p>;
+  }
+  return <LoadingSpinner />;
 };
 
 export default PostItemForm;
