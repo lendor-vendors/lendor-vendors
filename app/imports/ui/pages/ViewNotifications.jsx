@@ -8,11 +8,11 @@ import { Notifications } from '../../api/notification/Notifications';
 import LoadingSpinner from '../components/LoadingSpinner';
 import Notification from '../components/Notification';
 
-const ITEM_PER_PAGE = 10;
 const ViewNotifications = () => {
   const { _id } = useParams();
   const [currentPage, setCurrentPage] = useState(1);
-  const { notifications, ready } = useTracker(() => {
+  const [notifsPerPage] = useState(5);
+  const { allNotifications, ready } = useTracker(() => {
     const currentUser = Meteor.user();
     const notificationsSubscription = Meteor.subscribe(Notifications.toUserPublicationName);
     const rdy = notificationsSubscription.ready();
@@ -20,13 +20,16 @@ const ViewNotifications = () => {
       .find({ to: currentUser?.username }, { sort: { timestamp: -1 } })
       .fetch();
     return {
-      notifications: foundNotifications,
+      allNotifications: foundNotifications,
       ready: rdy,
     };
   }, [currentPage, _id]);
-  const totalPages = Math.ceil(notifications.length / ITEM_PER_PAGE);
+  const lastIndex = currentPage * notifsPerPage;
+  const firstIndex = lastIndex - notifsPerPage;
+  const filteredNotifications = allNotifications.slice(firstIndex, lastIndex);
+  const totalPages = Math.ceil(allNotifications.length / notifsPerPage);
 
-  const handlePageChange = (page) => {
+  const handlePageChange = (event, page) => {
     setCurrentPage(page);
   };
 
@@ -38,9 +41,9 @@ const ViewNotifications = () => {
             <Col className="text-center">
               <h2>Your Notifications</h2>
               <hr />
-              {notifications.length > 0 ? (
+              {allNotifications.length > 0 ? (
                 <div>
-                  {notifications.map((notification) => (
+                  {filteredNotifications.map((notification) => (
                     <Notification key={notification._id} notification={notification} />
                   ))}
                 </div>
@@ -50,7 +53,7 @@ const ViewNotifications = () => {
             </Col>
           </Col>
         </Row>
-        <Container className="mt-3 d-flex justify-content-center">
+        <Container className="d-flex justify-content-center">
           <Pagination
             count={totalPages}
             page={currentPage}
