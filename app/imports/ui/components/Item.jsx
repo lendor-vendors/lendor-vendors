@@ -49,7 +49,6 @@ const Item = ({ item, ownerProfile }) => (
     {Meteor.user().username !== 'admin@foo.com' && item.owner !== Meteor.user().username ? (
       <Container className="d-flex justify-content-end">
         <Row><Col><Button variant="contained" startIcon={<PlusCircle />} id="btn1" href={`/request/${item._id}`}>Request To Borrow</Button> </Col>
-          <Col><DeleteItemButton id="btn1" item={item} /></Col>
         </Row>
       </Container>
     ) : ''}
