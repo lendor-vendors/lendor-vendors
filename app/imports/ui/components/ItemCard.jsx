@@ -16,15 +16,6 @@ const ItemCard = ({ item }) => (
       <Card.Body>
         <Card.Title>{item.title}</Card.Title>
       </Card.Body>
-      {Roles.userIsInRole(Meteor.user(), 'admin') ? (
-        <Container className="d-flex justify-content-start">
-          <Row>
-            <Col>
-              <DeleteItemButton item={item} />
-            </Col>
-          </Row>
-        </Container>
-      ) : ''}
     </Card>
   </Link>
 );
