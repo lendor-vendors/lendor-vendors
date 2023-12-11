@@ -3,7 +3,6 @@ import { Accounts } from 'meteor/accounts-base';
 import { Roles } from 'meteor/alanning:roles';
 import { Profiles } from '../../api/profile/Profiles';
 import { Items } from '../../api/item/Items';
-import { Reviews } from '../../api/review/Reviews';
 import { insertReviewMethod } from '../both/Methods.js';
 
 /* eslint-disable no-console */
@@ -37,7 +36,11 @@ const createProfile = ({ name, image, rating, contactInfo, email, password, role
 
 const addItem = (item) => {
   console.log(`Inserting ${item.title}, owner ${item.owner}`);
-  Items.collection.insert(item);
+  const newItem = {
+    ...item,
+    createdAt: new Date().toISOString(),
+  };
+  Items.collection.insert(newItem);
 };
 
 const addReview = (review) => {

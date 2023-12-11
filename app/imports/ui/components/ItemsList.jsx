@@ -20,7 +20,7 @@ const ItemsList = ({ items }) => {
   // set up state variable for search pattern, default empty string
   const [searchPattern, setSearchPattern] = useState('');
   // set up state for sortOrder
-  const [sortOrder, setSortOrder] = useState(1);
+  const [sortOrder, setSortOrder] = useState(-1);
   // get all items that are not owned by the current user
   const { theItems, allItems } = useTracker(() => {
     const currentUser = Meteor.user();
