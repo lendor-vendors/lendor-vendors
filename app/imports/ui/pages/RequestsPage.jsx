@@ -84,10 +84,10 @@ const RequestsPage = () => {
       );
       setModalShow(false);
     };
-    const handleDenyConfirm = (toDenyRequestId) => {
+    const handleDenyConfirm = (toDenyRequestId, requestedItemId) => {
       Meteor.call(
         denyRequestMethod,
-        { requestId: toDenyRequestId },
+        { requestId: toDenyRequestId, itemId: requestedItemId },
         (error) => {
           if (error) {
             swal('Error', error.message, 'error');
@@ -185,7 +185,7 @@ const RequestsPage = () => {
               Quantity: {toDenyRequest.quantity}
             </Modal.Body>
             <Modal.Footer>
-              <Button onClick={() => handleDenyConfirm(toDenyRequest._id)} style={{ backgroundColor: '#198754' }} variant="contained" className="me-2">Yes</Button>
+              <Button onClick={() => handleDenyConfirm(toDenyRequest._id, requestedItem._id)} style={{ backgroundColor: '#198754' }} variant="contained" className="me-2">Yes</Button>
               <Button onClick={() => setModalShow(false)} color="error" variant="contained">No</Button>
             </Modal.Footer>
           </Modal>
