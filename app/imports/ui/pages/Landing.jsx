@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Col, Container, Image, Row } from 'react-bootstrap';
-import { CashStack, ChatLeftText, People, StarHalf } from 'react-bootstrap-icons';
+import { CashStack, ChatLeftText, StarHalf } from 'react-bootstrap-icons';
 
 /* A simple static component to render some text for the landing page. */
 const Landing = () => (
@@ -17,7 +17,7 @@ const Landing = () => (
           <Button title="Gallery" variant="success" href="/gallery">Get Started</Button>
         </Col>
         <Col className="d-flex justify-content-center align-items-center">
-          <Image src="\images\logo.svg" className="shrimp" style={{ width: '350px' }}/>
+          <Image src="\images\logo.svg" className="shrimp" style={{ width: '350px' }} />
         </Col>
         <hr />
       </Row>

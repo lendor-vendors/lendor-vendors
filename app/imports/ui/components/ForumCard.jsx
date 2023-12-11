@@ -17,7 +17,6 @@ const ForumCard = ({ forumRequest, profile, currentUsername }) => (
       </Card.Subtitle>
     </Card.Header>
     <Card.Body>
-      Requesting:
       <Row>
         <Col>
           Quantity: {forumRequest.requestingQuantity}

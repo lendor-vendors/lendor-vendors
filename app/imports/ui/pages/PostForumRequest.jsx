@@ -49,7 +49,7 @@ const PostForumRequest = () => {
     <Container className="py-3">
       <Row className="justify-content-center">
         <Col xs={12}>
-          <Col className="text-center"><h2>Post Item</h2></Col>
+          <Col className="text-center"><h2>Post Forum</h2></Col>
           <AutoForm ref={ref => { fRef = ref; }} schema={bridge} onSubmit={data => submit(data, fRef)}>
             <Card>
               <Card.Body>
@@ -63,8 +63,10 @@ const PostForumRequest = () => {
                   </Col>
                 </Row>
                 <Row className="mb-2">
-                  <LongTextField id="post-forum-form-description" name="forumText" placeholder="Describe what you are looking for" />
-                  <ErrorsField />
+                  <Col>
+                    <LongTextField id="post-forum-form-description" name="forumText" placeholder="Describe what you are looking for" />
+                    <ErrorsField />
+                  </Col>
                 </Row>
                 <SubmitField id="post-forum-form-submit" value="Post" />
               </Card.Body>
