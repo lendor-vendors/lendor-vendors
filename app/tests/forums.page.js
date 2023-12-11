@@ -13,7 +13,7 @@ class ForumsPage {
   }
 
   async viewForum(testController) {
-    await testController.click(Selector('div.card-header'));
+    await testController.click(Selector('div.card-title'));
   }
 
   async postForum(testController) {

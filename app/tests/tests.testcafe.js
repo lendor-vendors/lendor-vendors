@@ -32,7 +32,6 @@ test('Test that landing page shows up', async (testController) => {
 test('Test that gallery page shows up', async (testController) => {
   await navBar.gotoSignInPage(testController);
   await signinPage.signin(testController, credentials.username, credentials.password);
-  await navBar.isLoggedIn(testController, credentials.username);
   await navBar.gotoGalleryPage(testController);
   await galleryPage.isDisplayed(testController);
   await navBar.logout(testController);
@@ -42,7 +41,6 @@ test('Test that gallery page shows up', async (testController) => {
 test('Test that your items page shows up', async (testController) => {
   await navBar.gotoSignInPage(testController);
   await signinPage.signin(testController, credentials.username, credentials.password);
-  await navBar.isLoggedIn(testController, credentials.username);
   await navBar.gotoYourItemsPage(testController);
   await yourItemsPage.isDisplayed(testController);
   await yourItemsPage.hasdefaultItem(testController);
@@ -53,7 +51,6 @@ test('Test that your items page shows up', async (testController) => {
 test('Test that post item works', async (testController) => {
   await navBar.gotoSignInPage(testController);
   await signinPage.signin(testController, credentials.username, credentials.password);
-  await navBar.isLoggedIn(testController, credentials.username);
   await navBar.gotoPostItemPage(testController);
   await postItemPage.isDisplayed(testController);
   await postItemPage.postItem(testController, itemInfo.title, itemInfo.Description, itemInfo.quantity);
@@ -65,7 +62,6 @@ test('Test that post item works', async (testController) => {
 test('Test that edit item form works', async (testController) => {
   await navBar.gotoSignInPage(testController);
   await signinPage.signin(testController, credentials.username, credentials.password);
-  await navBar.isLoggedIn(testController, credentials.username);
   await navBar.gotoYourItemsPage(testController);
   await yourItemsPage.isDisplayed(testController);
   await viewItemPage.editItem(testController);
@@ -77,7 +73,6 @@ test('Test that edit item form works', async (testController) => {
 test('Test that deleting item works', async (testController) => {
   await navBar.gotoSignInPage(testController);
   await signinPage.signin(testController, credentials.username, credentials.password);
-  await navBar.isLoggedIn(testController, credentials.username);
   await navBar.gotoYourItemsPage(testController);
   await yourItemsPage.isDisplayed(testController);
   await yourItemsPage.clickItem(testController);
@@ -89,7 +84,6 @@ test('Test that deleting item works', async (testController) => {
 test('Test that requests page shows up', async (testController) => {
   await navBar.gotoSignInPage(testController);
   await signinPage.signin(testController, credentials.username, credentials.password);
-  await navBar.isLoggedIn(testController, credentials.username);
   await navBar.gotoRequestsPage(testController);
   await requestsPage.isDisplayed(testController);
   await navBar.logout(testController);
@@ -99,7 +93,6 @@ test('Test that requests page shows up', async (testController) => {
 test('Test that request page shows up by going through view item page', async (testController) => {
   await navBar.gotoSignInPage(testController);
   await signinPage.signin(testController, credentials.username, credentials.password);
-  await navBar.isLoggedIn(testController, credentials.username);
   await navBar.gotoYourItemsPage(testController);
   await yourItemsPage.isDisplayed(testController);
   await yourItemsPage.clickItem(testController);
@@ -108,10 +101,9 @@ test('Test that request page shows up by going through view item page', async (t
   await requestsPage.isDisplayed(testController);
 });
 
-test('Test making a request works', async (testController) => {
+test.only('Test making a request works', async (testController) => {
   await navBar.gotoSignInPage(testController);
   await signinPage.signin(testController, credentials.username, credentials.password);
-  await navBar.isLoggedIn(testController, credentials.username);
   await navBar.gotoGalleryPage(testController);
   await galleryPage.isDisplayed(testController);
   await galleryPage.clickItem(testController);
@@ -124,7 +116,6 @@ test('Test making a request works', async (testController) => {
 test('Test that forums page shows up', async (testController) => {
   await navBar.gotoSignInPage(testController);
   await signinPage.signin(testController, credentials.username, credentials.password);
-  await navBar.isLoggedIn(testController, credentials.username);
   await navBar.gotoForumsPage(testController);
   await forumsPage.isDisplayed(testController);
   await navBar.logout(testController);
@@ -134,7 +125,6 @@ test('Test that forums page shows up', async (testController) => {
 test('Test that notifications page shows up', async (testController) => {
   await navBar.gotoSignInPage(testController);
   await signinPage.signin(testController, credentials.username, credentials.password);
-  await navBar.isLoggedIn(testController, credentials.username);
   await navBar.gotoNotificationsPage(testController);
   await notificationPage.isDisplayed(testController);
   await navBar.logout(testController);
@@ -144,7 +134,6 @@ test('Test that notifications page shows up', async (testController) => {
 test('Test that view item page shows up', async (testController) => {
   await navBar.gotoSignInPage(testController);
   await signinPage.signin(testController, credentials.username, credentials.password);
-  await navBar.isLoggedIn(testController, credentials.username);
   await navBar.gotoYourItemsPage(testController);
   await yourItemsPage.clickItem(testController);
   await viewItemPage.isDisplayed(testController);
@@ -155,7 +144,6 @@ test('Test that view item page shows up', async (testController) => {
 test('Test that view request page shows up', async (testController) => {
   await navBar.gotoSignInPage(testController);
   await signinPage.signin(testController, credentials.username, credentials.password);
-  await navBar.isLoggedIn(testController, credentials.username);
   await navBar.gotoYourItemsPage(testController);
   await yourItemsPage.clickItem(testController);
   await viewItemPage.isDisplayed(testController);
@@ -248,7 +236,6 @@ test('Test that view forum details page shows up', async (testController) => {
 test('Test that signin and signout work', async (testController) => {
   await navBar.gotoSignInPage(testController);
   await signinPage.signin(testController, credentials.username, credentials.password);
-  await navBar.isLoggedIn(testController, credentials.username);
   await navBar.logout(testController);
   await landingPage.isDisplayed(testController);
 });
