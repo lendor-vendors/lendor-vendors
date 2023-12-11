@@ -14,7 +14,7 @@ const Profile = ({ profile }) => (
   <Container id="view-profile-page" className="py-3">
     <Row>
       <Col className="flex-grow-0">
-        <Image className="profileImg pb-3 pt-3" src={profile.image ? profile.image : '/images/defaultPFP.png'} />
+        <Image className="profileImg my-3" src={profile.image ? profile.image : '/images/defaultPFP.png'} roundedCircle />
       </Col>
       <Col className="flex-grow-1 ps-4">
         <Row className="gy-4">

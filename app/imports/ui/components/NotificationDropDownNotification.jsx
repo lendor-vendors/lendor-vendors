@@ -6,7 +6,7 @@ import { Tracker } from 'meteor/tracker';
 import { Profiles } from '../../api/profile/Profiles';
 
 const Notification = ({ notification }) => {
-  const { from, message, itemId } = notification;
+  const { from, message, data } = notification;
   const [username, setUsername] = useState(from);
   const [userProfile, setUserProfile] = useState({});
 
@@ -52,7 +52,7 @@ const Notification = ({ notification }) => {
           <span style={{ fontWeight: 'bold', color: 'green' }}> accepted </span>
           a request.
           <br />
-          <Link to={`/view_item/${itemId}`}>View item</Link>
+          <Link to={`/view_item/${data}`}>View item</Link>
         </div>
       );
     case 'deny':
@@ -64,7 +64,18 @@ const Notification = ({ notification }) => {
           <span style={{ fontWeight: 'bold', color: 'red' }}> denied </span>
           a request.
           <br />
-          <Link to={`/view_item/${itemId}`}>View item</Link>
+          <Link to={`/view_item/${data}`}>View item</Link>
+        </div>
+      );
+    case 'fulfill':
+      return (
+        <div>
+          <Link to={`/view_profile/${userProfile._id}`} style={{ color: 'black', fontStyle: 'italic' }}>
+            {username}
+          </Link>
+          {' Offered to '}
+          <span style={{ fontWeight: 'bold', color: 'green' }}>fulfill</span>
+          {' your forum request '}
         </div>
       );
     default:

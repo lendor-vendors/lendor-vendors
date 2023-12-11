@@ -10,38 +10,19 @@ import { Notifications } from '../../api/notification/Notifications';
 import NotificationDropDown from './NotificationDropDown';
 
 const NavBar = () => {
-  const { currentUser, unreadNotifications } = useTracker(() => {
+  const { currentUser, currentUserProfile, unreadNotifications } = useTracker(() => {
     const user = Meteor.user();
     Meteor.subscribe(Notifications.toUserPublicationName);
-
+    Meteor.subscribe(Profiles.userPublicationName);
+    const foundCurrentUserProfile = Profiles.collection.findOne({ email: user?.username });
     return {
       currentUser: user ? user.username : '',
+      currentUserProfile: foundCurrentUserProfile,
       unreadNotifications: Notifications.collection
         .find({ to: user?.username, read: false }, { sort: { createdAt: -1 }, limit: 3 })
         .fetch(),
     };
   });
-  function getProfilePromise() {
-    return new Promise((resolve) => {
-      const subscription = Meteor.subscribe(Profiles.userPublicationName);
-      const handle = setInterval(() => {
-        if (subscription.ready() && currentUser) {
-          clearInterval(handle); // Stop checking
-          resolve(); // Resolve the promise when the subscription is ready
-        }
-      }, 100); // Check every 100ms for subscription.ready()
-    });
-  }
-
-  async function getProfile() {
-    await getProfilePromise();
-    const documents = Profiles.collection.find({ email: currentUser }).fetch();
-    if (documents) { // Found the current user's profile
-      return documents[0];
-    }
-    return null; // Something went wrong
-  }
-  const navigate = useNavigate();
   return (
     <Navbar bg="dark navbar-dark" expand="lg">
       <Container>
@@ -76,34 +57,27 @@ const NavBar = () => {
               </NavDropdown>
             ) : (
               <>
-                <NotificationDropDown notifications={unreadNotifications} />
-                <NavDropdown className="hover-dropdown" id="navbar-current-user" title={currentUser}>
+                <Container className="pt-2"><NotificationDropDown notifications={unreadNotifications}/></Container>
+                <NavDropdown
+                  className="hover-dropdown"
+                  id="navbar-current-user"
+                  title={(
+                    <Image
+                      src={currentUserProfile?.image || ''}
+                      style={{ height: '40px', width: '40px' }}
+                      roundedCircle
+                    />
+                  )}
+                >
                   <NavDropdown.Item
                     id="navbar-view-profile"
-                    onClick={() => {
-                      getProfile().then((profile) => {
-                        if (profile) {
-                          navigate(`/view_profile/${profile._id}`);
-                        } else {
-                          console.log('Profile not found.');
-                        }
-                      });
-                    }}
+                    href={`/view_profile/${currentUserProfile?._id}`}
                   >
                     <PersonFill />{' '}Your Profile
                   </NavDropdown.Item>
                   <NavDropdown.Item
                     id="navbar-edit-profile"
-                    onClick={() => {
-                      console.log('CURRENT USER: ', currentUser);
-                      getProfile().then((profile) => {
-                        if (profile) {
-                          navigate(`/edit_profile/${profile._id}`);
-                        } else {
-                          console.log('Profile not found.');
-                        }
-                      });
-                    }}
+                    href={`/edit_profile/${currentUserProfile?._id}`}
                   >
                     <PencilSquare /> Edit Profile
                   </NavDropdown.Item>
