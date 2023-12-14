@@ -101,7 +101,7 @@ test('Test that request page shows up by going through view item page', async (t
   await requestsPage.isDisplayed(testController);
 });
 
-test.only('Test making a request works', async (testController) => {
+test('Test making a request works', async (testController) => {
   await navBar.gotoSignInPage(testController);
   await signinPage.signin(testController, credentials.username, credentials.password);
   await navBar.gotoGalleryPage(testController);
